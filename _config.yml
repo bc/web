@@ -4,7 +4,7 @@ description: >- # site description
   Scientific development and prototyping.
 lang: en-US # default lang
 timezone: PST # set your timezone
-image: web/assets/img/ogp.png # This image used for Open Graph more info https://ogp.me/
+image: assets/img/ogp.png # This image used for Open Graph more info https://ogp.me/
 mode: dark # default theme "dark" | "light"
 
 # Profile settings
@@ -17,7 +17,7 @@ author:
 
 # URL settings
 url: "briancohn.com" #
-baseurl: web
+baseurl: /web
 permalink: /:title/
 
 # Collection setting
