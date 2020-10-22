@@ -1,7 +1,10 @@
-# Unity for Humanity Talk
+
+<h1>Unity for Humanity Talk<h1>
 Thursday October 21, 2020 12:00pm - 12:30pm PDT
 <img src="/img/unity_talk.jpg">
-## <a href="/msft_internships">Open Internship and FTE positions @ Microsoft</a>
+
+
+Internship Opportunities with Microsoft <a href="/msft_internships">here</a>
 
 <h2>Quantifying and attenuating pathologic tremor in virtual reality</h2>
 <h3><a href="https://arxiv.org/ftp/arxiv/papers/1809/1809.05970.pdf">Paper</a></h3>
