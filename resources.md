@@ -8,3 +8,4 @@ Try to find anti-fragile ideas, where the best innovations help, but the low poi
 If you have an idea and you don't have the resources to test it, it'll churn and you turn it into a pet—you get attached to it. Some ideas that stick may just sit for a while until they are appropriate/possible.
 
 [NugetForUnity](https://github.com/GlitchEnzo/NuGetForUnity)
+https://json2csharp.com/
