@@ -9,3 +9,18 @@ If you have an idea and you don't have the resources to test it, it'll churn and
 
 [NugetForUnity](https://github.com/GlitchEnzo/NuGetForUnity)
 https://json2csharp.com/
+
+
+## LA
+
+[Biotech Connection Los Angeles](https://www.bc-la.org/)
+
+[Scale Health](https://www.scalehealth.com/)
+
+[CHLA Innovation Studio](https://chlainnovationstudio.com/)
+[West Coast CTIP](https://www.westcoastctip.org/news)
+[KidsX](https://www.kidsx.health/)
+
+## OC
+
+[UCI SBDC](https://innovation.uci.edu/sbdc/)
