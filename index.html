@@ -129,9 +129,9 @@ a.tooltip span
 <body>
    <header>
         <nav>
-            <strong> <a href="meet">Schedule a chat</a>  </strong>/
+            <strong> <a href="#" data-cal-link="bcohn/meet-brian">Schedule a chat</a>  </strong>/
             <a href="https://raw.githubusercontent.com/bc/resume/main/briancohn.pdf">CV.pdf</a>  /
-            <a href="https://scholar.google.com/citations?user=oqycHYUAAAAJ&hl=en&oi=ao">Papers</a>  / 
+            <a href="https://scholar.google.com/citations?user=0obwS54AAAAJ&hl=en&oi=sra">Papers</a>  / 
             <a href="https://www.linkedin.com/in/brianalexandercohn/">LinkedIn</a>  /
             <a href="https://github.com/bc">GitHub</a>  /
             <a href="presskit">Press Kit</a>
@@ -154,8 +154,6 @@ a.tooltip span
 </p>
 
 <br>
-<div class="button_cont" align="left" style="margin-bottom: 15px;"><a class="example_f" href="meet" target="_blank" rel="nofollow"><span>Schedule a 20 min vid/audio chat</a></div>
-	<br>
    
 </p>
 <h2>Recent talks</h2>
@@ -167,8 +165,6 @@ a.tooltip span
     <img src="img/ulp_sbdc_uci_beall_jan27_2021.png" width=300>
     <button class="btn">►</button></div>
     </a>
-  
-        
   
     <td>
       <strong>Lifesciences Innovators Forum</strong><br> Back to the virtual drawing board<br>A talk about techniques I've learned in pairing VR and AI for physical rehabilitation programs
@@ -204,28 +200,39 @@ a.tooltip span
 </table> 
 </div>
 
-
 <p>
-I wear many hats:
-<ul>Director of Research, <a href="https://obviohealth.com/">ObvioHealth</a></ul>
-<ul>Chief Scientist, Kaspect</ul>
-<ul>Co-Founder, Adventure Biofeedback</a></ul>
-</p>
-
-<p>Some of my recent projects include a tendon-driven robot that <a href="https://www.nature.com/articles/s42256-019-0029-0" class="tooltip">
-    teaches itself to walk
-    <span>
-        <img src="Pasted_Image_9_9_20__11_17_PM.jpg" >
-        <strong>Nature Machine Intelligence, 2020</strong><br />
-        "Autonomous functional movements in a tendon-driven limb via limited experience"
-    Check out the supplemental videos!
-    </span>
-</a>, a signal processing algorithm that characterizes corticospinal neurophysiology from a muscle, an AI-driven tool for speech-language pathologists, and a game AI that procedurally redesigns itself. With projects spanning across hospitals, universities, and biotechnology companies, I have the honor of collaborating with cutting edge researchers and clinicians in making digital health solutions more accessible. Beyond the science, I love chipotle adobo sauce, slightly burnt garlic, and sweet hot cocoa. Not all at the same time.
-</p>
+  I have multiple roles:
+  </p>
+  <ol>
+    <li>Director of Research at ObvioHealth.</li>
+    <li>Chief Scientist at Kaspect.</li>
+    <li>Co-Founder of Adventure Biofeedback.</li>
+  </ol>
+  <p>
+  My recent projects include:
+  </p>
+  <ol>
+    <li><a href="https://www.nature.com/articles/s42256-019-0029-0" class="tooltip">
+      A robot that learns to walk on its own using tendons. 
+      <span>
+          <img src="Pasted_Image_9_9_20__11_17_PM.jpg" >
+          <strong>Nature Machine Intelligence, 2020</strong><br />
+          "Autonomous functional movements in a tendon-driven limb via limited experience"
+      Check out the supplemental videos!
+      </span>
+  </a></li>
+    <li>An algorithm that analyzes neurophysiology from muscle signals.</li>
+    <li>An AI tool for speech-language pathologists.</li>
+    <li>A game AI that redesigns itself.</li>
+  </ol>
+  <p>
+  I collaborate with cutting-edge researchers and clinicians in hospitals, universities, and biotechnology companies to make digital health solutions more accessible. Besides my work, I enjoy chipotle adobo sauce, slightly burnt garlic, and sweet hot cocoa (not all together).
+  </p>
+  
 
 <h3>Get in touch</h3>
 <p>Open to consulting, keynote speaking, collaborations, and projects!</p>
-<div class="button_cont" align="left" style="margin-bottom: 15px;"><a class="example_f" href="meet" target="_blank" rel="nofollow"><span>Schedule a 20 min vid/audio chat</a></div>
+<div class="button_cont" align="left" style="margin-bottom: 15px;"><a class="example_f" href="#" data-cal-link="bcohn/free-consulting-chat" target="_blank" rel="nofollow"><span>Schedule a 20 min vid/audio chat</a></div>
 <p>
     <a href="mailto:briancohn@kaspect.com?subject=bc:Subject Here&body=Hi, I'm X and want to learn more about Y">briancohn@kaspect.com</a> <!-- / <a href="https://tawk.to/chat/5f8893ed2901b9207693ce89/default">Open an Instant Message window</a> -->
 </p>
@@ -233,11 +240,35 @@ I wear many hats:
 
 
 </body>
-<!-- formspree.io/formbutton/docs -->
-  <script src="https://formspree.io/js/formbutton-v1.min.js" defer></script>
-  <script>
-    window.formbutton=window.formbutton||function(){(formbutton.q=formbutton.q||[]).push(arguments)};
-    formbutton("create", {action: "https://formspree.io/f/mwkwqwqp"})
+
+<!-- Cal floating-popup embed code begins -->
+<script type="text/javascript">
+  (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; typeof namespace === "string" ? (cal.ns[namespace] = api) && p(api, ar) : p(cal, ar); return; } p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
+  Cal("init", {origin:"https://app.cal.com"});
+  
+  Cal("floatingButton", {"calLink":"bcohn/meet-brian","buttonText":"Easy-book a 20m zoom","buttonColor":"#a8199f"});
+  Cal("ui", {"styles":{"branding":{"brandColor":"#a8199f"}},"hideEventTypeDetails":false});
   </script>
+  <!-- Cal floating-popup embed code ends -->
+<!-- Cal element-click embed code begins -->
+<script type="text/javascript">
+  (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; typeof namespace === "string" ? (cal.ns[namespace] = api) && p(api, ar) : p(cal, ar); return; } p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
+  Cal("init", {origin:"https://app.cal.com"});
+  
+  // Important: Make sure to add `data-cal-link="bcohn/meet-brian"` attribute to the element you want to open Cal on click
+  Cal("ui", {"styles":{"branding":{"brandColor":"#a8199f"}},"hideEventTypeDetails":false});
+  </script>
+  <!-- Cal element-click embed code ends -->
+
+  <!-- Cal element-click embed code begins -->
+<script type="text/javascript">
+  (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; typeof namespace === "string" ? (cal.ns[namespace] = api) && p(api, ar) : p(cal, ar); return; } p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
+  Cal("init", {origin:"https://app.cal.com"});
+  
+  // Important: Make sure to add `data-cal-link="bcohn/free-consulting-chat"` attribute to the element you want to open Cal on click
+  Cal("ui", {"styles":{"branding":{"brandColor":"#a8199f"}},"hideEventTypeDetails":false});
+  </script>
+  <!-- Cal element-click embed code ends -->
+
 
 </html>
