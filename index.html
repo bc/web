@@ -10,8 +10,6 @@
     <title>bc</title>
 <link rel="stylesheet" href="https://fonts.xz.style/serve/inter.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css">
-<link rel="preload" href="https://app.cal.com/bcohn/meet-brian/embed?embed=&embedType=modal" as="fetch" crossorigin="anonymous">
-
     <style>
 
 a.tooltip {outline:none; }
@@ -274,6 +272,7 @@ a.tooltip span
   Cal("ui", {"styles":{"branding":{"brandColor":"#a8199f"}},"hideEventTypeDetails":false});
   </script>
   <!-- Cal element-click embed code ends -->
-
-
+<script>  // Preload the resource using fetch
+  fetch('https://app.cal.com/bcohn/meet-brian/embed?embed=&embedType=modal');
+</script>
 </html>
