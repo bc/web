@@ -1,59 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="manifest" href="/site.webmanifest">
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>bc/meet</title>
-<link rel="stylesheet" href="https://fonts.xz.style/serve/inter.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css">
-<style type="text/css">
 
-@media (min-width: 750px) {
-  main {
-    width: 750px;
-    margin: 0 auto;
-  }
-  /*this is used to fit the MeetingBird scheduling iframe*/
-  .full-width {
-    margin-left: calc(-100vw / 2 + 750px / 2);
-    margin-right: calc(-100vw / 2 + 750px / 2);
-  }
-}
-</style>
+<head>
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>bc/meet</title>
+  <link rel="stylesheet" href="https://fonts.xz.style/serve/inter.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css">
+  <style type="text/css">
+    @media (min-width: 750px) {
+      main {
+        width: 750px;
+        margin: 0 auto;
+      }
+      /*this is used to fit the MeetingBird scheduling iframe*/
+      .full-width {
+        margin-left: calc(-100vw / 2 + 750px / 2);
+        margin-right: calc(-100vw / 2 + 750px / 2);
+      }
+    }
+  </style>
+  <meta http-equiv="refresh" content="6;URL='https://briancohn.com'" />
+  <script>
+    function startCountdown() {
+      var count = 5;
+      var countdownElement = document.getElementById('countdown');
+
+      var countdownInterval = setInterval(function() {
+        countdownElement.textContent = count;
+        count--;
+
+        if (count < 0) {
+          clearInterval(countdownInterval);
+          countdownElement.style.display = 'none';
+        }
+      }, 1000);
+    }
+
+    window.onload = startCountdown;
+  </script>
 </head>
 
 <body>
-<header>
+  <header>
+    <nav>
+      <a href="/">Home</a> /
+      <a href="https://github.com/bc/resume/raw/master/briancohn.pdf">CV.pdf</a> /
+      <a href="https://scholar.google.com/citations?user=0obwS54AAAAJ">Papers</a> /
+      <a href="https://www.linkedin.com/in/brianalexandercohn/">LinkedIn</a> /
+      <a href="https://github.com/bc">GitHub</a>
+    </nav>
+  </header>
 
-<nav>
-	<a href="/">Home</a>  /
-	<a href="https://github.com/bc/resume/raw/master/briancohn.pdf">CV.pdf</a>  /
-	<a href="https://scholar.google.com/citations?user=0obwS54AAAAJ">Papers</a>  /
-	<a href="https://www.linkedin.com/in/brianalexandercohn/">LinkedIn</a>  /
-	<a href="https://github.com/bc">GitHub</a>
-</nav>
-</header>
+  <h1>You've booked a meeting with Brian!</h1>
+  <p>You'll get an email with the calendar invite and Zoom link shortly.
+    --> <a href="mailto:briancohn@kaspect.com?subject=bc.com Message Subject Request&body=Hi, I'm X and want to learn more about Y">briancohn@kaspect.com</a>
+    <h2>Redirecting in <span id="countdown">5</span></h2>
+  <p>If you are not redirected, <a href="https://briancohn.com">click here</a>.</p>
+  </p>
 
-<h1>Meet with Brian</h1>
-Or send message:
---> <a href="mailto:briancohn@kaspect.com?subject=bc.com Message Subject Request&body=Hi, I'm X and want to learn more about Y">briancohn@kaspect.com</a></p>
-	<a href="https://forms.gle/mj3Xmtt9wciYAc3S8">Form to send me your Resume for an internship/job position</a>
-<h3>One-click Zoom scheduler</h3>
-
-<!-- Calendly inline widget begin -->
-<div class="calendly-inline-widget" data-url="https://calendly.com/briancohn/meet?hide_event_type_details=1&hide_gdpr_banner=1" style="min-width:320px;height:630px;"></div>
-<script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js"></script>
-<!-- Calendly inline widget end -->
-
+  
 </body>
-<!-- See more examples of how to use Formbutton at formspree.io/formbutton/docs -->
-  <script src="https://formspree.io/js/formbutton-v1.min.js" defer></script>
-  <script>
-    window.formbutton=window.formbutton||function(){(formbutton.q=formbutton.q||[]).push(arguments)};
-    formbutton("create", {action: "https://formspree.io/f/mwkwqwqp"})
-  </script>
+
 </html>
