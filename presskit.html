@@ -10,6 +10,7 @@
 <title>bc/presskit</title>
 <link rel="stylesheet" href="https://fonts.xz.style/serve/inter.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css">
+
 </head>
 
 <body>
@@ -26,9 +27,34 @@
 <h5>Dr. Brian Cohn, Ph.D.</h5>
 <h5>Chief Scientist, Kaspect</h5>
 <a href="mailto:briancohn@kaspect.com?subject=bc.com Message Subject Request&body=Hi, I'm X and want to learn more about Y">briancohn@kaspect.com</a></p>
+<h4>Move the slider to pick the length of the bio</h4>
 
-<h3>Short Bio</h3>
-Dr. Cohn is a Computational Biologist and NSF Graduate Fellow who focuses on creative digital applications in healthcare. In 2015 he founded Kaspect, a strategy consultancy focusing on artful application of artificial intelligence to biotechnology problems at companies big and small. His portfolio of work extends across clinical research firms, hospital networks, and biotechnology companies. With underpinnings in computational biology, and with a foundation for data-driven biomedical science, his career has led him through the design and deployment of medical devices and AI-driven digital instruments, culminating in impactful papers in journals such as Frontiers in Computational Biology and Nature Machine Intelligence. He is the Co-Founder of AdventureBiofeedback (a technology company for speech-language pathology) and the Director of Research at ObvioHealth (a clinical research organization).
+<input type="range" min="0" max="4" value="0" class="slider" id="target-slider">
+<p id="summary-text">Dr. Cohn is a Computational Biologist and NSF Graduate Fellow with a focus on applying creative digital solutions in healthcare. In 2015, he established Kaspect, a strategy consultancy specializing in the artful use of artificial intelligence in biotechnology across various companies. His extensive portfolio spans clinical research firms, hospital networks, and biotechnology companies. With a background in computational biology and a strong foundation in data-driven biomedical science, he has contributed to the development of medical devices and AI-driven digital tools, resulting in impactful publications in prestigious journals. He is also the Co-Founder of AdventureBiofeedback and serves as the Director of Research at ObvioHealth, a clinical research organization.
+</p>
+
+<script>
+
+  var texts = [
+    "<strong>Summary 1:</strong> I code & build research teams",
+    "<strong>Summary 2: Medium-length summary</strong>",
+    "<strong>Summary 3: This is the longest summary.</strong><br> I am a Computational Biologist driven by a passion for creative healthcare applications. My journey began with an exciting big-data capstone project at Eli Lilly, fueling the establishment of Kaspect in 2015. Kaspect is a strategy consultancy specializing in the artful application of artificial intelligence to biotechnology challenges faced by companies of all sizes. Through networking and extensive research, I built a diverse clientele, including Fortune 10 companies, hospital networks, national legal firms, and biotechnology companies. These groups sought solutions to safeguard and advance their technical innovations and intellectual property portfolios. In my role, I conducted analysis, designed machine learning pipelines, implemented large-scale data validation interfaces, crafted immersive virtual reality (VR) and augmented reality (AR) experiences, and provided strategic consulting. I also managed client relationships and handled regulatory aspects. As the founder of Kaspect, I oversaw teams of developers, designers, and project managers, fostering seamless design, regulatory compliance, and operational efficiency. Simultaneously, I pursued a Ph.D. at the University of Southern California under Francisco Valero-Cuevas, supported by grants from the U.S. National Institutes of Health (NIH), NSF Graduate Fellowship, and USC Viterbi Merit Fellowship. My research, published in renowned journals such as Nature Machine Intelligence and Frontiers in Computational Neuroscience, focused on \"Feasibility Theory.\" This framework employed hypotheses and computational geometric approaches to address the big-data challenge in motor control. I aimed to understand the true dimensionality of tendon-driven control for rehabilitation and robotic applications, culminating in my Dissertation. During my academic journey, I served as an Innovation Mentor at the Children's Hospital of Los Angeles for over a year, focusing on XR (Extended Reality) technologies in pediatric care. I mentored and guided 30+ undergraduate and graduate students, nurturing their technical skills in biomedical device research. With a solid foundation in computational biology and a deep appreciation for data-driven biomedical science, I aspire to build medical devices and leverage creative AI for social good. This theme has guided me as both a consultant and an NSF Graduate Fellow. Looking ahead, I am excited to continue as a Computational Biologist, utilizing my expertise in artificial intelligence, computational biology, and data analysis to contribute to healthcare technology advancement. By combining technical knowledge with innovation and social impact, I strive to make a meaningful difference in people's lives globally."
+  ];
+  var targetWordCount = texts.map(function(text) {
+      var wordCount = text.split(" ").length;
+      return Math.ceil(wordCount / 10) * 10;
+    });
+  var targetSlider = document.getElementById("target-slider");
+  targetSlider.max = targetWordCount.length;
+  var summaryText = document.getElementById("summary-text");
+  targetSlider.oninput = function() {
+      var index = parseInt(targetSlider.value);
+      targetSlider.max = targetWordCount.length - 1;
+      summaryText.innerHTML = texts[index];
+    };
+</script>
+
+
 
 <h3>Media</h3>
 <img src="img/brian_cohn_col.png" width="200">
@@ -64,10 +90,13 @@ Dr. Cohn is a Computational Biologist and NSF Graduate Fellow who focuses on cre
 </table>
 
 </body>
-<!-- See more examples of how to use Formbutton at formspree.io/formbutton/docs -->
-  <script src="https://formspree.io/js/formbutton-v1.min.js" defer></script>
-  <script>
-    window.formbutton=window.formbutton||function(){(formbutton.q=formbutton.q||[]).push(arguments)};
-    formbutton("create", {action: "https://formspree.io/f/mwkwqwqp"})
+<!-- Cal floating-popup embed code begins -->
+<script type="text/javascript">
+  (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; typeof namespace === "string" ? (cal.ns[namespace] = api) && p(api, ar) : p(cal, ar); return; } p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
+  Cal("init", {origin:"https://app.cal.com"});
+  
+  Cal("floatingButton", {"calLink":"bcohn/meet-brian","buttonText":"Easy-book a 20m zoom","buttonColor":"#a8199f"});
+  Cal("ui", {"styles":{"branding":{"brandColor":"#a8199f"}},"hideEventTypeDetails":false});
   </script>
+  <!-- Cal floating-popup embed code ends -->
 </html>
