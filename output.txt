@@ -1,0 +1,24 @@
+diff --git a/index.html b/index.html
+index 4262408..a2f29e4 100644
+--- a/index.html
++++ b/index.html
+@@ -223,7 +223,7 @@ a.tooltip span
+   </a></li>
+     <li>An algorithm that analyzes neurophysiology from muscle signals.</li>
+     <li>An AI tool for speech-language pathologists.</li>
+-    <li>A game AI that redesigns itself.</li>
++    <li>A VR game mechanic that redesigns targets based on the player's ability</li>
+   </ol>
+   <p>
+   I collaborate with cutting-edge researchers and clinicians in hospitals, universities, and biotechnology companies to make digital health solutions more accessible. Besides my work, I enjoy chipotle adobo sauce, slightly burnt garlic, and sweet hot cocoa (not all together).
+@@ -238,9 +238,7 @@ a.tooltip span
+ <p>
+     <a href="mailto:briancohn@kaspect.com?subject=bc:Subject Here&body=Hi, I'm X and want to learn more about Y">briancohn@kaspect.com</a> <!-- / <a href="https://tawk.to/chat/5f8893ed2901b9207693ce89/default">Open an Instant Message window</a> -->
+ </p>
+-<div style="height: 100px;"></div>
+-
+-
++<div style="height: 60px;"></div>
+ 
+ </body>
+ 
