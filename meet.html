@@ -1,56 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-  <link rel="manifest" href="/site.webmanifest">
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>bc/meet</title>
-  <link rel="stylesheet" href="https://fonts.xz.style/serve/inter.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css">
-  <style type="text/css">
-    @media (min-width: 750px) {
-      main {
-        width: 750px;
-        margin: 0 auto;
-      }
-      /*this is used to fit the MeetingBird scheduling iframe*/
-      .full-width {
-        margin-left: calc(-100vw / 2 + 750px / 2);
-        margin-right: calc(-100vw / 2 + 750px / 2);
-      }
-    }
-  </style>
-  <meta http-equiv="refresh" content="3;URL='https://cal.com/bcohn/meet-brian?duration=20'" />
-  <script>
-    function startCountdown() {
-      var count = 1;
-      var countdownElement = document.getElementById('countdown');
-
-      var countdownInterval = setInterval(function() {
-        countdownElement.textContent = count;
-        count--;
-
-        if (count < 0) {
-          clearInterval(countdownInterval);
-          countdownElement.style.display = 'none';
-        }
-      }, 1000);
-    }
-
-    window.onload = startCountdown;
-  </script>
-</head>
-
-<body>
-
-    <h2>Redirecting in <span id="countdown">5</span></h2>
-  </p>
-
-  
-</body>
-
-</html>
+   <html>
+     <head>
+       <title>Redirecting...</title>
+       <meta http-equiv="refresh" content="0; URL=https://cal.com/bcohn/meet-brian?duration=20" />
+       <link rel="stylesheet" href="https://unpkg.com/bamboo.css">
+     </head>
+     <body>
+       <p><a href="https://cal.com/bcohn/meet-brian?duration=20">Click here</a> to go to the meetings page</p>
+     </body>
+   </html>
