@@ -25,3 +25,6 @@ Thumbs.db
 
 # Build artifacts
 *.log
+
+# Test artifacts
+test-results/
