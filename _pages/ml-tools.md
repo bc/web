@@ -12,7 +12,7 @@ A curated collection of essential tools for ML development, from model visualiza
 ## Quick Navigation
 
 - [Model Visualization & Analysis](#model-visualization--analysis)
-- [Browser-Based ML Inference](#browser-based-ml-inference)
+- [Browser-Based ML Inference](#browser-based-ml-inference) ([Full Guide](/guides/browser-based-inference/))
 - [Model Training & Optimization](#model-training--optimization)
 - [Integration & Deployment](#integration--deployment)
 - [Learning Resources](#learning-resources)
@@ -25,60 +25,9 @@ A curated collection of essential tools for ML development, from model visualiza
 
 **Free** | **Open Source** | **Web App**
 
-Netron is a viewer for neural network, deep learning and machine learning models. It's an essential tool for understanding model architecture, layer structure, and parameter flow.
+Essential tool for visualizing and analyzing neural network models. Supports 40+ formats including TensorFlow, PyTorch, ONNX, and more.
 
-**What It Does:**
-- Visualizes neural network models in an interactive, browser-based format
-- Displays layer details including shapes, parameters, and connections
-- Shows model metadata like input/output dimensions, weights, and quantization info
-- Supports 40+ model formats (TensorFlow, PyTorch, ONNX, CoreML, TensorFlow Lite, Caffe, etc.)
-- Drag-and-drop interface - just upload your model file
-
-**Common Use Cases:**
-- Debugging model architecture issues before training
-- Verifying layer connections and data flow
-- Understanding pre-trained model structure
-- Visualizing model for documentation/presentations
-- Checking quantization and optimization effects
-- Analyzing model size and parameter count
-
-**🎯 Use Cases in Your Work:**
-- Visualize LipNet model architecture before integration
-- Verify TensorFlow.js model conversion quality
-- Analyze quantized models (INT8/FP16) for browser deployment
-- Debug avatar animation model layers
-- Document model structure for team collaboration
-
-**Supported Formats:**
-```
-TensorFlow (SavedModel, .pb, checkpoint)
-PyTorch (.pt, .pth)
-ONNX (.onnx)
-CoreML (.mlmodel)
-TensorFlow Lite (.tflite)
-Caffe (.caffemodel)
-Keras (.h5, .keras)
-And 30+ more...
-```
-
-**How to Use:**
-1. Visit [https://netron.app/](https://netron.app/)
-2. Drag and drop your model file
-3. Explore the visualization:
-   - Click nodes to see layer details
-   - Hover over connections to see tensor shapes
-   - Scroll to zoom, drag to pan
-   - Right-click for options (properties, search)
-4. Use search (Ctrl/Cmd+F) to find specific layers
-
-**Pro Tips:**
-- **Filter by layer name:** Search for "conv", "attention", "lstm" to find specific layer types
-- **Export visualization:** Right-click layers → Export as image for documentation
-- **Check input/output shapes:** Critical for TensorFlow.js integration - verify expected tensor dimensions
-- **Compare models:** Open multiple browser tabs to side-by-side compare architectures
-- **Offline use:** Works offline after initial load - no internet required
-
-[→ Open Netron App](https://netron.app/){:.button} [→ GitHub Repository](https://github.com/lutzroeder/netron){:.button}
+[→ Read Full Guide](/guides/netron/){:.button} [→ Open Netron App](https://netron.app/){:.button} [→ GitHub Repository](https://github.com/lutzroeder/netron){:.button}
 
 ### TensorFlow Model Card Generator
 
@@ -98,60 +47,15 @@ Generate structured documentation for your ML models with model cards - essentia
 
 ## 🧠 Browser-Based ML Inference
 
-### TensorFlow.js
+For a comprehensive comparison of browser-based ML frameworks, performance benchmarks, and implementation strategies:
 
-**Free** | **Open Source** | **JavaScript Library**
+[→ Read Complete Browser-Based Inference Guide](/guides/browser-based-inference/){:.button}
 
-Machine learning library for JavaScript that runs in the browser and on Node.js. Essential for real-time ML applications.
+### Quick Framework Links
 
-**Key Features:**
-- Run ML models directly in the browser (no server needed)
-- GPU acceleration via WebGL or WebGPU
-- Convert PyTorch/TensorFlow models to browser format
-- Pre-trained models for common tasks
-- Automatic differentiation for training in the browser
-
-**🎯 Relevant to Your Work:**
-- Run LipNet inference in real-time on client
-- Process audio for lip-sync without server latency
-- Integrate with MediaPipe for face tracking
-- Optimize models with quantization for mobile
-
-[→ TensorFlow.js Docs](https://www.tensorflow.org/js){:.button} [→ GitHub](https://github.com/tensorflow/tfjs){:.button}
-
-### ONNX Runtime Web
-
-**Free** | **Open Source** | **JavaScript Library**
-
-High-performance runtime for ONNX models in the browser with WebGPU support for next-gen performance.
-
-**Advantages:**
-- Better performance than TensorFlow.js for many models
-- WebGPU support (3-5× faster than WebGL)
-- Supports quantized models natively
-- Works offline after model download
-
-[→ Official Site](https://onnxruntime.ai/){:.button}
-
-### MediaPipe
-
-**Free** | **Open Source** | **Multi-Platform**
-
-Google's framework for building multimodal machine learning pipelines. Excellent for face tracking, pose detection, and hand tracking.
-
-**Core Solutions (Relevant to Avatar Work):**
-- **Face Mesh:** 468-point face landmark detection in real-time
-- **Face Landmarker:** Enhanced face detection with iris tracking
-- **Hand Tracking:** Real-time hand gesture recognition
-- **Pose Estimation:** Full-body pose tracking
-
-**🎯 Use Cases:**
-- Real-time facial expression tracking for avatar control
-- Mouth position detection for lip-sync synchronization
-- Combine with LipNet for more natural mouth animation
-- Mobile-friendly (works on iOS and Android)
-
-[→ Official Site](https://mediapipe.dev/){:.button}
+- **TensorFlow.js** - [Docs](https://www.tensorflow.org/js){:.button} [GitHub](https://github.com/tensorflow/tfjs){:.button}
+- **ONNX Runtime Web** - [Official Site](https://onnxruntime.ai/){:.button}
+- **MediaPipe** - [Official Site](https://mediapipe.dev/){:.button}
 
 ---
 
@@ -298,10 +202,10 @@ ML competitions and datasets. Great for learning and benchmarking your models ag
 
 | Tool | Type | Free? | Best For |
 |------|------|-------|----------|
-| **Netron** | Visualization | ✓ | Understanding model architecture |
-| **TensorFlow.js** | Inference | ✓ | Browser-based ML |
-| **ONNX Runtime Web** | Inference | ✓ | High-performance browser inference |
-| **MediaPipe** | Detection | ✓ | Real-time face/pose tracking |
+| **[Netron](/guides/netron/)** | Visualization | ✓ | Understanding model architecture |
+| **[TensorFlow.js](/guides/browser-based-inference/)** | Inference | ✓ | Browser-based ML |
+| **[ONNX Runtime Web](/guides/browser-based-inference/)** | Inference | ✓ | High-performance browser inference |
+| **[MediaPipe](/guides/browser-based-inference/)** | Detection | ✓ | Real-time face/pose tracking |
 | **PyTorch** | Training | ✓ | Research & development |
 | **Hugging Face** | Models | ✓ | Pre-trained models |
 | **TensorFlow Optimization** | Optimization | ✓ | Model compression |
