@@ -1,8 +1,27 @@
-.DS_Store
+# Jekyll build outputs - DO NOT COMMIT
 _site/
-.sass-cache/
 .jekyll-cache/
 .jekyll-metadata
-_drafts
-klise-*.gem
+
+# Dependencies
 Gemfile.lock
+node_modules/
+vendor/
+
+# Development
+.DS_Store
+*.swp
+*.swo
+*~
+.env
+
+# IDE
+.vscode/
+.idea/
+*.sublime-project
+
+# OS
+Thumbs.db
+
+# Build artifacts
+*.log
