@@ -490,4 +490,4 @@ Questions about this research or need implementation help?
 
 [Schedule a 20 min consultation](https://cal.com/bcohn/meet-brian?duration=20)
 
-[briancohn@kaspect.com](mailto:briancohn@kaspect.com?subject=Research%20Consultation)
+[brian.cohn@kaspect.com](mailto:brian.cohn@kaspect.com?subject=Research%20Consultation)

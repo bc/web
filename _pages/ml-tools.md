@@ -313,4 +313,4 @@ ML competitions and datasets. Great for learning and benchmarking your models ag
 
 ---
 
-**Questions or suggestions?** [Schedule a meeting](/meet/) or [contact us](mailto:briancohn@kaspect.com)
+**Questions or suggestions?** [Schedule a meeting](/meet/) or [contact us](mailto:brian.cohn@kaspect.com)

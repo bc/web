@@ -14,7 +14,7 @@ These materials are designed as a quick reference for talk organizers and media 
 **Dr. Brian Cohn, Ph.D.**
 Chief Scientist, Kaspect
 
-📧 [briancohn@kaspect.com](mailto:briancohn@kaspect.com?subject=bc.com%20Press%20Kit%20Inquiry)
+📧 [brian.cohn@kaspect.com](mailto:brian.cohn@kaspect.com?subject=bc.com%20Press%20Kit%20Inquiry)
 
 ## Bio Options
 
@@ -48,4 +48,4 @@ I am a Computational Biologist who's passionate about reinventing healthcare. As
 
 ---
 
-**Need additional materials?** [Schedule a meeting](/meet/) or email [briancohn@kaspect.com](mailto:briancohn@kaspect.com)
+**Need additional materials?** [Schedule a meeting](/meet/) or email [brian.cohn@kaspect.com](mailto:brian.cohn@kaspect.com)

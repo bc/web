@@ -28,4 +28,4 @@ I'm a biologist with a penchant for product development—leveraging statistical
 
 Open to consulting, keynote speaking, collaborations, and projects!
 
-**Email:** [briancohn@kaspect.com](mailto:briancohn@kaspect.com)
+**Email:** [brian.cohn@kaspect.com](mailto:brian.cohn@kaspect.com)
