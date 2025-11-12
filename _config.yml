@@ -21,6 +21,9 @@ plugins:
 
 # Collections
 collections:
+  pages:
+    output: true
+    permalink: /:name/
   research:
     output: true
     permalink: /research/:name
