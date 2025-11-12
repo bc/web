@@ -1,0 +1,38 @@
+{%- comment -%}
+Responsive image include with lazy loading support
+Usage: {% include image.html src="bc_logo" alt="BC Logo" %}
+{%- endcomment -%}
+
+{%- capture img_filename -%}{{ include.src | split: '.' | first }}{%- endcapture -%}
+{%- assign img_alt = include.alt | default: "Image" -%}
+{%- assign img_classes = include.classes | default: "" -%}
+
+<picture>
+  <!-- WebP format for modern browsers -->
+  <source
+    srcset="
+      /img/{{ img_filename }}-small.webp 600w,
+      /img/{{ img_filename }}-medium.webp 900w,
+      /img/{{ img_filename }}.webp 1200w
+    "
+    sizes="(max-width: 600px) 100vw, (max-width: 900px) 90vw, 1200px"
+    type="image/webp"
+  />
+
+  <!-- Fallback for older browsers -->
+  <source
+    srcset="
+      /img/{{ img_filename }} 1200w
+    "
+    sizes="100vw"
+  />
+
+  <!-- Main image -->
+  <img
+    src="/img/{{ img_filename }}.webp"
+    alt="{{ img_alt }}"
+    loading="lazy"
+    decoding="async"
+    {% if img_classes %}class="{{ img_classes }}"{% endif %}
+  />
+</picture>
