@@ -1,0 +1,63 @@
+# Site metadata
+title: Brian Cohn Ph.D.
+tagline: Biologist. Product Developer. ML Researcher.
+description: >
+  Leveraging statistical modeling, machine learning, and closed-loop DSP hardware
+  to solve healthcare and biotechnology challenges.
+
+url: https://bc.com
+baseurl: ""
+email: briancohn@kaspect.com
+
+# Theme
+theme: minima
+
+# Plugins
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-sitemap
+  - jekyll-paginate
+
+# Collections
+collections:
+  research:
+    output: true
+    permalink: /research/:name
+
+# Markdown
+markdown: kramdown
+kramdown:
+  auto_ids: true
+  toc_levels: 2..3
+
+# Build settings
+exclude:
+  - .github
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - scripts
+  - vendor
+  - JEKYLL_MIGRATION_PLAN.md
+  - JEKYLL_MIGRATION_SUMMARY.md
+  - IMAGE_OPTIMIZATION_GUIDE.md
+  - MIGRATION_INDEX.md
+
+sass:
+  style: compressed
+
+# SEO
+social:
+  name: Brian Cohn
+  links:
+    - https://github.com/bc
+    - https://www.linkedin.com/in/cohn/
+    - https://scholar.google.com/citations?user=0obwS54AAAAJ&hl=en&oi=sra
+
+# Color scheme
+colors:
+  primary: "#FF9398"
+  accent: "#49c5b6"
+  dark: "#000000"
+  light: "#ffffff"
