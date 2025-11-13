@@ -1,31 +1,48 @@
-# Jekyll build outputs - DO NOT COMMIT
+# Jekyll build outputs
 _site/
 .jekyll-cache/
 .jekyll-metadata
 
 # Dependencies
-Gemfile.lock
 node_modules/
 vendor/
+Gemfile.lock
 
 # Development
+.env
+.env.local
+.env*.local
+
+# OS/Editor
 .DS_Store
+Thumbs.db
 *.swp
 *.swo
 *~
-.env
+*.sublime-project
+*.sublime-workspace
 
 # IDE
 .vscode/
 .idea/
-*.sublime-project
+.iml
 
-# OS
-Thumbs.db
-
-# Build artifacts
+# Build & Test artifacts
 *.log
-
-# Test artifacts
 test-results/
 lighthouse-reports/
+.coverage
+htmlcov/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+dist/
+build/
+
+# Archives
+*.zip
+*.tar
+*.tar.gz

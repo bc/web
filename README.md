@@ -1,9 +1,29 @@
-# web
-bc.com
+# bc.com
 
-served at https://briancohn.com
+Personal site built with Jekyll and GitHub Pages.
 
-## cloudflare
-https://dash.cloudflare.com/371fbcfe9713cc7ea9cddc6a06e44298/briancohn.com
+## Setup
 
-cloudflare-blocked under bcohn12@gmail.com account
+```bash
+uv venv
+source .venv/bin/activate
+uv add -p 3.12 @playwright/test
+bundle install
+```
+
+## Run
+
+```bash
+bundle exec jekyll serve  # Start dev server at http://localhost:4000
+npm test                   # Run visual tests
+```
+
+## Build
+
+```bash
+bundle exec jekyll build   # Output to _site/
+```
+
+---
+
+Served at https://briancohn.com · Hosted on Cloudflare
