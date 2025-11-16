@@ -28,7 +28,7 @@ test.describe('BC Website - Full Site Visual Review', () => {
   });
 
   test('ML Tools Page - Desktop', async ({ page }) => {
-    await page.goto(`${baseURL}/ml-tools/`, { waitUntil: 'networkidle' });
+    await page.goto(`${baseURL}/posts/`, { waitUntil: 'networkidle' });
     await page.screenshot({ path: 'test-results/04-ml-tools-desktop.png', fullPage: true });
 
     // Verify ML tools content
@@ -95,7 +95,7 @@ test.describe('BC Website - Full Site Visual Review', () => {
   });
 
   test('All Pages Load Without Errors', async ({ page }) => {
-    const pages = ['/', '/research/', '/ml-tools/', '/presskit/', '/meet/'];
+    const pages = ['/', '/research/', '/posts/', '/presskit/', '/meet/'];
 
     for (const pagePath of pages) {
       await page.goto(`${baseURL}${pagePath}`, { waitUntil: 'networkidle' });

@@ -28,23 +28,23 @@ I am a Computational Biologist who's passionate about reinventing healthcare. As
 
 ### Profile Photos
 
-![Profile Photo - Color](/img/profile_col_jun10_2023.jpg)
+![Profile Photo - Color](/assets/images/profile_col_jun10_2023.jpg)
 
-![Profile Photo - Black & White](/img/profile_col_jun10_2023_bw.jpg)
+![Profile Photo - Black & White](/assets/images/profile_col_jun10_2023_bw.jpg)
 
 ### Personal Logo
 
-![bc Logo](/img/bc_logo.png)
+![bc Logo](/assets/images/bc_logo.png)
 
 ### Kaspect Company Logos
 
 | Style | Preview |
 |-------|---------|
-| **White on Blue** | ![Kaspect White on Blue](/img/kaspect_white_on_blue.png) |
-| **Black on White** | ![Kaspect Black on White](/img/kaspect_black_on_white.png) |
-| **Blue on White** | ![Kaspect Blue on White](/img/kaspect_blue_on_white.png) |
-| **Blue on Transparent** | ![Kaspect Blue on Transparent](/img/kaspect_blue_on_transparent.png) |
-| **White on Transparent** | ![Kaspect White on Transparent](/img/kaspect_white_on_transparent.png) |
+| **White on Blue** | ![Kaspect White on Blue](/assets/images/kaspect_white_on_blue.png) |
+| **Black on White** | ![Kaspect Black on White](/assets/images/kaspect_black_on_white.png) |
+| **Blue on White** | ![Kaspect Blue on White](/assets/images/kaspect_blue_on_white.png) |
+| **Blue on Transparent** | ![Kaspect Blue on Transparent](/assets/images/kaspect_blue_on_transparent.png) |
+| **White on Transparent** | ![Kaspect White on Transparent](/assets/images/kaspect_white_on_transparent.png) |
 
 ---
 

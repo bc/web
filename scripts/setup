@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+
+# Development setup script
+set -e
+
+echo "🚀 Setting up Jekyll development environment..."
+
+# Check prerequisites
+echo "Checking prerequisites..."
+
+if ! command -v ruby &> /dev/null; then
+    echo "❌ Ruby is not installed. Please install Ruby 3.0 or higher."
+    exit 1
+fi
+
+if ! command -v bundle &> /dev/null; then
+    echo "❌ Bundler is not installed. Run: gem install bundler"
+    exit 1
+fi
+
+if ! command -v node &> /dev/null; then
+    echo "❌ Node.js is not installed. Please install Node.js 18 or higher."
+    exit 1
+fi
+
+# Install dependencies
+echo "📦 Installing Ruby dependencies..."
+bundle install
+
+echo "📦 Installing Node.js dependencies..."
+npm install
+
+# Set up Git hooks
+echo "🔧 Setting up Git hooks..."
+if [ -d .git ]; then
+    cp scripts/pre-commit .git/hooks/pre-commit
+    chmod +x .git/hooks/pre-commit
+    echo "✅ Pre-commit hook installed"
+else
+    echo "⚠️  No .git directory found, skipping Git hooks setup"
+fi
+
+# Initial build test
+echo "🏗️  Testing initial build..."
+if bundle exec jekyll build --quiet; then
+    echo "✅ Build successful!"
+else
+    echo "❌ Build failed. Check the errors above."
+    exit 1
+fi
+
+echo ""
+echo "🎉 Setup complete! You can now run:"
+echo "   bundle exec jekyll serve  # Start development server"
+echo "   npm test                  # Run tests"

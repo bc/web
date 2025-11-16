@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+
+# Pre-commit hook for Jekyll site
+# Place this in .git/hooks/pre-commit and make executable
+
+set -e
+
+echo "Running pre-commit checks..."
+
+# Check if Jekyll can build successfully
+echo "✓ Building Jekyll site..."
+if ! bundle exec jekyll build --quiet; then
+    echo "❌ Jekyll build failed"
+    exit 1
+fi
+
+# Check for common issues
+echo "✓ Checking for TODO/FIXME comments..."
+if git diff --cached --name-only | grep -E '\.(md|html|yml|yaml)$' | xargs grep -l "TODO\|FIXME" 2>/dev/null; then
+    echo "⚠️  Found TODO/FIXME comments in staged files"
+fi
+
+# Validate YAML front matter
+echo "✓ Validating YAML front matter..."
+for file in $(git diff --cached --name-only | grep -E '\.(md)$'); do
+    if [[ -f "$file" ]]; then
+        # Check if file has front matter
+        if head -1 "$file" | grep -q "^---$"; then
+            # Extract and validate YAML
+            if ! sed -n '1,/^---$/p' "$file" | head -n -1 | tail -n +2 | ruby -ryaml -e 'YAML.load(STDIN.read)' 2>/dev/null; then
+                echo "❌ Invalid YAML front matter in $file"
+                exit 1
+            fi
+        fi
+    fi
+done
+
+echo "✅ All checks passed!"

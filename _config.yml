@@ -35,28 +35,67 @@ kramdown:
   toc_levels: 2..3
 
 # Build settings
+permalink: /:year/:month/:day/:title/
+timezone: America/Los_Angeles
+
 exclude:
-  - .github
+  - .github/
   - Gemfile
   - Gemfile.lock
-  - node_modules
-  - scripts
-  - vendor
-  - JEKYLL_MIGRATION_PLAN.md
-  - JEKYLL_MIGRATION_SUMMARY.md
-  - IMAGE_OPTIMIZATION_GUIDE.md
-  - MIGRATION_INDEX.md
+  - node_modules/
+  - package*.json
+  - scripts/
+  - vendor/
+  - tests/
+  - "*.log"
+  - README.md
 
+include:
+  - .htaccess
+  - .well-known
+  - _pages
+
+# Assets
 sass:
+  sass_dir: _sass
   style: compressed
 
-# SEO
+# Pagination
+paginate: 10
+paginate_path: "/posts/page:num/"
+
+# Defaults
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
+      author: "Brian Cohn"
+  - scope:
+      path: "_pages"
+      type: "pages"
+    values:
+      layout: "page"
+
+# SEO & Social
+author:
+  name: Brian Cohn
+  email: briancohn@kaspect.com
+  uri: https://bc.com
+
 social:
   name: Brian Cohn
   links:
     - https://github.com/bc
     - https://www.linkedin.com/in/cohn/
     - https://scholar.google.com/citations?user=0obwS54AAAAJ&hl=en&oi=sra
+
+# Performance
+liquid:
+  error_mode: warn
+  strict_filters: false
+  strict_variables: false
 
 # Color scheme
 colors:

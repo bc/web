@@ -1,0 +1,27 @@
+{
+    "extends": [
+        "stylelint-config-standard-scss"
+    ],
+    "rules": {
+        "indentation": 2,
+        "string-quotes": "double",
+        "selector-class-pattern": null,
+        "scss/at-rule-no-unknown": [
+            true,
+            {
+                "ignoreAtRules": [
+                    "tailwind",
+                    "apply",
+                    "variants",
+                    "responsive",
+                    "screen"
+                ]
+            }
+        ]
+    },
+    "ignoreFiles": [
+        "_site/**/*",
+        "node_modules/**/*",
+        "vendor/**/*"
+    ]
+}

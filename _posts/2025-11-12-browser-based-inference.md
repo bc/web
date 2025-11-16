@@ -3,7 +3,6 @@ layout: default
 title: "Browser-Based ML Inference Guide"
 description: "Comprehensive comparison of tools and frameworks for running ML models directly in the browser."
 date: 2025-11-12
-permalink: /guides/browser-based-inference/
 ---
 
 # Browser-Based ML Inference Guide

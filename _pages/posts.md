@@ -1,21 +1,57 @@
 ---
 layout: default
-permalink: /ml-tools/
-title: "ML Tools & Resources"
-description: "Curated collection of essential tools for machine learning development, visualization, and deployment."
+permalink: /posts/
+title: "Posts"
+description: "Technical guides, ML tools, and deep dives on machine learning, avatars, and browser-based inference."
 ---
 
-# ML Tools & Resources
+# Posts
 
-A curated collection of essential tools for ML development, from model visualization to production deployment.
+Collection of technical guides, ML tools, and resources covering machine learning, avatar animation, and real-time inference in browsers.
 
 ## Quick Navigation
 
+- [Featured Guides](#featured-guides)
 - [Model Visualization & Analysis](#model-visualization--analysis)
-- [Browser-Based ML Inference](#browser-based-ml-inference) ([Full Guide](/guides/browser-based-inference/))
+- [Browser-Based ML Inference](#browser-based-ml-inference)
 - [Model Training & Optimization](#model-training--optimization)
 - [Integration & Deployment](#integration--deployment)
 - [Learning Resources](#learning-resources)
+
+---
+
+## Featured Guides
+
+### 🎬 LipNet & Avatar Integration
+Comprehensive technical guide for integrating LipNet with 3D avatars. Covers 7 major animation libraries, performance benchmarks, and implementation strategies.
+
+- **Best for:** Developers building animated avatars with lip-sync
+- **Time to read:** 15 min
+- **Difficulty:** Intermediate
+
+[→ Read Guide](/2025/11/12/lipnet-avatar-integration.html){:.btn}
+
+---
+
+### 🔍 Netron: Neural Network Visualization
+Essential tool for understanding and analyzing neural network models. Supports 40+ formats and provides interactive layer inspection.
+
+- **Best for:** Model debugging and documentation
+- **Time to read:** 8 min
+- **Difficulty:** Beginner
+
+[→ Read Guide](/2025/11/12/netron-guide.html){:.btn}
+
+---
+
+### 🧠 Browser-Based ML Inference
+Complete comparison of frameworks and tools for running machine learning directly in the browser. Includes performance benchmarks and implementation tips.
+
+- **Best for:** Building client-side ML applications
+- **Time to read:** 20 min
+- **Difficulty:** Intermediate
+
+[→ Read Guide](/2025/11/12/browser-based-inference.html){:.btn}
 
 ---
 
@@ -27,7 +63,7 @@ A curated collection of essential tools for ML development, from model visualiza
 
 Essential tool for visualizing and analyzing neural network models. Supports 40+ formats including TensorFlow, PyTorch, ONNX, and more.
 
-[→ Read Full Guide](/guides/netron/){:.button} [→ Open Netron App](https://netron.app/){:.button} [→ GitHub Repository](https://github.com/lutzroeder/netron){:.button}
+[→ Read Full Guide](/2025/11/12/netron-guide.html){:.button} [→ Open Netron App](https://netron.app/){:.button} [→ GitHub Repository](https://github.com/lutzroeder/netron){:.button}
 
 ### TensorFlow Model Card Generator
 
@@ -49,7 +85,7 @@ Generate structured documentation for your ML models with model cards - essentia
 
 For a comprehensive comparison of browser-based ML frameworks, performance benchmarks, and implementation strategies:
 
-[→ Read Complete Browser-Based Inference Guide](/guides/browser-based-inference/){:.button}
+[→ Read Complete Browser-Based Inference Guide](/2025/11/12/browser-based-inference.html){:.button}
 
 ### Quick Framework Links
 
@@ -202,10 +238,10 @@ ML competitions and datasets. Great for learning and benchmarking your models ag
 
 | Tool | Type | Free? | Best For |
 |------|------|-------|----------|
-| **[Netron](/guides/netron/)** | Visualization | ✓ | Understanding model architecture |
-| **[TensorFlow.js](/guides/browser-based-inference/)** | Inference | ✓ | Browser-based ML |
-| **[ONNX Runtime Web](/guides/browser-based-inference/)** | Inference | ✓ | High-performance browser inference |
-| **[MediaPipe](/guides/browser-based-inference/)** | Detection | ✓ | Real-time face/pose tracking |
+| **[Netron](/2025/11/12/netron-guide.html)** | Visualization | ✓ | Understanding model architecture |
+| **[TensorFlow.js](/2025/11/12/browser-based-inference.html)** | Inference | ✓ | Browser-based ML |
+| **[ONNX Runtime Web](/2025/11/12/browser-based-inference.html)** | Inference | ✓ | High-performance browser inference |
+| **[MediaPipe](/2025/11/12/browser-based-inference.html)** | Detection | ✓ | Real-time face/pose tracking |
 | **PyTorch** | Training | ✓ | Research & development |
 | **Hugging Face** | Models | ✓ | Pre-trained models |
 | **TensorFlow Optimization** | Optimization | ✓ | Model compression |

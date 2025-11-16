@@ -1,19 +1,34 @@
 {
   "name": "bc-web",
   "version": "1.0.0",
-  "description": "briancohn.com personal site",
+  "description": "Personal website for Brian Cohn - briancohn.com",
   "scripts": {
+    "dev": "bundle exec jekyll serve --livereload",
+    "build": "JEKYLL_ENV=production bundle exec jekyll build",
+    "build:dev": "bundle exec jekyll build",
+    "clean": "bundle exec jekyll clean",
     "test": "playwright test",
     "test:ui": "playwright test --ui",
-    "build": "jekyll build",
-    "dev": "jekyll serve"
+    "test:html": "bundle exec htmlproofer ./_site --disable-external",
+    "setup": "./scripts/setup",
+    "lint:css": "stylelint '_sass/**/*.scss' 'assets/css/**/*.scss'",
+    "optimize:images": "python scripts/optimize_images.py"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/bc/web.git"
   },
+  "keywords": [
+    "jekyll",
+    "personal-website",
+    "machine-learning",
+    "research"
+  ],
+  "author": "Brian Cohn <briancohn@kaspect.com>",
   "license": "MIT",
   "devDependencies": {
-    "@playwright/test": "^1.56.1"
+    "@playwright/test": "^1.56.1",
+    "stylelint": "^16.0.0",
+    "stylelint-config-standard-scss": "^13.0.0"
   }
 }

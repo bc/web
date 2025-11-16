@@ -3,7 +3,6 @@ layout: default
 title: "LipNet & Avatar Integration Guide"
 description: "Comprehensive technical guide for integrating LipNet with 3D avatars and real-time animation libraries."
 date: 2025-11-12
-permalink: /guides/lipnet-avatar-integration/
 ---
 
 # LipNet & Avatar Integration Guide

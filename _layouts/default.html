@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,6 +16,7 @@
 
   {% seo %}
 </head>
+
 <body>
   <header>
     <nav class="container">
@@ -22,15 +24,14 @@
 
       <div style="margin-left: auto;"></div>
 
-      <a href="/" {% if page.url == '/' %}class="active"{% endif %}>Home</a>
+      <a href="/" {% if page.url=='/' %}class="active" {% endif %}>Home</a>
       <a href="#" data-cal-link="bcohn/meet-brian">Schedule</a>
       <a href="https://raw.githubusercontent.com/bc/resume/main/briancohn.pdf" target="_blank">CV</a>
       <a href="https://scholar.google.com/citations?user=0obwS54AAAAJ&hl=en&oi=sra" target="_blank">Papers</a>
       <a href="https://www.linkedin.com/in/cohn/" target="_blank">LinkedIn</a>
       <a href="https://github.com/bc" target="_blank">GitHub</a>
-      <a href="/presskit/" {% if page.url == '/presskit/' %}class="active"{% endif %}>Press Kit</a>
-      <a href="/guides/" {% if page.url == '/guides/' %}class="active"{% endif %}>Guides</a>
-      <a href="/ml-tools/" {% if page.url == '/ml-tools/' %}class="active"{% endif %}>ML Tools</a>
+      <a href="/presskit/" {% if page.url=='/presskit/' %}class="active" {% endif %}>Press Kit</a>
+      <a href="/posts/" {% if page.url=='/posts/' %}class="active" {% endif %}>Posts</a>
     </nav>
   </header>
 
@@ -50,4 +51,5 @@
 
   {% include cal-embed.html %}
 </body>
+
 </html>
