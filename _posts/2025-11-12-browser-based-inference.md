@@ -3,6 +3,7 @@ layout: default
 title: "Browser-Based ML Inference Guide"
 description: "Comprehensive comparison of tools and frameworks for running ML models directly in the browser."
 date: 2025-11-12
+excerpt: "Complete comparison of frameworks and tools for running machine learning directly in the browser. Includes performance benchmarks and implementation tips for TensorFlow.js, ONNX Runtime Web, and MediaPipe."
 ---
 
 # Browser-Based ML Inference Guide

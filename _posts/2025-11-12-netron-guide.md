@@ -3,6 +3,7 @@ layout: default
 title: "Netron: Neural Network Model Visualization"
 description: "Essential tool for visualizing and analyzing neural network models across 40+ formats."
 date: 2025-11-12
+excerpt: "Essential tool for understanding and analyzing neural network models. Supports 40+ formats and provides interactive layer inspection for TensorFlow, PyTorch, ONNX, and more."
 ---
 
 # Netron: Neural Network Model Visualization

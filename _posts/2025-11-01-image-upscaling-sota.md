@@ -1,3 +1,11 @@
+---
+layout: default
+title: "The State of the Art in Image Upscaling and Video Super-Resolution"
+description: "A comprehensive analysis of 30+ algorithms, performance benchmarks, and emerging trends in real-time image and video super-resolution."
+date: 2025-11-01
+excerpt: "Comprehensive analysis of 30+ algorithms, performance benchmarks, and emerging trends in real-time image and video super-resolution, covering hybrid CNN-Transformer models and state space alternatives."
+---
+
 # The State of the Art in Image Upscaling and Video Super-Resolution (Nov 13, 2025)
 
 **A comprehensive analysis of 30+ algorithms, performance benchmarks, and emerging trends in real-time image and video super-resolution.**
