@@ -455,20 +455,20 @@
 
         <figure class="hero-figure">
             <img src="img/cat_kit_beacon.jpeg" alt="Kit the cat wearing her TabCat tracking beacon" loading="lazy">
-            <figcaption>Kit, wearing her TabCat V2 homing beacon. She is unimpressed by my RF analysis efforts.</figcaption>
+            <figcaption>Kit with her TabCat beacon. Unbothered.</figcaption>
         </figure>
 
-        <h2>Motivation</h2>
+        <h2>Why</h2>
         <p>
-            My cat Kit is an indoor/outdoor explorer. After one too many anxious evenings wondering which neighbor's yard she'd chosen for the night, I picked up a <a href="https://us.tabcat.com/products/cat-tracker-tabcat-v2">TabCat V2 tracker</a>&mdash;a directional RF homing device that clips to the collar and lets you triangulate your cat's position using a handheld receiver.
+            My cat Kit goes outside. After a few too many evenings of not knowing where she was, I got a <a href="https://us.tabcat.com/products/cat-tracker-tabcat-v2">TabCat V2</a> — a little RF tag on her collar and a handheld unit that beeps louder as you get closer. It actually works.
         </p>
         <p>
-            It works surprisingly well. But as someone who builds embedded hardware, I couldn't leave it at that. <strong>What frequency does it use? What's the protocol? What chip is inside? Could I build a custom receiver?</strong> This post documents my attempt to answer those questions using FCC filings, a PCB teardown, SDR analysis, and a lot of squinting at datasheets.
+            Of course I had to open it. What frequency? What protocol? What chip? Could I build my own receiver? Here's how far I got.
         </p>
 
-        <h2>Step 1: The FCC Filing Deep Dive</h2>
+        <h2>FCC Filings</h2>
         <p>
-            Every wireless device sold in the US must have an FCC ID. The TabCat V2 has two&mdash;one for the handheld receiver and one for the tag that goes on the cat:
+            Every wireless device in the US needs an FCC ID. The TabCat has two:
         </p>
 
         <table>
@@ -476,36 +476,36 @@
                 <tr><th>Component</th><th>FCC ID</th><th>Frequency</th><th>Granted</th></tr>
             </thead>
             <tbody>
-                <tr><td>Handset (receiver)</td><td><a href="https://fcc.report/FCC-ID/TUW-PH">TUW-PH</a></td><td>2435.0 MHz</td><td>2022-07-20</td></tr>
-                <tr><td>Homing Tag</td><td><a href="https://fcc.report/FCC-ID/TUW-BT">TUW-BT</a></td><td>2435.0 MHz</td><td>2022-07-21</td></tr>
+                <tr><td>Handset</td><td><a href="https://fcc.report/FCC-ID/TUW-PH">TUW-PH</a></td><td>2435.0 MHz</td><td>2022-07-20</td></tr>
+                <tr><td>Tag</td><td><a href="https://fcc.report/FCC-ID/TUW-BT">TUW-BT</a></td><td>2435.0 MHz</td><td>2022-07-21</td></tr>
             </tbody>
         </table>
 
         <div class="callout">
-            <h4>Key finding: 2435 MHz via proprietary spread spectrum</h4>
-            <p>The TabCat operates at <strong>2435 MHz</strong>&mdash;right in the 2.4 GHz ISM band, but on a <em>proprietary protocol</em>. It's not Bluetooth, not Zigbee, not WiFi. The FCC filing classifies it under <strong>"low power transmitters using spread spectrum techniques"</strong> (Part 15, Subpart C, scope A4: UNII/spread spectrum). This is a meaningful detail&mdash;it tells us the modulation is likely OQPSK DSSS or frequency-hopping, not simple narrowband FSK. The manufacturer is <strong>Loc8tor Ltd</strong> out of London, and the test reports were done by UL International UK.</p>
+            <h4>2435 MHz, proprietary spread spectrum</h4>
+            <p><strong>2435 MHz</strong> — smack in the 2.4 GHz ISM band, but not Bluetooth, not Zigbee, not WiFi. The FCC classifies it as "low power transmitters using spread spectrum techniques" (Part 15C, scope A4). That's a useful clue — it means the modulation is probably OQPSK DSSS or frequency-hopping, not simple narrowband FSK. Made by <strong>Loc8tor Ltd</strong> in London, tested by UL International UK.</p>
         </div>
 
         <p>
-            Unfortunately, the block diagram, schematics, BOM, and operational description are all marked <strong>confidential</strong> in the filing&mdash;so the FCC documents give us frequency and regulatory data but nothing about the actual protocol. Time to open the device.
+            The interesting documents (block diagram, schematics, BOM, operational description) are all marked confidential. So the FCC gives us frequency and the modulation family, but nothing about the actual protocol. Time to open it up.
         </p>
         <p>
-            Full FCC test report: <a href="https://fcc.report/FCC-ID/TUW-BT">fcc.report/FCC-ID/TUW-BT</a>
+            <a href="https://fcc.report/FCC-ID/TUW-BT">Full FCC filing</a>
         </p>
 
-        <h2>Step 2: PCB Teardown</h2>
+        <h2>PCB Teardown</h2>
         <p>
-            I carefully opened the tag's enclosure. The PCB is compact&mdash;about the size of a thumbnail&mdash;with a single main IC, a crystal oscillator, chip antenna pads, and battery contacts for what appears to be a coin cell arrangement.
+            The PCB is tiny — thumbnail-sized. One main IC, a crystal, some antenna pads, and battery contacts.
         </p>
 
         <div class="img-grid cols-3">
             <figure>
                 <img src="img/pcb_overview.jpeg" alt="Full PCB of the TabCat V2 homing tag" loading="lazy">
-                <figcaption>Full PCB overview</figcaption>
+                <figcaption>Full board</figcaption>
             </figure>
             <figure>
                 <img src="img/chip_detail.jpeg" alt="Detail of the main IC and crystal" loading="lazy">
-                <figcaption>Main IC + crystal</figcaption>
+                <figcaption>IC + crystal</figcaption>
             </figure>
             <figure>
                 <img src="img/chip_closeup.jpg" alt="Close-up of chip markings: G22 C224HG C01K92 2132" loading="lazy">
@@ -513,95 +513,91 @@
             </figure>
         </div>
 
-        <h3>The Chip: Silicon Labs EFR32FG22</h3>
+        <h3>The Chip</h3>
         <p>
-            The markings on the IC read:
+            The IC markings:
         </p>
         <div class="chip-marking">G22<br>C224HG<br>C01K92<br>2132</div>
         <p>
-            After considerable searching, I'm fairly confident this is a <strong>Silicon Labs EFR32FG22C224</strong>&mdash;the proprietary wireless variant of their Wireless Gecko Series 2 platform. Here's my reasoning:
+            I think this is a <strong>Silicon Labs EFR32FG22C224</strong> — the proprietary-wireless variant of their Wireless Gecko Series 2 line. The reasoning:
         </p>
         <ul>
-            <li><strong>"G22"</strong> &mdash; matches the xG22 family designation (EFR32<em>x</em>G22)</li>
-            <li><strong>"C224"</strong> &mdash; the ordering code suffix for the 2.4 GHz radio configuration</li>
-            <li><strong>"2132"</strong> &mdash; YYWW date code: <strong>week 32 of 2021</strong></li>
-            <li><strong>"C01K92"</strong> &mdash; likely a lot/trace code</li>
+            <li><strong>G22</strong> — the xG22 family (EFR32<em>x</em>G22)</li>
+            <li><strong>C224</strong> — ordering code for the 2.4 GHz radio config</li>
+            <li><strong>2132</strong> — date code, week 32 of 2021</li>
+            <li><strong>C01K92</strong> — lot/trace code</li>
         </ul>
 
         <div class="callout success">
             <h4>Does the chip match the signal? Yes.</h4>
-            <p>I verified the <a href="https://www.silabs.com/wireless/proprietary/efr32fg22-series-2-2-4-ghz-socs">EFR32FG22 datasheet</a> against what the FCC filing and our capture show. The chip supports exactly the modulation types we'd expect:</p>
+            <p>I checked the <a href="https://www.silabs.com/wireless/proprietary/efr32fg22-series-2-2-4-ghz-socs">EFR32FG22 specs</a>. It supports exactly what we'd expect given the FCC filing and the signals we captured:</p>
             <ul>
-                <li><strong>GFSK</strong> at up to 2 Mbps&mdash;the wider-bandwidth beacon signals we see are consistent with high-rate GFSK</li>
-                <li><strong>OQPSK DSSS</strong> at 250 kbps with -102.3 dBm sensitivity&mdash;this is the "spread spectrum technique" referenced in the FCC classification, and would explain the direction-finding capability (DSSS enables precise time-of-arrival measurements)</li>
-                <li><strong>RFSense with selective OOK</strong> for ultra-low-power wake-up&mdash;the mystery bursts could be RFSense wake-up packets</li>
+                <li><strong>GFSK</strong> up to 2 Mbps — matches the wider-bandwidth beacon pings</li>
+                <li><strong>OQPSK DSSS</strong> at 250 kbps, -102.3 dBm sensitivity — this is the "spread spectrum" from the FCC classification, and DSSS would enable the direction-finding (precise time-of-arrival)</li>
+                <li><strong>RFSense with selective OOK</strong> — ultra-low-power wake-up mode. The mystery bursts at the end of my capture might be this</li>
             </ul>
-            <p>The FG22 variant is specifically designed for <strong>proprietary protocols only</strong>&mdash;no Bluetooth, no Zigbee stack. It runs custom firmware via Silicon Labs' <a href="https://www.silabs.com/developers/rail-radio-abstraction-interface-layer-sdk">RAIL</a> (Radio Abstraction Interface Layer). TX output up to +6 dBm, ARM Cortex-M33 at 76.8 MHz, 512 KB flash, 32 KB RAM, QFN32 (4&times;4 mm), 1.8&ndash;3.8V supply.</p>
+            <p>The FG22 is specifically a proprietary-only part — no BLE or Zigbee stack, just custom firmware on Silicon Labs' <a href="https://www.silabs.com/developers/rail-radio-abstraction-interface-layer-sdk">RAIL</a> API. Cortex-M33, 512 KB flash, QFN32 (4x4 mm), +6 dBm TX, 1.8-3.8V.</p>
         </div>
 
         <p>
-            However, I want to be upfront: <strong>I couldn't find this exact marking pattern documented anywhere online.</strong> Silicon Labs' public ordering guides don't list "C224HG" as a suffix, and searching for the full marking string yields nothing. The "HG" likely encodes flash size, RAM, or package variant in an abbreviated form that Silicon Labs uses on the physical die marking but doesn't publish. If you recognize this package marking convention, I'd love to hear from you.
+            One thing I want to flag: <strong>I can't find "C224HG" in any Silicon Labs documentation.</strong> The "HG" is probably an abbreviated flash/RAM/package designator that they print on the chip but don't put in public ordering guides. Searching the full marking string online gives nothing. If you know how to read SiLabs package markings, please get in touch.
         </p>
 
-        <h2>Step 3: RF Signal Capture &amp; Analysis</h2>
+        <h2>RF Capture</h2>
         <p>
-            With the frequency identified at 2435 MHz, I set up an SDR capture. A standard RTL-SDR tops out around 1.7 GHz, so capturing at 2.4 GHz requires either a <strong>HackRF One</strong>, a downconverter, or a specialized 2.4 GHz receiver. I used a wideband SDR with a 2 MHz sample rate centered on 2435 MHz.
+            Now that I know the frequency (2435 MHz), I set up an SDR capture. A normal RTL-SDR maxes out around 1.7 GHz, so you need a HackRF, a downconverter, or something else that covers 2.4 GHz. I used a wideband SDR at 2 MHz sample rate centered on 2435 MHz.
         </p>
 
-        <pre><code><span class="cmt"># Key parameters from FCC filing TUW-BT</span>
+        <pre><code><span class="cmt"># Parameters from FCC filing TUW-BT</span>
 <span class="kw">CENTER_FREQ</span> = <span class="num">2_435_000_000</span>   <span class="cmt"># 2435 MHz</span>
-<span class="kw">SAMPLE_RATE</span> = <span class="num">2_000_000</span>       <span class="cmt"># 2 MHz BW — captures full signal</span>
-<span class="kw">GAIN</span>        = <span class="num">40</span>              <span class="cmt"># dB</span>
+<span class="kw">SAMPLE_RATE</span> = <span class="num">2_000_000</span>       <span class="cmt"># 2 MHz BW</span>
+<span class="kw">GAIN</span>        = <span class="num">40</span>
 
-<span class="cmt"># Configure SDR</span>
 sdr.sample_rate = SAMPLE_RATE
 sdr.center_freq = CENTER_FREQ
 sdr.gain = GAIN
 
-<span class="cmt"># Read IQ samples and compute amplitude envelope</span>
 samples = sdr.<span class="fn">read_samples</span>(<span class="num">1024</span>)
 amplitude = np.<span class="fn">abs</span>(samples)
-peak = np.<span class="fn">max</span>(amplitude)
 
-<span class="cmt"># Burst detection</span>
-<span class="kw">if</span> peak > THRESHOLD:
-    <span class="fn">log_burst</span>(timestamp, peak, duration)</code></pre>
+<span class="kw">if</span> np.<span class="fn">max</span>(amplitude) > THRESHOLD:
+    <span class="fn">log_burst</span>(timestamp, amplitude)</code></pre>
 
-        <h3>Spectrogram: Seeing the Protocol</h3>
+        <h3>Spectrogram</h3>
         <p>
-            The spectrogram immediately reveals the communication pattern. The handset sends periodic <strong>beacon pings</strong> and the tag responds with <strong>shorter, lower-power response bursts</strong>. The cadence is regular, roughly every 500&ndash;700ms:
+            You can see the protocol immediately. The handset sends a <strong>beacon ping</strong>, the tag responds with a <strong>shorter, weaker burst</strong>, then there's a gap of about 500-700ms before the next pair. Clean and regular — until the end.
         </p>
 
         <figure>
             <img src="img/spectrogram_annotated.png" alt="Annotated spectrogram showing beacon pings and tag responses at 2435 MHz" loading="lazy">
-            <figcaption>Spectrogram of the TabCat V2 protocol. Blue = handset beacon pings. Green = tag responses. Yellow = mystery signals at the end of the capture.</figcaption>
+            <figcaption>Blue = handset pings. Green = tag responses. Yellow = the mystery signals at the end.</figcaption>
         </figure>
 
-        <h3>FFT: Three Distinct Signal Types</h3>
+        <h3>FFT Comparison</h3>
         <p>
-            Comparing the FFT power spectra reveals distinct spectral signatures. The handset beacon is wider-bandwidth and higher-power&mdash;consistent with a GFSK or DSSS modulated ping designed for reliable reception. The tag response is narrower and lower-power. The mystery signals are barely above the noise floor:
+            Looking at the frequency content of each signal type, you can see three distinct signatures. The handset ping is wider and louder, the tag response is narrower and quieter, and the mystery signals are barely distinguishable from the noise floor:
         </p>
 
         <figure>
             <img src="img/fft_comparison.png" alt="FFT comparison of beacon, response, and mystery signals" loading="lazy">
-            <figcaption>FFT power spectra: handset beacon (left), tag response (center), mystery signal (right).</figcaption>
+            <figcaption>Handset ping (left), tag response (center), mystery signal (right).</figcaption>
         </figure>
 
-        <h3>Amplitude Envelope</h3>
+        <h3>Amplitude Over Time</h3>
         <figure>
-            <img src="img/amplitude_envelope.png" alt="Signal amplitude envelope showing burst detection" loading="lazy">
-            <figcaption>Amplitude envelope over the full 6-second capture. The detection threshold cleanly separates real bursts from noise&mdash;except for those last two events.</figcaption>
+            <img src="img/amplitude_envelope.png" alt="Signal amplitude envelope" loading="lazy">
+            <figcaption>The threshold cleanly separates real bursts from noise — except for those last two blips.</figcaption>
         </figure>
 
         <h3>Protocol Pattern</h3>
         <figure>
             <img src="img/protocol_diagram.png" alt="Diagram of the ping-response protocol" loading="lazy">
-            <figcaption>Observed protocol: handset ping, tag response, ~500ms gap, repeat. Three clean pairs, then something else.</figcaption>
+            <figcaption>Ping, response, gap, repeat. Three clean pairs, then something shows up without a corresponding ping.</figcaption>
         </figure>
 
-        <h2>The 60fps Spectrum Animation</h2>
+        <h2>Spectrum Animation</h2>
         <p>
-            The full capture played back in real time. Left: spectrogram waterfall. Right: instantaneous FFT. Watch for the bursts appearing as bright flares and the corresponding FFT peaks:
+            Full capture played back at 60fps. Left is the spectrogram waterfall, right is the FFT at each moment. You can see the signal bursts light up both views simultaneously:
         </p>
 
         <div class="video-container">
@@ -610,7 +606,7 @@ peak = np.<span class="fn">max</span>(amplitude)
                 Your browser doesn't support video. <a href="img/spectrum_animation.mp4">Download the MP4</a>.
             </video>
         </div>
-        <p class="video-caption">60fps spectrum animation&mdash;spectrogram waterfall + instantaneous FFT.</p>
+        <p class="video-caption">Spectrogram waterfall + live FFT, 60fps.</p>
 
         <!-- Interactive Spectrum Viewer -->
         <div id="spectrum-viewer">
@@ -648,85 +644,85 @@ peak = np.<span class="fn">max</span>(amplitude)
             </div>
         </div>
 
-        <h2>The Mystery Signals</h2>
+        <h2>Where I Got Stuck</h2>
 
         <figure>
-            <img src="img/mystery_signal.png" alt="Close-up of mystery signals near the end of the capture" loading="lazy">
-            <figcaption>The mystery bursts at t=4.8s and t=5.2s. Real transmissions or noise?</figcaption>
+            <img src="img/mystery_signal.png" alt="Close-up of mystery signals" loading="lazy">
+            <figcaption>Last beacon pair plus the two mystery bursts. The context helps you see how different they are.</figcaption>
         </figure>
 
         <div class="callout mystery">
-            <h4>This is where I got stuck.</h4>
+            <h4>These two blips at the end</h4>
             <p>
-                Near the end of my capture, I observed two faint bursts at t&asymp;4.8s and t&asymp;5.2s. They sit <em>just barely</em> above the noise floor, and their shape differs from both the handset beacon and the tag response:
+                Around t=4.8s and t=5.2s, two faint bursts show up. They're right at the noise floor and look different from everything else:
             </p>
             <ul>
-                <li>Much shorter duration (~20&ndash;40ms vs ~80&ndash;120ms for normal bursts)</li>
-                <li>Lower amplitude (barely above detection threshold)</li>
-                <li>Slightly different center frequency offset</li>
-                <li>No corresponding beacon ping preceding them</li>
+                <li>Way shorter (20-40ms vs 80-120ms for real signals)</li>
+                <li>Barely above the detection threshold</li>
+                <li>Different frequency offset</li>
+                <li>No handset ping before them</li>
             </ul>
             <p>
-                One intriguing possibility: the EFR32FG22 has an <strong>RFSense selective OOK wake-up</strong> mode. The tag could be emitting periodic low-power OOK wake-up beacons independently of the handset&mdash;a "heartbeat" so the handset can detect the tag's presence before starting the full ping-response sequence. The short duration and low power would be consistent with this.
+                One thought: the EFR32FG22 has an <strong>RFSense OOK wake-up</strong> mode. The tag might send low-power heartbeat beacons so the handset knows it's nearby before starting the full ping-response sequence. Short and quiet would fit.
             </p>
             <p>
-                But it could also be 2.4 GHz environmental interference (WiFi, Bluetooth, microwave). The band is crowded. I couldn't nail down a pattern linking these to button presses or proximity changes.
+                Or it's just 2.4 GHz interference. WiFi, Bluetooth, somebody's microwave. I tried correlating with button presses and distance changes and couldn't find a pattern.
             </p>
         </div>
 
-        <h2>The Chip Identification Dead End</h2>
+        <h2>Dead Ends</h2>
         <p>
-            Beyond identifying the chip family, I hit a wall. The specific marking <code>C224HG</code> doesn't appear in any Silicon Labs public documentation. The "HG" suffix might encode flash size, RAM, or package variant in an abbreviated form not published in ordering guides.
+            Nobody else seems to have looked at the TabCat protocol. No open-source firmware, no write-ups, nothing. Loc8tor runs a custom stack on RAIL, which makes sense for direction-finding — you'd need custom signal processing (RSSI gradients, maybe phase-difference) that doesn't fit in a BLE or Zigbee framework.
         </p>
         <p>
-            I also found no open-source firmware, protocol analysis, or reverse engineering work on the TabCat protocol. Loc8tor uses a fully proprietary stack built on Silicon Labs' RAIL API, which makes sense&mdash;the directional homing functionality likely requires custom signal processing (RSSI gradient mapping, possibly phase-difference analysis) that wouldn't fit into a standard BLE or Zigbee framework.
+            The chip marking <code>C224HG</code> is also a dead end. I'm fairly sure about the chip family but can't pin down the exact variant.
         </p>
 
-        <h2>What I Learned</h2>
+        <h2>Takeaways</h2>
         <ol>
-            <li><strong>FCC filings are invaluable.</strong> Even when the interesting documents are confidential, you get the exact operating frequency, regulatory classification, and (critically) the modulation family&mdash;"spread spectrum" told us to expect DSSS/FHSS, not simple narrowband.</li>
-            <li><strong>Chip identification confirms the story.</strong> The EFR32FG22's OQPSK DSSS and GFSK capabilities perfectly match the FCC classification and the signal characteristics we observed. When the chip, the filing, and the capture all agree, you have high confidence in the analysis.</li>
-            <li><strong>2.4 GHz proprietary protocols are hard to crack.</strong> Unlike 433 MHz OOK remotes (which <code>rtl_433</code> eats for breakfast), proprietary 2.4 GHz with GFSK/DSSS and custom framing require specialized demodulation.</li>
-            <li><strong>The 2.4 GHz band is noisy.</strong> Isolating a low-power proprietary signal from WiFi, Bluetooth, and other interference is non-trivial. A shielded enclosure or directional antenna would help enormously.</li>
+            <li><strong>FCC filings tell you a lot.</strong> Even with confidential docs, you get frequency and modulation family. "Spread spectrum" pointed me at DSSS before I captured anything.</li>
+            <li><strong>Chip + filing + capture all agree.</strong> The FG22 does GFSK and OQPSK DSSS at 2.4 GHz. That matches the FCC classification and the spectral shapes. When all three line up, you can be confident.</li>
+            <li><strong>2.4 GHz proprietary is hard.</strong> 433 MHz OOK — <code>rtl_433</code> handles that on the first try. Custom GFSK at 2.4 GHz with unknown framing is a different problem.</li>
+            <li><strong>2.4 GHz is loud.</strong> Separating a weak proprietary signal from WiFi/BLE/everything else is hard without a directional antenna or shielded setup.</li>
         </ol>
 
-        <h2>Next Steps</h2>
+        <h2>What's Next</h2>
         <ul>
-            <li>Capture with a <strong>directional antenna</strong> pointed at the tag to improve SNR</li>
-            <li>Try <strong>GNU Radio</strong> with a GFSK demodulator tuned to 2435 MHz to extract the bitstream</li>
-            <li>Test for <strong>DSSS</strong> by looking for spreading code signatures in the raw IQ data</li>
-            <li>Compare captures at different <strong>distances</strong> to see if the tag adjusts power or encoding</li>
-            <li>Look into <strong>Silicon Labs RAIL SDK</strong> documentation for clues about packet framing and CRC structure</li>
+            <li><strong>Directional antenna</strong> aimed at the tag</li>
+            <li><strong>GNU Radio</strong> GFSK demodulator at 2435 MHz</li>
+            <li>Look for <strong>DSSS spreading codes</strong> in raw IQ</li>
+            <li>Captures at different <strong>distances</strong></li>
+            <li>Dig into <strong>RAIL SDK docs</strong></li>
         </ul>
 
         <hr>
 
         <div class="callout">
-            <h4>Got ideas? I'd love to hear them.</h4>
+            <h4>If you know something I don't</h4>
             <p>
-                If you have experience with Silicon Labs EFR32 chip identification, proprietary 2.4 GHz protocol analysis, or have worked with TabCat/Loc8tor products&mdash;please reach out:
+                I'd like to hear from anyone who's worked with EFR32 chip IDs, proprietary 2.4 GHz stuff, or TabCat/Loc8tor products:
             </p>
             <ul>
-                <li>Can you confirm the <code>C224HG</code> marking maps to a specific EFR32FG22 variant?</li>
-                <li>Have you seen those mystery bursts&mdash;could they be RFSense OOK wake-up packets?</li>
-                <li>Know of tools for demodulating proprietary GFSK/DSSS at 2.4 GHz?</li>
+                <li>Does <code>C224HG</code> map to a known FG22 variant?</li>
+                <li>Could the mystery bursts be RFSense wake-up packets?</li>
+                <li>Best tool for demodulating unknown GFSK at 2.4 GHz?</li>
             </ul>
             <p>
-                Find me on <a href="https://github.com/bc">GitHub</a> or <a href="https://www.linkedin.com/in/cohn/">LinkedIn</a>.
+                <a href="https://github.com/bc">GitHub</a> / <a href="https://www.linkedin.com/in/cohn/">LinkedIn</a>
             </p>
         </div>
 
         <hr>
 
-        <h2>Resources</h2>
+        <h2>Links</h2>
         <table>
             <tbody>
                 <tr><td>TabCat V2</td><td><a href="https://us.tabcat.com/products/cat-tracker-tabcat-v2">us.tabcat.com</a></td></tr>
-                <tr><td>FCC Filing (Tag)</td><td><a href="https://fcc.report/FCC-ID/TUW-BT">TUW-BT</a></td></tr>
-                <tr><td>FCC Filing (Handset)</td><td><a href="https://fcc.report/FCC-ID/TUW-PH">TUW-PH</a></td></tr>
-                <tr><td>EFR32FG22 Product Page</td><td><a href="https://www.silabs.com/wireless/proprietary/efr32fg22-series-2-2-4-ghz-socs">silabs.com</a></td></tr>
-                <tr><td>EFR32FG22 Datasheet</td><td><a href="https://www.silabs.com/documents/public/data-sheets/efr32fg22-datasheet.pdf">PDF</a></td></tr>
-                <tr><td>Source Code</td><td><a href="https://github.com/bc/embedded_hardware_agent_development/tree/main/quietcool">GitHub</a></td></tr>
+                <tr><td>FCC (tag)</td><td><a href="https://fcc.report/FCC-ID/TUW-BT">TUW-BT</a></td></tr>
+                <tr><td>FCC (handset)</td><td><a href="https://fcc.report/FCC-ID/TUW-PH">TUW-PH</a></td></tr>
+                <tr><td>EFR32FG22</td><td><a href="https://www.silabs.com/wireless/proprietary/efr32fg22-series-2-2-4-ghz-socs">silabs.com</a></td></tr>
+                <tr><td>Datasheet</td><td><a href="https://www.silabs.com/documents/public/data-sheets/efr32fg22-datasheet.pdf">PDF</a></td></tr>
+                <tr><td>Code</td><td><a href="https://github.com/bc/embedded_hardware_agent_development/tree/main/quietcool">GitHub</a></td></tr>
             </tbody>
         </table>
     </article>

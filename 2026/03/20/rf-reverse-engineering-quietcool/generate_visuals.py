@@ -29,15 +29,18 @@ CENTER = 2_435_000_000 # 2435 MHz
 DURATION = 6.0
 np.random.seed(42)
 
-# Color palette
-C_BG = '#0d1117'
-C_ACCENT1 = '#58a6ff'
-C_ACCENT2 = '#f78166'
-C_ACCENT3 = '#3fb950'
-C_ACCENT4 = '#d2a8ff'
-C_ACCENT5 = '#f0e68c'
-C_GRID = '#21262d'
-C_TEXT = '#e6edf3'
+# Color palette — matches page CSS
+C_BG = '#0c0e12'
+C_SURFACE = '#14171e'
+C_BLUE = '#6daaed'
+C_ORANGE = '#e8956a'
+C_GREEN = '#5ec4a0'
+C_PURPLE = '#b39ddb'
+C_YELLOW = '#d4c078'
+C_RED = '#e07070'
+C_GRID = '#2a2f3a'
+C_TEXT = '#d4d9e3'
+C_TEXT_DIM = '#9ca3b4'
 
 def style_ax(ax, title=None, xlabel=None, ylabel=None, title_color=C_ACCENT1):
     ax.set_facecolor(C_BG)
