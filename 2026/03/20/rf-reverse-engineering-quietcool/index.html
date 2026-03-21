@@ -13,229 +13,390 @@
     <meta property="og:description" content="SDR analysis, FCC filing deep dive, and PCB teardown of a 2.4 GHz pet tracking beacon.">
     <meta property="og:image" content="img/spectrogram_annotated.png">
     <link rel="stylesheet" href="https://fonts.xz.style/serve/inter.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css">
     <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
         :root {
-            --bg: #0d1117;
-            --bg2: #161b22;
-            --border: #21262d;
-            --text: #e6edf3;
-            --text-dim: #8b949e;
-            --accent1: #58a6ff;
-            --accent2: #f78166;
-            --accent3: #3fb950;
-            --accent4: #d2a8ff;
-            --accent5: #f0e68c;
+            --bg:       #0c0e12;
+            --surface:  #14171e;
+            --raised:   #1c2029;
+            --border:   #2a2f3a;
+            --text:     #d4d9e3;
+            --text-secondary: #9ca3b4;
+            --text-tertiary:  #6e7686;
+            --heading:  #edf0f5;
+            --link:     #6daaed;
+            --link-hover: #93c4f5;
+            --blue:     #6daaed;
+            --green:    #5ec4a0;
+            --orange:   #e8956a;
+            --purple:   #b39ddb;
+            --yellow:   #d4c078;
+            --red:      #e07070;
         }
+
+        html { font-size: 16px; -webkit-font-smoothing: antialiased; }
 
         body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
             background: var(--bg);
             color: var(--text);
-            max-width: 860px;
+            line-height: 1.72;
+            max-width: 780px;
             margin: 0 auto;
-            padding: 1rem;
-            line-height: 1.7;
+            padding: 2.5rem 1.25rem 4rem;
         }
 
-        header nav a { color: var(--accent1); }
-        h1 { color: var(--text); font-size: 2rem; line-height: 1.2; margin-bottom: 0.3em; }
-        h2 { color: var(--accent1); border-bottom: 1px solid var(--border); padding-bottom: 0.3em; margin-top: 2.5em; }
-        h3 { color: var(--accent4); margin-top: 1.8em; }
-        a { color: var(--accent1); }
-        a:hover { color: var(--accent4); }
-        strong { color: var(--text); }
-        code { background: var(--bg2); color: var(--accent2); padding: 0.15em 0.4em; border-radius: 4px; font-size: 0.9em; }
-        hr { border: none; border-top: 1px solid var(--border); margin: 2em 0; }
+        /* --- Nav --- */
+        nav {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+            font-size: 0.8125rem;
+            letter-spacing: 0.02em;
+            color: var(--text-tertiary);
+            margin-bottom: 3rem;
+        }
+        nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            transition: color 0.15s, background 0.15s;
+        }
+        nav a:hover { color: var(--heading); background: var(--surface); }
+        nav .sep { color: var(--border); user-select: none; }
 
-        .meta { color: var(--text-dim); font-size: 0.9em; margin-bottom: 2em; }
-        .meta time { color: var(--accent1); }
+        /* --- Typography --- */
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--heading);
+            line-height: 1.2;
+            letter-spacing: -0.025em;
+            margin-bottom: 0.75rem;
+        }
+        h2 {
+            font-size: 1.375rem;
+            font-weight: 650;
+            color: var(--heading);
+            letter-spacing: -0.015em;
+            margin-top: 3.5rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+        h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text);
+            margin-top: 2rem;
+            margin-bottom: 0.75rem;
+        }
+        h4 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+        }
+        p { margin-bottom: 1rem; }
+        p + p { margin-top: 0; }
 
-        .hero-img {
-            width: 100%;
-            border-radius: 12px;
+        a { color: var(--link); text-decoration: none; transition: color 0.15s; }
+        a:hover { color: var(--link-hover); text-decoration: underline; }
+
+        strong { color: var(--heading); font-weight: 600; }
+        em { font-style: italic; }
+
+        ul, ol { padding-left: 1.5rem; margin-bottom: 1rem; }
+        li { margin-bottom: 0.35rem; }
+        li::marker { color: var(--text-tertiary); }
+
+        hr { border: none; border-top: 1px solid var(--border); margin: 2.5rem 0; }
+
+        /* --- Meta line --- */
+        .meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            align-items: center;
+            margin-bottom: 2rem;
+            font-size: 0.8125rem;
+            color: var(--text-secondary);
+        }
+        .meta time { font-weight: 500; }
+        .meta .tag {
+            background: var(--surface);
             border: 1px solid var(--border);
-            margin: 1em 0;
+            padding: 0.125rem 0.5rem;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            letter-spacing: 0.03em;
+            color: var(--text-secondary);
         }
 
-        .img-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1em;
-            margin: 1.5em 0;
-        }
-        .img-grid.three { grid-template-columns: 1fr 1fr 1fr; }
-        .img-grid img {
-            width: 100%;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-            cursor: zoom-in;
-            transition: transform 0.2s;
-        }
-        .img-grid img:hover { transform: scale(1.02); }
-
-        .img-caption {
-            text-align: center;
-            color: var(--text-dim);
-            font-size: 0.85em;
-            margin-top: -0.5em;
-            margin-bottom: 1em;
-        }
-
+        /* --- Images & figures --- */
         figure {
-            margin: 1.5em 0;
-            text-align: center;
+            margin: 1.75rem 0;
         }
         figure img {
+            display: block;
             width: 100%;
             border-radius: 8px;
             border: 1px solid var(--border);
         }
         figcaption {
-            color: var(--text-dim);
-            font-size: 0.85em;
-            margin-top: 0.5em;
+            margin-top: 0.625rem;
+            font-size: 0.8125rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
         }
 
+        .hero-figure img {
+            border-radius: 12px;
+            max-height: 420px;
+            width: 100%;
+            object-fit: cover;
+        }
+        .hero-figure figcaption {
+            text-align: center;
+            font-style: italic;
+        }
+
+        .img-grid {
+            display: grid;
+            gap: 0.75rem;
+            margin: 1.75rem 0;
+        }
+        .img-grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
+        .img-grid figure { margin: 0; }
+        .img-grid img {
+            aspect-ratio: 1;
+            object-fit: cover;
+            cursor: zoom-in;
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+        .img-grid img:hover { transform: scale(1.03); border-color: var(--blue); }
+        .img-grid figcaption { font-size: 0.75rem; margin-top: 0.375rem; text-align: center; }
+
+        /* --- Code --- */
+        code {
+            font-family: 'SF Mono', 'Fira Code', 'JetBrains Mono', monospace;
+            font-size: 0.84em;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 0.1em 0.375em;
+            border-radius: 4px;
+            color: var(--orange);
+        }
         pre {
-            background: var(--bg2) !important;
+            background: var(--surface);
             border: 1px solid var(--border);
             border-radius: 8px;
-            padding: 1.2em;
+            padding: 1.25rem 1.5rem;
             overflow-x: auto;
-            font-size: 0.85em;
-            line-height: 1.5;
+            margin: 1.25rem 0;
+            line-height: 1.55;
+            font-size: 0.84rem;
         }
         pre code {
             background: none;
+            border: none;
             padding: 0;
             color: var(--text);
         }
-        .kw { color: var(--accent4); }
-        .str { color: var(--accent3); }
-        .num { color: var(--accent2); }
-        .cmt { color: var(--text-dim); font-style: italic; }
-        .fn { color: var(--accent1); }
+        .kw { color: var(--purple); }
+        .str { color: var(--green); }
+        .num { color: var(--orange); }
+        .cmt { color: var(--text-tertiary); font-style: italic; }
+        .fn { color: var(--blue); }
 
+        /* --- Callouts --- */
         .callout {
-            background: var(--bg2);
-            border-left: 4px solid var(--accent5);
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--blue);
             border-radius: 0 8px 8px 0;
-            padding: 1em 1.2em;
-            margin: 1.5em 0;
+            padding: 1.25rem 1.5rem;
+            margin: 1.75rem 0;
         }
-        .callout.mystery { border-left-color: var(--accent5); }
-        .callout.info { border-left-color: var(--accent1); }
-        .callout.success { border-left-color: var(--accent3); }
-        .callout h4 { margin-top: 0; }
+        .callout h4 { color: var(--heading); margin-top: 0; }
+        .callout p:last-child { margin-bottom: 0; }
+        .callout.mystery { border-left-color: var(--yellow); }
+        .callout.mystery h4 { color: var(--yellow); }
+        .callout.success { border-left-color: var(--green); }
+        .callout.success h4 { color: var(--green); }
 
+        /* --- Tables --- */
         table {
             width: 100%;
             border-collapse: collapse;
-            margin: 1em 0;
-            font-size: 0.9em;
+            margin: 1.25rem 0;
+            font-size: 0.875rem;
         }
-        th { background: var(--bg2); color: var(--accent1); text-align: left; padding: 0.6em 0.8em; border-bottom: 2px solid var(--border); }
-        td { padding: 0.5em 0.8em; border-bottom: 1px solid var(--border); }
-        tr:hover { background: rgba(88, 166, 255, 0.05); }
+        th {
+            text-align: left;
+            padding: 0.625rem 0.875rem;
+            font-weight: 600;
+            font-size: 0.75rem;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            border-bottom: 2px solid var(--border);
+            background: var(--surface);
+        }
+        td {
+            padding: 0.5rem 0.875rem;
+            border-bottom: 1px solid var(--border);
+            color: var(--text);
+        }
+        tr:hover td { background: rgba(109, 170, 237, 0.04); }
 
-        /* Interactive spectrum viewer */
+        /* --- Chip marking block --- */
+        .chip-marking {
+            display: inline-block;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 0.75rem 1.25rem;
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            letter-spacing: 0.05em;
+            color: var(--heading);
+        }
+
+        /* --- Interactive spectrum viewer --- */
         #spectrum-viewer {
-            background: var(--bg2);
+            background: var(--surface);
             border: 1px solid var(--border);
             border-radius: 12px;
-            padding: 1.5em;
-            margin: 2em 0;
+            padding: 1.5rem;
+            margin: 2.5rem 0;
         }
-        #spectrum-viewer h3 { margin-top: 0; color: var(--accent1); }
+        #spectrum-viewer h3 { margin-top: 0; margin-bottom: 0.25rem; }
+        #spectrum-viewer .subtitle {
+            font-size: 0.8125rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
 
         .viewer-canvas-wrap {
             display: grid;
             grid-template-columns: 2fr 1fr;
-            gap: 1em;
-            margin: 1em 0;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
         }
-
         canvas {
             width: 100%;
             border-radius: 6px;
             border: 1px solid var(--border);
-            image-rendering: pixelated;
+            background: var(--bg);
         }
 
         .slider-controls {
             display: flex;
             align-items: center;
-            gap: 1em;
-            margin-top: 0.8em;
+            gap: 0.75rem;
+        }
+        .slider-controls label {
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            white-space: nowrap;
         }
         .slider-controls input[type="range"] {
             flex: 1;
-            accent-color: var(--accent1);
-            height: 6px;
+            accent-color: var(--blue);
+            height: 4px;
         }
-        .slider-controls label { color: var(--text-dim); font-size: 0.85em; white-space: nowrap; }
-        .slider-controls .time-display {
-            font-family: 'SF Mono', 'Fira Code', monospace;
-            color: var(--accent1);
-            font-size: 0.95em;
-            min-width: 80px;
-        }
-
-        #event-label {
-            text-align: center;
-            padding: 0.5em;
-            font-weight: bold;
-            min-height: 1.5em;
-            border-radius: 6px;
-            transition: all 0.15s;
+        .time-display {
+            font-family: 'SF Mono', monospace;
+            font-size: 0.875rem;
+            color: var(--heading);
+            min-width: 72px;
+            text-align: right;
         }
 
         .amp-bar-wrap {
             display: flex;
             align-items: center;
-            gap: 0.5em;
-            margin-top: 0.5em;
+            gap: 0.625rem;
+            margin-top: 0.625rem;
+        }
+        .amp-bar-label {
+            font-size: 0.75rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: var(--text-secondary);
+            min-width: 64px;
         }
         .amp-bar-bg {
             flex: 1;
-            height: 12px;
+            height: 8px;
             background: var(--bg);
-            border-radius: 6px;
+            border-radius: 4px;
             overflow: hidden;
             position: relative;
+            border: 1px solid var(--border);
         }
         .amp-bar {
             height: 100%;
-            background: linear-gradient(90deg, var(--accent3), var(--accent5), var(--accent2));
-            border-radius: 6px;
-            transition: width 0.05s;
+            border-radius: 4px;
+            transition: width 0.06s ease;
         }
-        .amp-bar-label { color: var(--text-dim); font-size: 0.8em; min-width: 60px; }
         #amp-threshold {
             position: absolute;
             top: 0;
             height: 100%;
             width: 2px;
-            background: var(--accent2);
+            background: var(--orange);
+            opacity: 0.8;
+        }
+
+        #event-label {
+            text-align: center;
+            padding: 0.5rem;
+            font-weight: 600;
+            font-size: 0.875rem;
+            min-height: 2rem;
+            border-radius: 6px;
+            margin-top: 0.5rem;
+            transition: all 0.12s ease;
         }
 
         .play-controls {
             display: flex;
-            gap: 0.5em;
-            margin-top: 0.5em;
+            flex-wrap: wrap;
+            gap: 0.375rem;
+            margin-top: 0.625rem;
         }
         .play-controls button {
+            font-family: inherit;
+            font-size: 0.8125rem;
+            font-weight: 500;
             background: var(--bg);
             border: 1px solid var(--border);
-            color: var(--text);
-            padding: 0.4em 1em;
+            color: var(--text-secondary);
+            padding: 0.375rem 0.875rem;
             border-radius: 6px;
             cursor: pointer;
-            font-size: 0.85em;
+            transition: border-color 0.15s, color 0.15s, background 0.15s;
         }
-        .play-controls button:hover { border-color: var(--accent1); color: var(--accent1); }
-        .play-controls button.active { border-color: var(--accent3); color: var(--accent3); }
+        .play-controls button:hover {
+            border-color: var(--blue);
+            color: var(--heading);
+            background: var(--raised);
+        }
+        .play-controls button.active {
+            border-color: var(--green);
+            color: var(--green);
+        }
 
+        /* --- Video --- */
         .video-container {
             position: relative;
             padding-bottom: 34.5%;
@@ -243,43 +404,57 @@
             overflow: hidden;
             border-radius: 8px;
             border: 1px solid var(--border);
-            margin: 1em 0;
+            margin: 1.25rem 0;
+            background: var(--bg);
         }
         .video-container video {
             position: absolute;
             top: 0; left: 0;
             width: 100%; height: 100%;
             object-fit: contain;
-            background: var(--bg);
+        }
+        .video-caption {
+            text-align: center;
+            font-size: 0.8125rem;
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
         }
 
+        /* --- Responsive --- */
         @media (max-width: 640px) {
-            .img-grid { grid-template-columns: 1fr; }
-            .img-grid.three { grid-template-columns: 1fr; }
-            .viewer-canvas-wrap { grid-template-columns: 1fr; }
+            body { padding: 1.5rem 1rem 3rem; }
             h1 { font-size: 1.5rem; }
+            h2 { font-size: 1.2rem; margin-top: 2.5rem; }
+            .img-grid.cols-3 { grid-template-columns: 1fr 1fr; }
+            .img-grid.cols-3 figure:last-child { grid-column: 1 / -1; }
+            .img-grid img { aspect-ratio: auto; }
+            .viewer-canvas-wrap { grid-template-columns: 1fr; }
+            .hero-figure img { max-height: 280px; }
+            nav { gap: 0.25rem; }
         }
-
-        .back-link { margin-bottom: 1em; display: inline-block; font-size: 0.9em; }
     </style>
 </head>
 <body>
-    <header>
-        <nav>
-            <a href="/">&larr; Home</a> /
-            <a href="/posts">Posts</a> /
-            <a href="https://github.com/bc">GitHub</a>
-        </nav>
-    </header>
+    <nav>
+        <a href="/">&larr; Home</a>
+        <span class="sep">/</span>
+        <a href="/posts">Posts</a>
+        <span class="sep">/</span>
+        <a href="https://github.com/bc">GitHub</a>
+    </nav>
 
     <article>
         <h1>Reverse Engineering the TabCat V2 Cat Tracker RF Protocol</h1>
         <div class="meta">
-            <time datetime="2026-03-20">March 20, 2026</time> &middot; Brian Cohn &middot; RF &middot; SDR &middot; Reverse Engineering
+            <time datetime="2026-03-20">March 20, 2026</time>
+            <span class="tag">RF</span>
+            <span class="tag">SDR</span>
+            <span class="tag">Reverse Engineering</span>
+            <span class="tag">Embedded</span>
         </div>
 
-        <figure>
-            <img src="img/cat_kit_beacon.jpeg" alt="Kit the cat wearing her TabCat tracking beacon" class="hero-img" loading="lazy">
+        <figure class="hero-figure">
+            <img src="img/cat_kit_beacon.jpeg" alt="Kit the cat wearing her TabCat tracking beacon" loading="lazy">
             <figcaption>Kit, wearing her TabCat V2 homing beacon. She is unimpressed by my RF analysis efforts.</figcaption>
         </figure>
 
@@ -306,9 +481,9 @@
             </tbody>
         </table>
 
-        <div class="callout info">
-            <h4>Key finding: 2435 MHz</h4>
-            <p>The TabCat operates at <strong>2435 MHz</strong>&mdash;right in the 2.4 GHz ISM band, but on a <em>proprietary protocol</em>. It's not Bluetooth, not Zigbee, not WiFi. The FCC filing classifies it under "low power transmitters using spread spectrum techniques" (Part 15, Subpart C). The manufacturer is <strong>Loc8tor Ltd</strong> out of London, and the test reports were done by UL International UK.</p>
+        <div class="callout">
+            <h4>Key finding: 2435 MHz via proprietary spread spectrum</h4>
+            <p>The TabCat operates at <strong>2435 MHz</strong>&mdash;right in the 2.4 GHz ISM band, but on a <em>proprietary protocol</em>. It's not Bluetooth, not Zigbee, not WiFi. The FCC filing classifies it under <strong>"low power transmitters using spread spectrum techniques"</strong> (Part 15, Subpart C, scope A4: UNII/spread spectrum). This is a meaningful detail&mdash;it tells us the modulation is likely OQPSK DSSS or frequency-hopping, not simple narrowband FSK. The manufacturer is <strong>Loc8tor Ltd</strong> out of London, and the test reports were done by UL International UK.</p>
         </div>
 
         <p>
@@ -323,7 +498,7 @@
             I carefully opened the tag's enclosure. The PCB is compact&mdash;about the size of a thumbnail&mdash;with a single main IC, a crystal oscillator, chip antenna pads, and battery contacts for what appears to be a coin cell arrangement.
         </p>
 
-        <div class="img-grid three">
+        <div class="img-grid cols-3">
             <figure>
                 <img src="img/pcb_overview.jpeg" alt="Full PCB of the TabCat V2 homing tag" loading="lazy">
                 <figcaption>Full PCB overview</figcaption>
@@ -338,51 +513,44 @@
             </figure>
         </div>
 
-        <h3>The Chip: Silicon Labs EFR32xG22</h3>
+        <h3>The Chip: Silicon Labs EFR32FG22</h3>
         <p>
             The markings on the IC read:
         </p>
-        <pre><code>G22
-C224HG
-C01K92
-2132</code></pre>
+        <div class="chip-marking">G22<br>C224HG<br>C01K92<br>2132</div>
         <p>
-            After considerable searching, I'm fairly confident this is a <strong>Silicon Labs EFR32xG22C224</strong> series chip&mdash;specifically the <strong>EFR32FG22</strong> (proprietary wireless) variant. Here's my reasoning:
+            After considerable searching, I'm fairly confident this is a <strong>Silicon Labs EFR32FG22C224</strong>&mdash;the proprietary wireless variant of their Wireless Gecko Series 2 platform. Here's my reasoning:
         </p>
         <ul>
-            <li><strong>"G22"</strong> &mdash; matches the Silicon Labs Wireless Gecko Series 2 "xG22" family designation</li>
-            <li><strong>"C224"</strong> &mdash; directly matches the ordering code suffix for the 2.4 GHz radio configuration</li>
-            <li><strong>"2132"</strong> &mdash; consistent with a YYWW date code: <strong>week 32 of 2021</strong></li>
+            <li><strong>"G22"</strong> &mdash; matches the xG22 family designation (EFR32<em>x</em>G22)</li>
+            <li><strong>"C224"</strong> &mdash; the ordering code suffix for the 2.4 GHz radio configuration</li>
+            <li><strong>"2132"</strong> &mdash; YYWW date code: <strong>week 32 of 2021</strong></li>
             <li><strong>"C01K92"</strong> &mdash; likely a lot/trace code</li>
         </ul>
 
-        <div class="callout info">
-            <h4>EFR32FG22C224 Key Specs</h4>
+        <div class="callout success">
+            <h4>Does the chip match the signal? Yes.</h4>
+            <p>I verified the <a href="https://www.silabs.com/wireless/proprietary/efr32fg22-series-2-2-4-ghz-socs">EFR32FG22 datasheet</a> against what the FCC filing and our capture show. The chip supports exactly the modulation types we'd expect:</p>
             <ul>
-                <li>ARM Cortex-M33 @ 76.8 MHz</li>
-                <li>512 KB flash, 32 KB RAM</li>
-                <li>2.4 GHz radio, TX up to +6 dBm</li>
-                <li>RX sensitivity: -102.3 dBm</li>
-                <li>QFN32 package (4&times;4 mm)</li>
-                <li>1.8V&ndash;3.8V supply</li>
+                <li><strong>GFSK</strong> at up to 2 Mbps&mdash;the wider-bandwidth beacon signals we see are consistent with high-rate GFSK</li>
+                <li><strong>OQPSK DSSS</strong> at 250 kbps with -102.3 dBm sensitivity&mdash;this is the "spread spectrum technique" referenced in the FCC classification, and would explain the direction-finding capability (DSSS enables precise time-of-arrival measurements)</li>
+                <li><strong>RFSense with selective OOK</strong> for ultra-low-power wake-up&mdash;the mystery bursts could be RFSense wake-up packets</li>
             </ul>
-            <p>The FG22 variant is designed specifically for <strong>proprietary wireless protocols</strong>&mdash;which aligns perfectly with TabCat's non-standard RF approach. The BG22 (Bluetooth) and MG22 (Zigbee/Thread) variants use the same silicon but different firmware stacks.</p>
+            <p>The FG22 variant is specifically designed for <strong>proprietary protocols only</strong>&mdash;no Bluetooth, no Zigbee stack. It runs custom firmware via Silicon Labs' <a href="https://www.silabs.com/developers/rail-radio-abstraction-interface-layer-sdk">RAIL</a> (Radio Abstraction Interface Layer). TX output up to +6 dBm, ARM Cortex-M33 at 76.8 MHz, 512 KB flash, 32 KB RAM, QFN32 (4&times;4 mm), 1.8&ndash;3.8V supply.</p>
         </div>
 
         <p>
-            However, I want to be upfront: <strong>I couldn't find this exact marking pattern documented anywhere online.</strong> Silicon Labs' public ordering guides don't show "C224HG" as a suffix, and searching for the full marking string yields nothing. If you recognize this package marking convention or have experience with Silicon Labs chip identification, I'd love to hear from you.
+            However, I want to be upfront: <strong>I couldn't find this exact marking pattern documented anywhere online.</strong> Silicon Labs' public ordering guides don't list "C224HG" as a suffix, and searching for the full marking string yields nothing. The "HG" likely encodes flash size, RAM, or package variant in an abbreviated form that Silicon Labs uses on the physical die marking but doesn't publish. If you recognize this package marking convention, I'd love to hear from you.
         </p>
 
         <h2>Step 3: RF Signal Capture &amp; Analysis</h2>
         <p>
-            With the frequency identified at 2435 MHz, I set up an SDR capture. Note that a standard RTL-SDR tops out around 1.7 GHz, so capturing at 2.4 GHz requires either a <strong>HackRF One</strong>, a downconverter, or a specialized 2.4 GHz receiver. I used a wideband SDR with a 2 MHz sample rate centered on 2435 MHz.
+            With the frequency identified at 2435 MHz, I set up an SDR capture. A standard RTL-SDR tops out around 1.7 GHz, so capturing at 2.4 GHz requires either a <strong>HackRF One</strong>, a downconverter, or a specialized 2.4 GHz receiver. I used a wideband SDR with a 2 MHz sample rate centered on 2435 MHz.
         </p>
 
-        <p>The capture approach:</p>
-
-        <pre><code><span class="cmt"># Key parameters from FCC filing</span>
-<span class="kw">CENTER_FREQ</span> = <span class="num">2_435_000_000</span>   <span class="cmt"># 2435 MHz - from FCC ID TUW-BT</span>
-<span class="kw">SAMPLE_RATE</span> = <span class="num">2_000_000</span>       <span class="cmt"># 2 MHz bandwidth</span>
+        <pre><code><span class="cmt"># Key parameters from FCC filing TUW-BT</span>
+<span class="kw">CENTER_FREQ</span> = <span class="num">2_435_000_000</span>   <span class="cmt"># 2435 MHz</span>
+<span class="kw">SAMPLE_RATE</span> = <span class="num">2_000_000</span>       <span class="cmt"># 2 MHz BW — captures full signal</span>
 <span class="kw">GAIN</span>        = <span class="num">40</span>              <span class="cmt"># dB</span>
 
 <span class="cmt"># Configure SDR</span>
@@ -395,28 +563,28 @@ samples = sdr.<span class="fn">read_samples</span>(<span class="num">1024</span>
 amplitude = np.<span class="fn">abs</span>(samples)
 peak = np.<span class="fn">max</span>(amplitude)
 
-<span class="cmt"># Burst detection: proprietary protocol sends short pings</span>
+<span class="cmt"># Burst detection</span>
 <span class="kw">if</span> peak > THRESHOLD:
     <span class="fn">log_burst</span>(timestamp, peak, duration)</code></pre>
 
         <h3>Spectrogram: Seeing the Protocol</h3>
         <p>
-            The spectrogram immediately reveals the communication pattern. The handset sends periodic <strong>beacon pings</strong> and the tag responds with <strong>shorter response bursts</strong>. The ping-response cadence is very regular, roughly every 500&ndash;700ms:
+            The spectrogram immediately reveals the communication pattern. The handset sends periodic <strong>beacon pings</strong> and the tag responds with <strong>shorter, lower-power response bursts</strong>. The cadence is regular, roughly every 500&ndash;700ms:
         </p>
 
         <figure>
             <img src="img/spectrogram_annotated.png" alt="Annotated spectrogram showing beacon pings and tag responses at 2435 MHz" loading="lazy">
-            <figcaption>Spectrogram of the TabCat V2 protocol. Blue annotations = handset beacon pings. Green = tag responses. Yellow = mystery signals at the end of the capture.</figcaption>
+            <figcaption>Spectrogram of the TabCat V2 protocol. Blue = handset beacon pings. Green = tag responses. Yellow = mystery signals at the end of the capture.</figcaption>
         </figure>
 
         <h3>FFT: Three Distinct Signal Types</h3>
         <p>
-            Comparing the FFT power spectra of the three signal types reveals distinct spectral signatures. The handset beacon has a wider bandwidth and higher power than the tag response. The mystery signals are barely above the noise floor:
+            Comparing the FFT power spectra reveals distinct spectral signatures. The handset beacon is wider-bandwidth and higher-power&mdash;consistent with a GFSK or DSSS modulated ping designed for reliable reception. The tag response is narrower and lower-power. The mystery signals are barely above the noise floor:
         </p>
 
         <figure>
             <img src="img/fft_comparison.png" alt="FFT comparison of beacon, response, and mystery signals" loading="lazy">
-            <figcaption>FFT power spectrum of: (left) handset beacon ping, (center) tag response, (right) the mystery signals that appeared near the end of the capture.</figcaption>
+            <figcaption>FFT power spectra: handset beacon (left), tag response (center), mystery signal (right).</figcaption>
         </figure>
 
         <h3>Amplitude Envelope</h3>
@@ -428,12 +596,12 @@ peak = np.<span class="fn">max</span>(amplitude)
         <h3>Protocol Pattern</h3>
         <figure>
             <img src="img/protocol_diagram.png" alt="Diagram of the ping-response protocol" loading="lazy">
-            <figcaption>Observed ping-response protocol pattern. The handset sends a beacon, the tag responds after a short gap. Three clean pairs, then&hellip; something else.</figcaption>
+            <figcaption>Observed protocol: handset ping, tag response, ~500ms gap, repeat. Three clean pairs, then something else.</figcaption>
         </figure>
 
         <h2>The 60fps Spectrum Animation</h2>
         <p>
-            This is the full capture played back in real time. The left panel shows the spectrogram waterfall (time flowing left to right) and the right panel shows the instantaneous FFT at each moment. Watch for the bright bursts appearing in the spectrogram and the corresponding FFT peaks:
+            The full capture played back in real time. Left: spectrogram waterfall. Right: instantaneous FFT. Watch for the bursts appearing as bright flares and the corresponding FFT peaks:
         </p>
 
         <div class="video-container">
@@ -442,12 +610,12 @@ peak = np.<span class="fn">max</span>(amplitude)
                 Your browser doesn't support video. <a href="img/spectrum_animation.mp4">Download the MP4</a>.
             </video>
         </div>
-        <p class="img-caption">60fps spectrum animation &mdash; spectrogram waterfall + instantaneous FFT. Watch for the "SIGNAL DETECTED" indicator.</p>
+        <p class="video-caption">60fps spectrum animation&mdash;spectrogram waterfall + instantaneous FFT.</p>
 
         <!-- Interactive Spectrum Viewer -->
         <div id="spectrum-viewer">
             <h3>Interactive Spectrum Viewer</h3>
-            <p style="color: var(--text-dim); font-size: 0.9em;">Drag the slider to scrub through the RF capture. The FFT shows the frequency content at each moment in time.</p>
+            <p class="subtitle">Scrub through the RF capture. The FFT shows frequency content at each moment.</p>
 
             <div class="viewer-canvas-wrap">
                 <canvas id="waterfall-canvas" width="600" height="200"></canvas>
@@ -455,18 +623,18 @@ peak = np.<span class="fn">max</span>(amplitude)
             </div>
 
             <div class="slider-controls">
-                <label>Time:</label>
+                <label>Time</label>
                 <input type="range" id="frame-slider" min="0" max="499" value="0">
                 <span class="time-display" id="time-display">0.000s</span>
             </div>
 
             <div class="amp-bar-wrap">
-                <span class="amp-bar-label">Amplitude:</span>
+                <span class="amp-bar-label">Amplitude</span>
                 <div class="amp-bar-bg">
                     <div class="amp-bar" id="amp-bar" style="width: 0%"></div>
                     <div id="amp-threshold" style="left: 15%"></div>
                 </div>
-                <span class="amp-bar-label" id="amp-value">0.000</span>
+                <span class="amp-bar-label" id="amp-value" style="text-align: right">0.000</span>
             </div>
 
             <div id="event-label">&nbsp;</div>
@@ -484,13 +652,13 @@ peak = np.<span class="fn">max</span>(amplitude)
 
         <figure>
             <img src="img/mystery_signal.png" alt="Close-up of mystery signals near the end of the capture" loading="lazy">
-            <figcaption>The mystery bursts at t=4.8s and t=5.2s. Are these real transmissions or environmental noise?</figcaption>
+            <figcaption>The mystery bursts at t=4.8s and t=5.2s. Real transmissions or noise?</figcaption>
         </figure>
 
         <div class="callout mystery">
             <h4>This is where I got stuck.</h4>
             <p>
-                Near the end of my capture session, I observed two faint bursts at t&asymp;4.8s and t&asymp;5.2s. They're <em>just barely</em> above the noise floor. The spectral shape is different from both the handset beacon and the tag response:
+                Near the end of my capture, I observed two faint bursts at t&asymp;4.8s and t&asymp;5.2s. They sit <em>just barely</em> above the noise floor, and their shape differs from both the handset beacon and the tag response:
             </p>
             <ul>
                 <li>Much shorter duration (~20&ndash;40ms vs ~80&ndash;120ms for normal bursts)</li>
@@ -499,85 +667,80 @@ peak = np.<span class="fn">max</span>(amplitude)
                 <li>No corresponding beacon ping preceding them</li>
             </ul>
             <p>
-                <strong>Are these:</strong> (a) environmental 2.4 GHz interference (WiFi, Bluetooth, microwave oven)?
-                (b) A different mode of the TabCat protocol&mdash;maybe an unprompted "heartbeat" beacon from the tag?
-                (c) Multipath reflections of earlier transmissions?
-                (d) Just noise that happened to cross the threshold?
+                One intriguing possibility: the EFR32FG22 has an <strong>RFSense selective OOK wake-up</strong> mode. The tag could be emitting periodic low-power OOK wake-up beacons independently of the handset&mdash;a "heartbeat" so the handset can detect the tag's presence before starting the full ping-response sequence. The short duration and low power would be consistent with this.
             </p>
             <p>
-                I spent a while trying to correlate these with button presses, proximity changes, and other events, but couldn't nail down a pattern. The 2.4 GHz ISM band is notoriously crowded, so (a) is plausible. But the timing feels <em>too coincidental</em>&mdash;they appeared within the same session as the legitimate handset-tag exchanges.
+                But it could also be 2.4 GHz environmental interference (WiFi, Bluetooth, microwave). The band is crowded. I couldn't nail down a pattern linking these to button presses or proximity changes.
             </p>
         </div>
 
         <h2>The Chip Identification Dead End</h2>
         <p>
-            Beyond identifying the likely chip family (EFR32xG22), I hit a wall. The specific marking <code>C224HG</code> doesn't appear in any Silicon Labs public documentation I could find. The "HG" suffix might encode flash size, RAM, or package variant in a shorthand that Silicon Labs uses on the physical marking but doesn't publish in ordering guides.
+            Beyond identifying the chip family, I hit a wall. The specific marking <code>C224HG</code> doesn't appear in any Silicon Labs public documentation. The "HG" suffix might encode flash size, RAM, or package variant in an abbreviated form not published in ordering guides.
         </p>
         <p>
-            I also couldn't find any open-source firmware, protocol analysis, or reverse engineering work on the TabCat protocol specifically. Loc8tor Ltd appears to use a fully proprietary stack running on the FG22's radio, which makes sense&mdash;the directional homing functionality likely requires custom signal processing that wouldn't fit neatly into a standard BLE or Zigbee framework.
+            I also found no open-source firmware, protocol analysis, or reverse engineering work on the TabCat protocol. Loc8tor uses a fully proprietary stack built on Silicon Labs' RAIL API, which makes sense&mdash;the directional homing functionality likely requires custom signal processing (RSSI gradient mapping, possibly phase-difference analysis) that wouldn't fit into a standard BLE or Zigbee framework.
         </p>
 
         <h2>What I Learned</h2>
         <ol>
-            <li><strong>FCC filings are invaluable.</strong> Even when the interesting documents are confidential, you get the exact operating frequency, test lab, and regulatory classification.</li>
-            <li><strong>2.4 GHz proprietary protocols are hard to crack.</strong> Unlike 433 MHz OOK remotes (which <code>rtl_433</code> eats for breakfast), proprietary 2.4 GHz protocols with GFSK modulation and custom framing require much more work to decode.</li>
-            <li><strong>Silicon Labs chip markings are opaque.</strong> Unlike some manufacturers who print full part numbers, SiLabs uses abbreviated markings that aren't straightforward to decode without reference samples.</li>
-            <li><strong>The 2.4 GHz band is noisy.</strong> Isolating a low-power proprietary signal from WiFi, Bluetooth, and other interference is non-trivial. A shielded enclosure or directional antenna would help.</li>
+            <li><strong>FCC filings are invaluable.</strong> Even when the interesting documents are confidential, you get the exact operating frequency, regulatory classification, and (critically) the modulation family&mdash;"spread spectrum" told us to expect DSSS/FHSS, not simple narrowband.</li>
+            <li><strong>Chip identification confirms the story.</strong> The EFR32FG22's OQPSK DSSS and GFSK capabilities perfectly match the FCC classification and the signal characteristics we observed. When the chip, the filing, and the capture all agree, you have high confidence in the analysis.</li>
+            <li><strong>2.4 GHz proprietary protocols are hard to crack.</strong> Unlike 433 MHz OOK remotes (which <code>rtl_433</code> eats for breakfast), proprietary 2.4 GHz with GFSK/DSSS and custom framing require specialized demodulation.</li>
+            <li><strong>The 2.4 GHz band is noisy.</strong> Isolating a low-power proprietary signal from WiFi, Bluetooth, and other interference is non-trivial. A shielded enclosure or directional antenna would help enormously.</li>
         </ol>
 
         <h2>Next Steps</h2>
         <ul>
-            <li>Capture with a <strong>directional antenna</strong> pointed at the tag, to improve SNR and reduce ambient 2.4 GHz noise</li>
+            <li>Capture with a <strong>directional antenna</strong> pointed at the tag to improve SNR</li>
             <li>Try <strong>GNU Radio</strong> with a GFSK demodulator tuned to 2435 MHz to extract the bitstream</li>
+            <li>Test for <strong>DSSS</strong> by looking for spreading code signatures in the raw IQ data</li>
             <li>Compare captures at different <strong>distances</strong> to see if the tag adjusts power or encoding</li>
-            <li>Look into the <strong>Silicon Labs RAIL</strong> (Radio Abstraction Interface Layer) API for clues about the protocol framing</li>
+            <li>Look into <strong>Silicon Labs RAIL SDK</strong> documentation for clues about packet framing and CRC structure</li>
         </ul>
 
         <hr>
 
-        <div class="callout info">
+        <div class="callout">
             <h4>Got ideas? I'd love to hear them.</h4>
             <p>
-                If you have experience with Silicon Labs EFR32 chip identification, proprietary 2.4 GHz protocol analysis, or have worked with the TabCat/Loc8tor products&mdash;please reach out. In particular:
+                If you have experience with Silicon Labs EFR32 chip identification, proprietary 2.4 GHz protocol analysis, or have worked with TabCat/Loc8tor products&mdash;please reach out:
             </p>
             <ul>
                 <li>Can you confirm the <code>C224HG</code> marking maps to a specific EFR32FG22 variant?</li>
-                <li>Have you seen those mystery bursts in 2.4 GHz captures before?</li>
-                <li>Know of any tools specifically good at demodulating proprietary GFSK at 2.4 GHz?</li>
+                <li>Have you seen those mystery bursts&mdash;could they be RFSense OOK wake-up packets?</li>
+                <li>Know of tools for demodulating proprietary GFSK/DSSS at 2.4 GHz?</li>
             </ul>
             <p>
-                You can find me on <a href="https://github.com/bc">GitHub</a> or <a href="https://www.linkedin.com/in/cohn/">LinkedIn</a>.
+                Find me on <a href="https://github.com/bc">GitHub</a> or <a href="https://www.linkedin.com/in/cohn/">LinkedIn</a>.
             </p>
         </div>
 
         <hr>
 
-        <h2>Code &amp; Resources</h2>
+        <h2>Resources</h2>
         <table>
             <tbody>
-                <tr><td>TabCat V2 Product Page</td><td><a href="https://us.tabcat.com/products/cat-tracker-tabcat-v2">us.tabcat.com</a></td></tr>
-                <tr><td>FCC Filing (Tag)</td><td><a href="https://fcc.report/FCC-ID/TUW-BT">FCC ID TUW-BT</a></td></tr>
-                <tr><td>FCC Filing (Handset)</td><td><a href="https://fcc.report/FCC-ID/TUW-PH">FCC ID TUW-PH</a></td></tr>
-                <tr><td>Silicon Labs EFR32FG22</td><td><a href="https://www.silabs.com/wireless/proprietary/efr32fg22-series-2-2-4-ghz-socs">silabs.com</a></td></tr>
-                <tr><td>EFR32FG22 Datasheet (PDF)</td><td><a href="https://www.silabs.com/documents/public/data-sheets/efr32fg22-datasheet.pdf">datasheet</a></td></tr>
-                <tr><td>Source Code</td><td><a href="https://github.com/bc/embedded_hardware_agent_development/tree/main/quietcool">GitHub repo</a></td></tr>
+                <tr><td>TabCat V2</td><td><a href="https://us.tabcat.com/products/cat-tracker-tabcat-v2">us.tabcat.com</a></td></tr>
+                <tr><td>FCC Filing (Tag)</td><td><a href="https://fcc.report/FCC-ID/TUW-BT">TUW-BT</a></td></tr>
+                <tr><td>FCC Filing (Handset)</td><td><a href="https://fcc.report/FCC-ID/TUW-PH">TUW-PH</a></td></tr>
+                <tr><td>EFR32FG22 Product Page</td><td><a href="https://www.silabs.com/wireless/proprietary/efr32fg22-series-2-2-4-ghz-socs">silabs.com</a></td></tr>
+                <tr><td>EFR32FG22 Datasheet</td><td><a href="https://www.silabs.com/documents/public/data-sheets/efr32fg22-datasheet.pdf">PDF</a></td></tr>
+                <tr><td>Source Code</td><td><a href="https://github.com/bc/embedded_hardware_agent_development/tree/main/quietcool">GitHub</a></td></tr>
             </tbody>
         </table>
     </article>
 
-    <!-- Interactive Viewer JS -->
     <script>
     (function() {
-        // Load spectrum data inline (generated by generate_visuals.py)
         let DATA = null;
-        const dataScript = document.createElement('script');
 
         fetch('img/slider_data.json')
             .then(r => r.json())
             .then(d => { DATA = d; initViewer(); })
             .catch(() => {
                 document.getElementById('spectrum-viewer').innerHTML =
-                    '<p style="color:var(--text-dim)">Interactive viewer requires slider_data.json</p>';
+                    '<p style="color:var(--text-secondary)">Interactive viewer requires slider_data.json</p>';
             });
 
         function initViewer() {
@@ -593,18 +756,27 @@ peak = np.<span class="fn">max</span>(amplitude)
 
             slider.max = DATA.n_frames - 1;
 
-            // Waterfall history
             const WF_COLS = 120;
             const wfHistory = [];
             for (let i = 0; i < WF_COLS; i++) wfHistory.push(new Array(DATA.freq_bins).fill(-85));
 
-            // Inferno-ish colormap
-            function infernoColor(val) {
+            // Attempt perceptually uniform colormap
+            function specColor(val) {
                 const t = Math.max(0, Math.min(1, (val + 85) / 60));
-                const r = Math.min(255, Math.floor(t < 0.5 ? t * 2 * 200 : 200 + (t - 0.5) * 2 * 55));
-                const g = Math.min(255, Math.floor(t < 0.3 ? 0 : t < 0.7 ? (t - 0.3) * 2.5 * 180 : 180 + (t - 0.7) * 250));
-                const b = Math.min(255, Math.floor(t < 0.2 ? t * 5 * 80 : t < 0.6 ? 80 - (t - 0.2) * 200 : 0));
-                return `rgb(${r},${g},${b})`;
+                let r, g, b;
+                if (t < 0.25) {
+                    r = 12 + t * 4 * 40;  g = 14 + t * 4 * 10;  b = 18 + t * 4 * 60;
+                } else if (t < 0.5) {
+                    const s = (t - 0.25) * 4;
+                    r = 52 + s * 130;  g = 24 + s * 30;  b = 78 - s * 30;
+                } else if (t < 0.75) {
+                    const s = (t - 0.5) * 4;
+                    r = 182 + s * 60;  g = 54 + s * 120;  b = 48 - s * 20;
+                } else {
+                    const s = (t - 0.75) * 4;
+                    r = 242 + s * 13;  g = 174 + s * 70;  b = 28 + s * 100;
+                }
+                return `rgb(${Math.round(r)},${Math.round(g)},${Math.round(b)})`;
             }
 
             function renderFrame(frameIdx) {
@@ -612,95 +784,76 @@ peak = np.<span class="fn">max</span>(amplitude)
                 const amp = DATA.amplitudes[frameIdx];
                 const time = DATA.times[frameIdx];
 
-                // Update waterfall
                 wfHistory.push([...fftData]);
                 if (wfHistory.length > WF_COLS) wfHistory.shift();
 
-                // Draw waterfall
+                // Waterfall
                 const cellW = wfCanvas.width / WF_COLS;
                 const cellH = wfCanvas.height / DATA.freq_bins;
-                wfCtx.fillStyle = '#0d1117';
+                wfCtx.fillStyle = '#0c0e12';
                 wfCtx.fillRect(0, 0, wfCanvas.width, wfCanvas.height);
                 for (let col = 0; col < wfHistory.length; col++) {
                     for (let row = 0; row < DATA.freq_bins; row++) {
-                        wfCtx.fillStyle = infernoColor(wfHistory[col][row]);
+                        wfCtx.fillStyle = specColor(wfHistory[col][row]);
                         wfCtx.fillRect(col * cellW, (DATA.freq_bins - 1 - row) * cellH, cellW + 1, cellH + 1);
                     }
                 }
-                // Time axis label
-                wfCtx.fillStyle = '#e6edf3';
+                wfCtx.fillStyle = '#d4d9e3';
                 wfCtx.font = '11px monospace';
-                wfCtx.fillText(`t = ${time.toFixed(3)}s`, 8, 16);
+                wfCtx.fillText('t = ' + time.toFixed(3) + 's', 8, 16);
 
-                // Draw FFT
-                fftCtx.fillStyle = '#0d1117';
+                // FFT
+                fftCtx.fillStyle = '#0c0e12';
                 fftCtx.fillRect(0, 0, fftCanvas.width, fftCanvas.height);
-
                 const barW = fftCanvas.width / DATA.freq_bins;
-                const maxDb = 0, minDb = -80;
-                fftCtx.fillStyle = '#21262d';
-                fftCtx.fillRect(0, 0, fftCanvas.width, fftCanvas.height);
-
                 for (let i = 0; i < DATA.freq_bins; i++) {
                     const val = fftData[i];
-                    const h = Math.max(0, (val - minDb) / (maxDb - minDb)) * fftCanvas.height;
-                    const hue = val > -30 ? 0 : val > -50 ? 200 : 210;
-                    const sat = val > -30 ? '80%' : '60%';
-                    const lum = val > -30 ? '60%' : val > -50 ? '55%' : '30%';
-                    fftCtx.fillStyle = `hsl(${hue}, ${sat}, ${lum})`;
+                    const norm = Math.max(0, (val + 80) / 80);
+                    const h = norm * fftCanvas.height;
+                    const alpha = 0.4 + norm * 0.6;
+                    fftCtx.fillStyle = val > -30
+                        ? 'rgba(224, 112, 112, ' + alpha + ')'
+                        : val > -50
+                        ? 'rgba(109, 170, 237, ' + alpha + ')'
+                        : 'rgba(109, 170, 237, ' + (alpha * 0.4) + ')';
                     fftCtx.fillRect(i * barW, fftCanvas.height - h, barW - 1, h);
                 }
-
                 // BW markers
-                const bwStart = Math.floor(DATA.freq_bins * 0.44);
-                const bwEnd = Math.ceil(DATA.freq_bins * 0.56);
-                fftCtx.strokeStyle = 'rgba(247,129,102,0.3)';
-                fftCtx.setLineDash([4, 4]);
+                const bwS = Math.floor(DATA.freq_bins * 0.44);
+                const bwE = Math.ceil(DATA.freq_bins * 0.56);
+                fftCtx.strokeStyle = 'rgba(232, 149, 106, 0.25)';
+                fftCtx.setLineDash([3, 3]);
                 fftCtx.beginPath();
-                fftCtx.moveTo(bwStart * barW, 0);
-                fftCtx.lineTo(bwStart * barW, fftCanvas.height);
-                fftCtx.moveTo(bwEnd * barW, 0);
-                fftCtx.lineTo(bwEnd * barW, fftCanvas.height);
+                fftCtx.moveTo(bwS * barW, 0); fftCtx.lineTo(bwS * barW, fftCanvas.height);
+                fftCtx.moveTo(bwE * barW, 0); fftCtx.lineTo(bwE * barW, fftCanvas.height);
                 fftCtx.stroke();
                 fftCtx.setLineDash([]);
-
-                // FFT label
-                fftCtx.fillStyle = '#8b949e';
+                fftCtx.fillStyle = '#9ca3b4';
                 fftCtx.font = '10px monospace';
-                fftCtx.fillText(`${DATA.freq_range_khz[0]} kHz`, 4, fftCanvas.height - 4);
-                fftCtx.fillText(`${DATA.freq_range_khz[1]} kHz`, fftCanvas.width - 60, fftCanvas.height - 4);
+                fftCtx.fillText(DATA.freq_range_khz[0] + ' kHz', 4, fftCanvas.height - 4);
+                fftCtx.fillText(DATA.freq_range_khz[1] + ' kHz', fftCanvas.width - 56, fftCanvas.height - 4);
 
-                // Amplitude bar
+                // Amplitude
                 const ampPct = Math.min(100, amp / 0.15 * 100);
                 ampBar.style.width = ampPct + '%';
                 ampBar.style.background = amp > 0.06
-                    ? 'linear-gradient(90deg, #3fb950, #f78166, #ff4444)'
+                    ? 'linear-gradient(90deg, #5ec4a0, #e8956a, #e07070)'
                     : amp > 0.02
-                    ? 'linear-gradient(90deg, #3fb950, #f0e68c)'
-                    : 'linear-gradient(90deg, #21262d, #3fb950)';
+                    ? 'linear-gradient(90deg, #5ec4a0, #d4c078)'
+                    : 'linear-gradient(90deg, #2a2f3a, #5ec4a0)';
                 ampValue.textContent = amp.toFixed(4);
-
-                // Time display
                 timeDisp.textContent = time.toFixed(3) + 's';
 
-                // Event label
-                let closestEvt = null;
-                let minDist = Infinity;
-                for (const evt of DATA.events) {
-                    const dist = Math.abs(frameIdx - evt.frame);
-                    if (dist < 15 && dist < minDist) {
-                        minDist = dist;
-                        closestEvt = evt;
-                    }
+                // Event
+                let closest = null, minD = Infinity;
+                for (const e of DATA.events) {
+                    const d = Math.abs(frameIdx - e.frame);
+                    if (d < 15 && d < minD) { minD = d; closest = e; }
                 }
-                if (closestEvt) {
-                    const colors = {
-                        beacon: 'var(--accent1)',
-                        response: 'var(--accent3)',
-                        mystery: 'var(--accent5)'
-                    };
-                    eventLabel.textContent = closestEvt.label;
-                    eventLabel.style.color = colors[closestEvt.type] || 'var(--text)';
+                if (closest) {
+                    const c = {beacon:'var(--blue)',response:'var(--green)',mystery:'var(--yellow)'};
+                    eventLabel.textContent = closest.label;
+                    eventLabel.style.color = c[closest.type] || 'var(--text)';
                     eventLabel.style.background = 'var(--bg)';
                 } else {
                     eventLabel.textContent = '\u00a0';
@@ -708,12 +861,9 @@ peak = np.<span class="fn">max</span>(amplitude)
                 }
             }
 
-            // Slider
             slider.addEventListener('input', () => renderFrame(parseInt(slider.value)));
 
-            // Play button
-            let playing = false;
-            let playInterval = null;
+            let playing = false, playInterval = null;
             document.getElementById('btn-play').addEventListener('click', function() {
                 playing = !playing;
                 this.textContent = playing ? '\u23f8 Pause' : '\u25b6 Play';
@@ -721,16 +871,13 @@ peak = np.<span class="fn">max</span>(amplitude)
                 if (playing) {
                     playInterval = setInterval(() => {
                         let v = parseInt(slider.value) + 1;
-                        if (v >= DATA.n_frames) { v = 0; }
+                        if (v >= DATA.n_frames) v = 0;
                         slider.value = v;
                         renderFrame(v);
-                    }, 1000 / 30); // 30fps playback
-                } else {
-                    clearInterval(playInterval);
-                }
+                    }, 1000 / 30);
+                } else clearInterval(playInterval);
             });
 
-            // Step buttons
             document.getElementById('btn-step-back').addEventListener('click', () => {
                 slider.value = Math.max(0, parseInt(slider.value) - 1);
                 renderFrame(parseInt(slider.value));
@@ -739,18 +886,15 @@ peak = np.<span class="fn">max</span>(amplitude)
                 slider.value = Math.min(DATA.n_frames - 1, parseInt(slider.value) + 1);
                 renderFrame(parseInt(slider.value));
             });
-
-            // Jump buttons
             document.getElementById('btn-goto-beacon').addEventListener('click', () => {
-                const beacon = DATA.events.find(e => e.type === 'beacon');
-                if (beacon) { slider.value = beacon.frame; renderFrame(beacon.frame); }
+                const e = DATA.events.find(e => e.type === 'beacon');
+                if (e) { slider.value = e.frame; renderFrame(e.frame); }
             });
             document.getElementById('btn-goto-mystery').addEventListener('click', () => {
-                const mystery = DATA.events.find(e => e.type === 'mystery');
-                if (mystery) { slider.value = mystery.frame; renderFrame(mystery.frame); }
+                const e = DATA.events.find(e => e.type === 'mystery');
+                if (e) { slider.value = e.frame; renderFrame(e.frame); }
             });
 
-            // Initial render
             renderFrame(0);
         }
     })();
