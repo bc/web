@@ -1,3 +1,10 @@
+---
+layout: none
+title: "Reverse Engineering the TabCat V2 Cat Tracker RF Protocol"
+description: "Investigating the 2.4 GHz RF protocol of the TabCat V2 pet tracker using SDR, FCC filings, and PCB teardown."
+date: 2026-03-20
+excerpt: "FCC filing deep dive, PCB teardown, and SDR signal capture of a 2.4 GHz proprietary cat tracking beacon. Silicon Labs EFR32FG22 chip identification, GFSK demodulation, and some mystery signals I still can't explain."
+---
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,7 +18,7 @@
     <meta name="description" content="Investigating the 2.4 GHz RF protocol of the TabCat V2 pet tracker using SDR, FCC filings, and PCB teardown. Silicon Labs EFR32 chip identification and signal analysis.">
     <meta property="og:title" content="Reverse Engineering the TabCat V2 Cat Tracker RF Protocol">
     <meta property="og:description" content="SDR analysis, FCC filing deep dive, and PCB teardown of a 2.4 GHz pet tracking beacon.">
-    <meta property="og:image" content="img/spectrogram_annotated.png">
+    <meta property="og:image" content="/assets/posts/rf-reverse-engineering-quietcool/spectrogram_annotated.png">
     <link rel="stylesheet" href="https://fonts.xz.style/serve/inter.css">
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -324,7 +331,7 @@
         </div>
 
         <figure class="hero-figure">
-            <img src="img/cat_kit_beacon.jpeg" alt="Kit the cat wearing her TabCat tracking beacon" loading="lazy">
+            <img src="/assets/posts/rf-reverse-engineering-quietcool/cat_kit_beacon.jpeg" alt="Kit the cat wearing her TabCat tracking beacon" loading="lazy">
             <figcaption>Kit with her TabCat beacon. Unbothered.</figcaption>
         </figure>
 
@@ -370,15 +377,15 @@
 
         <div class="img-grid cols-3">
             <figure>
-                <img src="img/pcb_overview.jpeg" alt="Full PCB of the TabCat V2 homing tag" loading="lazy">
+                <img src="/assets/posts/rf-reverse-engineering-quietcool/pcb_overview.jpeg" alt="Full PCB of the TabCat V2 homing tag" loading="lazy">
                 <figcaption>Full board</figcaption>
             </figure>
             <figure>
-                <img src="img/chip_detail.jpeg" alt="Detail of the main IC and crystal" loading="lazy">
+                <img src="/assets/posts/rf-reverse-engineering-quietcool/chip_detail.jpeg" alt="Detail of the main IC and crystal" loading="lazy">
                 <figcaption>IC + crystal</figcaption>
             </figure>
             <figure>
-                <img src="img/chip_closeup.jpg" alt="Close-up of chip markings: G22 C224HG C01K92 2132" loading="lazy">
+                <img src="/assets/posts/rf-reverse-engineering-quietcool/chip_closeup.jpg" alt="Close-up of chip markings: G22 C224HG C01K92 2132" loading="lazy">
                 <figcaption>Chip markings</figcaption>
             </figure>
         </div>
@@ -439,7 +446,7 @@ amplitude = np.<span class="fn">abs</span>(samples)
         </p>
 
         <figure>
-            <img src="img/spectrogram_annotated.png" alt="Annotated spectrogram showing beacon pings and tag responses at 2435 MHz" loading="lazy">
+            <img src="/assets/posts/rf-reverse-engineering-quietcool/spectrogram_annotated.png" alt="Annotated spectrogram showing beacon pings and tag responses at 2435 MHz" loading="lazy">
             <figcaption>Blue = handset pings. Green = tag responses. Yellow = the mystery signals at the end.</figcaption>
         </figure>
 
@@ -449,19 +456,19 @@ amplitude = np.<span class="fn">abs</span>(samples)
         </p>
 
         <figure>
-            <img src="img/fft_comparison.png" alt="FFT comparison of beacon, response, and mystery signals" loading="lazy">
+            <img src="/assets/posts/rf-reverse-engineering-quietcool/fft_comparison.png" alt="FFT comparison of beacon, response, and mystery signals" loading="lazy">
             <figcaption>Handset ping (left), tag response (center), mystery signal (right).</figcaption>
         </figure>
 
         <h3>Amplitude Over Time</h3>
         <figure>
-            <img src="img/amplitude_envelope.png" alt="Signal amplitude envelope" loading="lazy">
+            <img src="/assets/posts/rf-reverse-engineering-quietcool/amplitude_envelope.png" alt="Signal amplitude envelope" loading="lazy">
             <figcaption>The threshold cleanly separates real bursts from noise — except for those last two blips.</figcaption>
         </figure>
 
         <h3>Protocol Pattern</h3>
         <figure>
-            <img src="img/protocol_diagram.png" alt="Diagram of the ping-response protocol" loading="lazy">
+            <img src="/assets/posts/rf-reverse-engineering-quietcool/protocol_diagram.png" alt="Diagram of the ping-response protocol" loading="lazy">
             <figcaption>Ping, response, gap, repeat. Three clean pairs, then something shows up without a corresponding ping.</figcaption>
         </figure>
 
@@ -471,9 +478,9 @@ amplitude = np.<span class="fn">abs</span>(samples)
         </p>
 
         <div class="video-container">
-            <video controls loop muted playsinline preload="metadata" poster="img/spectrogram_annotated.png">
-                <source src="img/spectrum_animation.mp4" type="video/mp4">
-                Your browser doesn't support video. <a href="img/spectrum_animation.mp4">Download the MP4</a>.
+            <video controls loop muted playsinline preload="metadata" poster="/assets/posts/rf-reverse-engineering-quietcool/spectrogram_annotated.png">
+                <source src="/assets/posts/rf-reverse-engineering-quietcool/spectrum_animation.mp4" type="video/mp4">
+                Your browser doesn't support video. <a href="/assets/posts/rf-reverse-engineering-quietcool/spectrum_animation.mp4">Download the MP4</a>.
             </video>
         </div>
         <p class="video-caption">Spectrogram waterfall + live FFT, 60fps. Full capture is 6 seconds.</p>
@@ -522,7 +529,7 @@ bits = bits_raw[bit_centers]</code></pre>
         <h2>Where I Got Stuck</h2>
 
         <figure>
-            <img src="img/mystery_signal.png" alt="Close-up of mystery signals" loading="lazy">
+            <img src="/assets/posts/rf-reverse-engineering-quietcool/mystery_signal.png" alt="Close-up of mystery signals" loading="lazy">
             <figcaption>Last beacon pair plus the two mystery bursts. The context helps you see how different they are.</figcaption>
         </figure>
 
