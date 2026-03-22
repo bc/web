@@ -94,7 +94,7 @@ def plot_spectrogram(t, sig, events):
 
     nfft = 1024
     ax.specgram(sig, NFFT=nfft, Fs=FS/1e6, noverlap=nfft*3//4,
-                cmap='inferno', vmin=-82, vmax=-22)
+                cmap='inferno', vmin=-25, vmax=35)
 
     for i, evt in enumerate(events):
         c = evt["color"]
@@ -134,7 +134,7 @@ def plot_fft_comparison(sig, events):
         ax.plot(freqs, pdb, color=col, linewidth=0.6, alpha=0.85)
         ax.fill_between(freqs, pdb, -90, alpha=0.08, color=col)
         ax.set_xlim(-400, 400)
-        ax.set_ylim(-78, 5)
+        ax.set_ylim(-30, 40)
 
     axes[0].set_ylabel('dB', color=DIM, fontsize=9)
     fig.tight_layout()
@@ -182,7 +182,7 @@ def plot_mystery(t, sig, events):
 
     ax_style(ax1, title='Last beacon pair + mystery bursts', ylabel='kHz', tc=YELLOW)
     ax1.specgram(sig[si:ei], NFFT=512, Fs=FS/1e6, noverlap=480,
-                 cmap='inferno', vmin=-82, vmax=-22)
+                 cmap='inferno', vmin=-25, vmax=35)
 
     # Label the known signals for context
     for evt in events:

@@ -42,6 +42,13 @@ C_GRID = '#2a2f3a'
 C_TEXT = '#d4d9e3'
 C_TEXT_DIM = '#9ca3b4'
 
+# Aliases for old variable names
+C_ACCENT1 = C_BLUE
+C_ACCENT2 = C_ORANGE
+C_ACCENT3 = C_GREEN
+C_ACCENT4 = C_PURPLE
+C_ACCENT5 = C_YELLOW
+
 def style_ax(ax, title=None, xlabel=None, ylabel=None, title_color=C_ACCENT1):
     ax.set_facecolor(C_BG)
     ax.tick_params(colors=C_TEXT, labelsize=8)
@@ -134,7 +141,7 @@ def plot_spectrogram(t, signal, events):
     nfft = 1024
     Pxx, freqs, bins, im = ax.specgram(
         signal, NFFT=nfft, Fs=FS/1e6, noverlap=nfft*3//4,
-        cmap='inferno', vmin=-85, vmax=-25,
+        cmap='inferno', vmin=-25, vmax=35,
     )
 
     # Annotate events
@@ -241,7 +248,7 @@ def plot_mystery_signal(t, signal, events):
     style_ax(ax1, title='The Mystery Bursts — Signal or Noise?', ylabel='Freq offset (kHz)',
              title_color=C_ACCENT5)
     ax1.specgram(signal[si:ei], NFFT=512, Fs=FS/1e6, noverlap=480,
-                 cmap='inferno', vmin=-85, vmax=-25)
+                 cmap='inferno', vmin=-25, vmax=35)
 
     # Annotate mysteries
     for evt in events:
@@ -346,22 +353,22 @@ def generate_animation(t, signal, events):
     n_freq = nfft // 2 + 1
     hop = int(FS / fps)
     waterfall_len = 250
-    waterfall = np.full((n_freq, waterfall_len), -85.0)
+    waterfall = np.full((n_freq, waterfall_len), -25.0)
     total_frames = min(int((len(signal) - nfft) / hop), fps * 6)
 
     im = ax_spec.imshow(
         waterfall, aspect='auto', origin='lower',
         extent=[0, waterfall_len, -FS/2e3, FS/2e3],
-        cmap='inferno', vmin=-85, vmax=-25,
+        cmap='inferno', vmin=-25, vmax=35,
         interpolation='bilinear',
     )
     ax_spec.set_xlabel('Time (frames)', color=C_TEXT, fontsize=9)
 
     fft_freqs = np.fft.fftshift(np.fft.fftfreq(nfft, 1/FS)) / 1e3
     fft_line, = ax_fft.plot(fft_freqs, np.zeros(nfft), color=C_ACCENT1, linewidth=0.8)
-    fft_fill = ax_fft.fill_between(fft_freqs, np.zeros(nfft), -85, alpha=0.1, color=C_ACCENT1)
+    fft_fill = ax_fft.fill_between(fft_freqs, np.zeros(nfft), -30, alpha=0.15, color=C_ACCENT1)
     ax_fft.set_xlim(-500, 500)
-    ax_fft.set_ylim(-75, 5)
+    ax_fft.set_ylim(-30, 40)
 
     time_text = ax_spec.text(0.02, 0.95, '', transform=ax_spec.transAxes,
                              color=C_TEXT, fontsize=11, fontweight='bold',
@@ -396,7 +403,7 @@ def generate_animation(t, signal, events):
         fft_data = 20 * np.log10(np.abs(np.fft.fftshift(np.fft.fft(chunk))) + 1e-12)
         fft_line.set_ydata(fft_data)
         fft_fill.remove()
-        fft_fill = ax_fft.fill_between(fft_freqs, fft_data, -85, alpha=0.1, color=C_ACCENT1)
+        fft_fill = ax_fft.fill_between(fft_freqs, fft_data, -30, alpha=0.15, color=C_ACCENT1)
 
         time_text.set_text(f't = {current_time:.3f}s')
 
@@ -434,12 +441,12 @@ def generate_animation(t, signal, events):
     style_ax(ax_s2, title='Spectrogram', ylabel='Freq (kHz)')
     style_ax(ax_f2, title='FFT', xlabel='Freq (kHz)', title_color=C_ACCENT2)
 
-    waterfall2 = np.full((n_freq, waterfall_len), -85.0)
+    waterfall2 = np.full((n_freq, waterfall_len), -25.0)
     im2 = ax_s2.imshow(waterfall2, aspect='auto', origin='lower',
                         extent=[0, waterfall_len, -FS/2e3, FS/2e3],
-                        cmap='inferno', vmin=-85, vmax=-25, interpolation='bilinear')
+                        cmap='inferno', vmin=-25, vmax=35, interpolation='bilinear')
     fft_line2, = ax_f2.plot(fft_freqs, np.zeros(nfft), color=C_ACCENT1, linewidth=0.8)
-    fft_fill2 = ax_f2.fill_between(fft_freqs, np.zeros(nfft), -85, alpha=0.1, color=C_ACCENT1)
+    fft_fill2 = ax_f2.fill_between(fft_freqs, np.zeros(nfft), -30, alpha=0.15, color=C_ACCENT1)
     ax_f2.set_xlim(-500, 500)
     ax_f2.set_ylim(-75, 5)
     time_text2 = ax_s2.text(0.02, 0.95, '', transform=ax_s2.transAxes,
@@ -466,7 +473,7 @@ def generate_animation(t, signal, events):
         fft_data = 20 * np.log10(np.abs(np.fft.fftshift(np.fft.fft(chunk))) + 1e-12)
         fft_line2.set_ydata(fft_data)
         fft_fill2.remove()
-        fft_fill2 = ax_f2.fill_between(fft_freqs, fft_data, -85, alpha=0.1, color=C_ACCENT1)
+        fft_fill2 = ax_f2.fill_between(fft_freqs, fft_data, -30, alpha=0.15, color=C_ACCENT1)
         time_text2.set_text(f't = {start/FS:.2f}s')
         return [im2, fft_line2, fft_fill2, time_text2]
 

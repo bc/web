@@ -754,11 +754,11 @@ amplitude = np.<span class="fn">abs</span>(samples)
 
             const WF_COLS = 120;
             const wfHistory = [];
-            for (let i = 0; i < WF_COLS; i++) wfHistory.push(new Array(DATA.freq_bins).fill(-85));
+            for (let i = 0; i < WF_COLS; i++) wfHistory.push(new Array(DATA.freq_bins).fill(-25));
 
             // Attempt perceptually uniform colormap
             function specColor(val) {
-                const t = Math.max(0, Math.min(1, (val + 85) / 60));
+                const t = Math.max(0, Math.min(1, (val + 25) / 60));
                 let r, g, b;
                 if (t < 0.25) {
                     r = 12 + t * 4 * 40;  g = 14 + t * 4 * 10;  b = 18 + t * 4 * 60;
@@ -804,14 +804,14 @@ amplitude = np.<span class="fn">abs</span>(samples)
                 const barW = fftCanvas.width / DATA.freq_bins;
                 for (let i = 0; i < DATA.freq_bins; i++) {
                     const val = fftData[i];
-                    const norm = Math.max(0, (val + 80) / 80);
+                    const norm = Math.max(0, (val + 25) / 60);
                     const h = norm * fftCanvas.height;
-                    const alpha = 0.4 + norm * 0.6;
-                    fftCtx.fillStyle = val > -30
+                    const alpha = 0.3 + norm * 0.7;
+                    fftCtx.fillStyle = val > 15
                         ? 'rgba(224, 112, 112, ' + alpha + ')'
-                        : val > -50
+                        : val > 0
                         ? 'rgba(109, 170, 237, ' + alpha + ')'
-                        : 'rgba(109, 170, 237, ' + (alpha * 0.4) + ')';
+                        : 'rgba(109, 170, 237, ' + (alpha * 0.3) + ')';
                     fftCtx.fillRect(i * barW, fftCanvas.height - h, barW - 1, h);
                 }
                 // BW markers
