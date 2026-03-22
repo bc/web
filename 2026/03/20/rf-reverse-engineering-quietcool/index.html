@@ -266,136 +266,6 @@
             color: var(--heading);
         }
 
-        /* --- Interactive spectrum viewer --- */
-        #spectrum-viewer {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin: 2.5rem 0;
-        }
-        #spectrum-viewer h3 { margin-top: 0; margin-bottom: 0.25rem; }
-        #spectrum-viewer .subtitle {
-            font-size: 0.8125rem;
-            color: var(--text-secondary);
-            margin-bottom: 1rem;
-        }
-
-        .viewer-canvas-wrap {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 0.75rem;
-            margin-bottom: 1rem;
-        }
-        canvas {
-            width: 100%;
-            border-radius: 6px;
-            border: 1px solid var(--border);
-            background: var(--bg);
-        }
-
-        .slider-controls {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-        .slider-controls label {
-            font-size: 0.75rem;
-            font-weight: 500;
-            letter-spacing: 0.04em;
-            text-transform: uppercase;
-            color: var(--text-secondary);
-            white-space: nowrap;
-        }
-        .slider-controls input[type="range"] {
-            flex: 1;
-            accent-color: var(--blue);
-            height: 4px;
-        }
-        .time-display {
-            font-family: 'SF Mono', monospace;
-            font-size: 0.875rem;
-            color: var(--heading);
-            min-width: 72px;
-            text-align: right;
-        }
-
-        .amp-bar-wrap {
-            display: flex;
-            align-items: center;
-            gap: 0.625rem;
-            margin-top: 0.625rem;
-        }
-        .amp-bar-label {
-            font-size: 0.75rem;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.04em;
-            color: var(--text-secondary);
-            min-width: 64px;
-        }
-        .amp-bar-bg {
-            flex: 1;
-            height: 8px;
-            background: var(--bg);
-            border-radius: 4px;
-            overflow: hidden;
-            position: relative;
-            border: 1px solid var(--border);
-        }
-        .amp-bar {
-            height: 100%;
-            border-radius: 4px;
-            transition: width 0.06s ease;
-        }
-        #amp-threshold {
-            position: absolute;
-            top: 0;
-            height: 100%;
-            width: 2px;
-            background: var(--orange);
-            opacity: 0.8;
-        }
-
-        #event-label {
-            text-align: center;
-            padding: 0.5rem;
-            font-weight: 600;
-            font-size: 0.875rem;
-            min-height: 2rem;
-            border-radius: 6px;
-            margin-top: 0.5rem;
-            transition: all 0.12s ease;
-        }
-
-        .play-controls {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.375rem;
-            margin-top: 0.625rem;
-        }
-        .play-controls button {
-            font-family: inherit;
-            font-size: 0.8125rem;
-            font-weight: 500;
-            background: var(--bg);
-            border: 1px solid var(--border);
-            color: var(--text-secondary);
-            padding: 0.375rem 0.875rem;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: border-color 0.15s, color 0.15s, background 0.15s;
-        }
-        .play-controls button:hover {
-            border-color: var(--blue);
-            color: var(--heading);
-            background: var(--raised);
-        }
-        .play-controls button.active {
-            border-color: var(--green);
-            color: var(--green);
-        }
-
         /* --- Video --- */
         .video-container {
             position: relative;
@@ -606,43 +476,48 @@ amplitude = np.<span class="fn">abs</span>(samples)
                 Your browser doesn't support video. <a href="img/spectrum_animation.mp4">Download the MP4</a>.
             </video>
         </div>
-        <p class="video-caption">Spectrogram waterfall + live FFT, 60fps.</p>
+        <p class="video-caption">Spectrogram waterfall + live FFT, 60fps. Full capture is 6 seconds.</p>
 
-        <!-- Interactive Spectrum Viewer -->
-        <div id="spectrum-viewer">
-            <h3>Interactive Spectrum Viewer</h3>
-            <p class="subtitle">Scrub through the RF capture. The FFT shows frequency content at each moment.</p>
+        <h3>Timing</h3>
+        <p>
+            Some numbers to give a sense of scale. Each handset beacon ping lasts about <strong>120ms</strong>. The tag response is shorter — around <strong>80ms</strong>. Between each ping-response pair there's a gap of roughly <strong>500-700ms</strong> where neither device transmits. The mystery bursts at the end are much shorter, maybe <strong>20-40ms</strong> each.
+        </p>
+        <p>
+            At the sample level, each FFT window covers <strong>256&micro;s</strong> (512 samples at 2 MHz). So a single 120ms beacon ping contains about <strong>470 FFT frames</strong> — plenty of data to work with if you want to look at how the signal evolves within a single transmission.
+        </p>
 
-            <div class="viewer-canvas-wrap">
-                <canvas id="waterfall-canvas" width="600" height="200"></canvas>
-                <canvas id="fft-canvas" width="280" height="200"></canvas>
-            </div>
+        <h3>From Spectrogram to Bits</h3>
+        <p>
+            Getting from "I can see a signal on the spectrogram" to "I can read the actual data" is a few steps. The FG22 supports GFSK, where information is encoded as small frequency shifts around the carrier. To extract bits:
+        </p>
+        <ol>
+            <li><strong>Isolate the burst.</strong> Use the amplitude envelope to find where the signal starts and stops. Threshold the IQ magnitude, grab that window.</li>
+            <li><strong>Shift to baseband.</strong> Multiply by a complex exponential at the carrier offset to center the signal at 0 Hz. For the handset ping, that's about +50 kHz from our SDR center.</li>
+            <li><strong>FM demodulate.</strong> GFSK is a form of FM. Take the instantaneous frequency: <code>freq = diff(angle(iq)) * fs / (2*pi)</code>. Positive frequency deviation = 1, negative = 0.</li>
+            <li><strong>Clock recovery.</strong> Find the bit rate by looking at the shortest symbol transitions. At 250 kbps (which the FG22 supports for OQPSK DSSS), each bit is <strong>4&micro;s</strong>. At 1 Mbps GFSK, each bit is <strong>1&micro;s</strong>.</li>
+            <li><strong>Sample at bit centers.</strong> Once you know the clock, sample the demodulated frequency at each bit midpoint to get the bitstream.</li>
+        </ol>
 
-            <div class="slider-controls">
-                <label>Time</label>
-                <input type="range" id="frame-slider" min="0" max="499" value="0">
-                <span class="time-display" id="time-display">0.000s</span>
-            </div>
+        <pre><code><span class="cmt"># Step 2-3: shift to baseband and FM-demodulate</span>
+carrier_offset = <span class="num">50_000</span>  <span class="cmt"># Hz, estimated from FFT peak</span>
+t_burst = np.<span class="fn">arange</span>(<span class="fn">len</span>(burst)) / SAMPLE_RATE
+baseband = burst * np.<span class="fn">exp</span>(<span class="num">-2j</span> * np.pi * carrier_offset * t_burst)
 
-            <div class="amp-bar-wrap">
-                <span class="amp-bar-label">Amplitude</span>
-                <div class="amp-bar-bg">
-                    <div class="amp-bar" id="amp-bar" style="width: 0%"></div>
-                    <div id="amp-threshold" style="left: 15%"></div>
-                </div>
-                <span class="amp-bar-label" id="amp-value" style="text-align: right">0.000</span>
-            </div>
+<span class="cmt"># FM demod: instantaneous frequency from phase derivative</span>
+phase = np.<span class="fn">angle</span>(baseband)
+freq = np.<span class="fn">diff</span>(np.<span class="fn">unwrap</span>(phase)) * SAMPLE_RATE / (<span class="num">2</span> * np.pi)
 
-            <div id="event-label">&nbsp;</div>
+<span class="cmt"># Step 4: bits are where freq is above/below zero</span>
+bits_raw = (freq > <span class="num">0</span>).<span class="fn">astype</span>(int)
 
-            <div class="play-controls">
-                <button id="btn-play">&#9654; Play</button>
-                <button id="btn-step-back">&larr; Step</button>
-                <button id="btn-step-fwd">Step &rarr;</button>
-                <button id="btn-goto-beacon">Jump to Beacon</button>
-                <button id="btn-goto-mystery">Jump to ???</button>
-            </div>
-        </div>
+<span class="cmt"># Step 5: resample at bit rate (e.g. 250 kbps = 4&micro;s/bit)</span>
+bit_period = int(SAMPLE_RATE / <span class="num">250_000</span>)  <span class="cmt"># 8 samples per bit</span>
+bit_centers = np.<span class="fn">arange</span>(bit_period // <span class="num">2</span>, <span class="fn">len</span>(bits_raw), bit_period)
+bits = bits_raw[bit_centers]</code></pre>
+
+        <p>
+            I haven't actually gotten clean bits out of this yet — I don't know the exact bit rate, and without knowing the packet framing (preamble, sync word, CRC) it's hard to tell where valid data starts and ends. This is where the RAIL SDK docs might help, since Silicon Labs has standard packet formats that the FG22 firmware likely uses.
+        </p>
 
         <h2>Where I Got Stuck</h2>
 
@@ -727,173 +602,5 @@ amplitude = np.<span class="fn">abs</span>(samples)
         </table>
     </article>
 
-    <script>
-    (function() {
-        let DATA = null;
-
-        fetch('img/slider_data.json')
-            .then(r => r.json())
-            .then(d => { DATA = d; initViewer(); })
-            .catch(() => {
-                document.getElementById('spectrum-viewer').innerHTML =
-                    '<p style="color:var(--text-secondary)">Interactive viewer requires slider_data.json</p>';
-            });
-
-        function initViewer() {
-            const wfCanvas = document.getElementById('waterfall-canvas');
-            const fftCanvas = document.getElementById('fft-canvas');
-            const wfCtx = wfCanvas.getContext('2d');
-            const fftCtx = fftCanvas.getContext('2d');
-            const slider = document.getElementById('frame-slider');
-            const timeDisp = document.getElementById('time-display');
-            const ampBar = document.getElementById('amp-bar');
-            const ampValue = document.getElementById('amp-value');
-            const eventLabel = document.getElementById('event-label');
-
-            slider.max = DATA.n_frames - 1;
-
-            const WF_COLS = 120;
-            const wfHistory = [];
-            for (let i = 0; i < WF_COLS; i++) wfHistory.push(new Array(DATA.freq_bins).fill(-25));
-
-            // Attempt perceptually uniform colormap
-            function specColor(val) {
-                const t = Math.max(0, Math.min(1, (val + 25) / 60));
-                let r, g, b;
-                if (t < 0.25) {
-                    r = 12 + t * 4 * 40;  g = 14 + t * 4 * 10;  b = 18 + t * 4 * 60;
-                } else if (t < 0.5) {
-                    const s = (t - 0.25) * 4;
-                    r = 52 + s * 130;  g = 24 + s * 30;  b = 78 - s * 30;
-                } else if (t < 0.75) {
-                    const s = (t - 0.5) * 4;
-                    r = 182 + s * 60;  g = 54 + s * 120;  b = 48 - s * 20;
-                } else {
-                    const s = (t - 0.75) * 4;
-                    r = 242 + s * 13;  g = 174 + s * 70;  b = 28 + s * 100;
-                }
-                return `rgb(${Math.round(r)},${Math.round(g)},${Math.round(b)})`;
-            }
-
-            function renderFrame(frameIdx) {
-                const fftData = DATA.fft_snapshots[frameIdx];
-                const amp = DATA.amplitudes[frameIdx];
-                const time = DATA.times[frameIdx];
-
-                wfHistory.push([...fftData]);
-                if (wfHistory.length > WF_COLS) wfHistory.shift();
-
-                // Waterfall
-                const cellW = wfCanvas.width / WF_COLS;
-                const cellH = wfCanvas.height / DATA.freq_bins;
-                wfCtx.fillStyle = '#0c0e12';
-                wfCtx.fillRect(0, 0, wfCanvas.width, wfCanvas.height);
-                for (let col = 0; col < wfHistory.length; col++) {
-                    for (let row = 0; row < DATA.freq_bins; row++) {
-                        wfCtx.fillStyle = specColor(wfHistory[col][row]);
-                        wfCtx.fillRect(col * cellW, (DATA.freq_bins - 1 - row) * cellH, cellW + 1, cellH + 1);
-                    }
-                }
-                wfCtx.fillStyle = '#d4d9e3';
-                wfCtx.font = '11px monospace';
-                wfCtx.fillText('t = ' + time.toFixed(3) + 's', 8, 16);
-
-                // FFT
-                fftCtx.fillStyle = '#0c0e12';
-                fftCtx.fillRect(0, 0, fftCanvas.width, fftCanvas.height);
-                const barW = fftCanvas.width / DATA.freq_bins;
-                for (let i = 0; i < DATA.freq_bins; i++) {
-                    const val = fftData[i];
-                    const norm = Math.max(0, (val + 25) / 60);
-                    const h = norm * fftCanvas.height;
-                    const alpha = 0.3 + norm * 0.7;
-                    fftCtx.fillStyle = val > 15
-                        ? 'rgba(224, 112, 112, ' + alpha + ')'
-                        : val > 0
-                        ? 'rgba(109, 170, 237, ' + alpha + ')'
-                        : 'rgba(109, 170, 237, ' + (alpha * 0.3) + ')';
-                    fftCtx.fillRect(i * barW, fftCanvas.height - h, barW - 1, h);
-                }
-                // BW markers
-                const bwS = Math.floor(DATA.freq_bins * 0.44);
-                const bwE = Math.ceil(DATA.freq_bins * 0.56);
-                fftCtx.strokeStyle = 'rgba(232, 149, 106, 0.25)';
-                fftCtx.setLineDash([3, 3]);
-                fftCtx.beginPath();
-                fftCtx.moveTo(bwS * barW, 0); fftCtx.lineTo(bwS * barW, fftCanvas.height);
-                fftCtx.moveTo(bwE * barW, 0); fftCtx.lineTo(bwE * barW, fftCanvas.height);
-                fftCtx.stroke();
-                fftCtx.setLineDash([]);
-                fftCtx.fillStyle = '#9ca3b4';
-                fftCtx.font = '10px monospace';
-                fftCtx.fillText(DATA.freq_range_khz[0] + ' kHz', 4, fftCanvas.height - 4);
-                fftCtx.fillText(DATA.freq_range_khz[1] + ' kHz', fftCanvas.width - 56, fftCanvas.height - 4);
-
-                // Amplitude
-                const ampPct = Math.min(100, amp / 0.15 * 100);
-                ampBar.style.width = ampPct + '%';
-                ampBar.style.background = amp > 0.06
-                    ? 'linear-gradient(90deg, #5ec4a0, #e8956a, #e07070)'
-                    : amp > 0.02
-                    ? 'linear-gradient(90deg, #5ec4a0, #d4c078)'
-                    : 'linear-gradient(90deg, #2a2f3a, #5ec4a0)';
-                ampValue.textContent = amp.toFixed(4);
-                timeDisp.textContent = time.toFixed(3) + 's';
-
-                // Event
-                let closest = null, minD = Infinity;
-                for (const e of DATA.events) {
-                    const d = Math.abs(frameIdx - e.frame);
-                    if (d < 15 && d < minD) { minD = d; closest = e; }
-                }
-                if (closest) {
-                    const c = {beacon:'var(--blue)',response:'var(--green)',mystery:'var(--yellow)'};
-                    eventLabel.textContent = closest.label;
-                    eventLabel.style.color = c[closest.type] || 'var(--text)';
-                    eventLabel.style.background = 'var(--bg)';
-                } else {
-                    eventLabel.textContent = '\u00a0';
-                    eventLabel.style.background = 'transparent';
-                }
-            }
-
-            slider.addEventListener('input', () => renderFrame(parseInt(slider.value)));
-
-            let playing = false, playInterval = null;
-            document.getElementById('btn-play').addEventListener('click', function() {
-                playing = !playing;
-                this.textContent = playing ? '\u23f8 Pause' : '\u25b6 Play';
-                this.classList.toggle('active', playing);
-                if (playing) {
-                    playInterval = setInterval(() => {
-                        let v = parseInt(slider.value) + 1;
-                        if (v >= DATA.n_frames) v = 0;
-                        slider.value = v;
-                        renderFrame(v);
-                    }, 1000 / 30);
-                } else clearInterval(playInterval);
-            });
-
-            document.getElementById('btn-step-back').addEventListener('click', () => {
-                slider.value = Math.max(0, parseInt(slider.value) - 1);
-                renderFrame(parseInt(slider.value));
-            });
-            document.getElementById('btn-step-fwd').addEventListener('click', () => {
-                slider.value = Math.min(DATA.n_frames - 1, parseInt(slider.value) + 1);
-                renderFrame(parseInt(slider.value));
-            });
-            document.getElementById('btn-goto-beacon').addEventListener('click', () => {
-                const e = DATA.events.find(e => e.type === 'beacon');
-                if (e) { slider.value = e.frame; renderFrame(e.frame); }
-            });
-            document.getElementById('btn-goto-mystery').addEventListener('click', () => {
-                const e = DATA.events.find(e => e.type === 'mystery');
-                if (e) { slider.value = e.frame; renderFrame(e.frame); }
-            });
-
-            renderFrame(0);
-        }
-    })();
-    </script>
 </body>
 </html>
