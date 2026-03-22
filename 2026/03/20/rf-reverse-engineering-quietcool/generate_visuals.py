@@ -356,13 +356,15 @@ def generate_animation(t, signal, events):
     waterfall = np.full((n_freq, waterfall_len), -25.0)
     total_frames = min(int((len(signal) - nfft) / hop), fps * 6)
 
+    # Each waterfall column = 1 frame at 60fps = 16.67ms
+    wf_duration_ms = waterfall_len * (1000 / fps)
     im = ax_spec.imshow(
         waterfall, aspect='auto', origin='lower',
-        extent=[0, waterfall_len, -FS/2e3, FS/2e3],
+        extent=[0, wf_duration_ms, -FS/2e3, FS/2e3],
         cmap='inferno', vmin=-25, vmax=35,
         interpolation='bilinear',
     )
-    ax_spec.set_xlabel('Time (frames)', color=C_TEXT, fontsize=9)
+    ax_spec.set_xlabel('Time (ms)', color=C_TEXT, fontsize=9)
 
     fft_freqs = np.fft.fftshift(np.fft.fftfreq(nfft, 1/FS)) / 1e3
     fft_line, = ax_fft.plot(fft_freqs, np.zeros(nfft), color=C_ACCENT1, linewidth=0.8)
@@ -405,7 +407,8 @@ def generate_animation(t, signal, events):
         fft_fill.remove()
         fft_fill = ax_fft.fill_between(fft_freqs, fft_data, -30, alpha=0.15, color=C_ACCENT1)
 
-        time_text.set_text(f't = {current_time:.3f}s')
+        time_ms = current_time * 1000
+        time_text.set_text(f't = {time_ms:.0f} ms')
 
         amp = np.max(np.abs(chunk))
         if amp > 0.06:
@@ -442,13 +445,15 @@ def generate_animation(t, signal, events):
     style_ax(ax_f2, title='FFT', xlabel='Freq (kHz)', title_color=C_ACCENT2)
 
     waterfall2 = np.full((n_freq, waterfall_len), -25.0)
+    gif_wf_ms = waterfall_len * (1000 / gif_fps)
     im2 = ax_s2.imshow(waterfall2, aspect='auto', origin='lower',
-                        extent=[0, waterfall_len, -FS/2e3, FS/2e3],
+                        extent=[0, gif_wf_ms, -FS/2e3, FS/2e3],
                         cmap='inferno', vmin=-25, vmax=35, interpolation='bilinear')
+    ax_s2.set_xlabel('Time (ms)', color=C_TEXT, fontsize=9)
     fft_line2, = ax_f2.plot(fft_freqs, np.zeros(nfft), color=C_ACCENT1, linewidth=0.8)
     fft_fill2 = ax_f2.fill_between(fft_freqs, np.zeros(nfft), -30, alpha=0.15, color=C_ACCENT1)
     ax_f2.set_xlim(-500, 500)
-    ax_f2.set_ylim(-75, 5)
+    ax_f2.set_ylim(-30, 40)
     time_text2 = ax_s2.text(0.02, 0.95, '', transform=ax_s2.transAxes,
                              color=C_TEXT, fontsize=10, fontweight='bold',
                              verticalalignment='top', family='monospace',
@@ -474,7 +479,7 @@ def generate_animation(t, signal, events):
         fft_line2.set_ydata(fft_data)
         fft_fill2.remove()
         fft_fill2 = ax_f2.fill_between(fft_freqs, fft_data, -30, alpha=0.15, color=C_ACCENT1)
-        time_text2.set_text(f't = {start/FS:.2f}s')
+        time_text2.set_text(f't = {start/FS*1000:.0f} ms')
         return [im2, fft_line2, fft_fill2, time_text2]
 
     anim2 = animation.FuncAnimation(fig2, update_gif, frames=gif_frames, interval=1000/gif_fps, blit=False)
