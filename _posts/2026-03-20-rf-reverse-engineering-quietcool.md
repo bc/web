@@ -10,6 +10,12 @@ excerpt: "FCC filing deep dive, PCB teardown, and SDR signal capture of a 2.4 GH
 
 <p class="post-meta"><time>March 20, 2026</time></p>
 
+<div style="position: relative; padding-bottom: 34.5%; height: 0; overflow: hidden; border-radius: 8px; margin: 1rem 0;">
+<video autoplay loop muted playsinline preload="auto" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; background: #0c0e12; border-radius: 8px;">
+<source src="/assets/posts/rf-reverse-engineering-quietcool/spectrum_animation.mp4" type="video/mp4">
+</video>
+</div>
+
 <figure>
 <img src="/assets/posts/rf-reverse-engineering-quietcool/cat_kit_beacon.jpeg" alt="Kit the cat wearing her TabCat tracking beacon" style="border-radius: 8px; max-height: 420px; width: 100%; object-fit: cover;">
 <figcaption>Kit with her TabCat beacon. Unbothered.</figcaption>
