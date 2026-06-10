@@ -7,16 +7,15 @@ description: "Biologist with expertise in turning machine learning into products
 
 # Brian Cohn Ph.D.
 
-I'm a research biologist who builds machine learning products. I currently drive Generative AI and advanced research projects at Credera, and focus on transforming life sciences companies.
+I'm a research biologist who builds machine learning products. I lead the Forward Deployed Engineering program at phData, focusing on deploying and operationalizing ML solutions in the field.
 
 ## Roles
 
-1. Senior Architect, Credera
-2. Chief Scientist at Kaspect
-3. Co-Founder of Adventure Biofeedback
+1. Principal ML Solutions Architect & Head of Forward Deployed Engineering, phData
 
-## Recent Projects
+## Current & Recent Projects
 
+- Equine veterinary service automation and photo-based horse identification ML
 - The GenAI ML that drives AstraZeneca's Medical Virtual Assistant (AIMI)
 - [A robot that learns to walk on its own using tendons](https://www.nature.com/articles/s42256-019-0029-0) (Nature Machine Intelligence)
 - Algorithm for neurophysiological analyses from muscle signals
