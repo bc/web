@@ -73,6 +73,37 @@ p {
   }
 }
 
+// Homepage specifics
+main > h1 + p {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: $primary;
+  margin-bottom: 1.5rem;
+  line-height: 1.4;
+}
+
+main > h1 + p + p {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: #333;
+  margin-bottom: 2rem;
+}
+
+// Current work section emphasis
+main > h2:nth-of-type(1) {
+  margin-top: 3rem;
+  color: $accent;
+  font-size: 2rem;
+}
+
+main > h2:nth-of-type(1) + h3 {
+  color: $primary;
+  font-size: 1.3rem;
+  margin-top: 1rem;
+  margin-bottom: 0.75rem;
+  font-weight: 500;
+}
+
 a {
   color: $primary;
   text-decoration: none;
