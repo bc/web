@@ -2,14 +2,14 @@
 layout: default
 permalink: /
 title: "Brian Cohn Ph.D."
-description: "ML architect leading Forward Deployed Engineering at phData. Building deployed ML solutions in production."
+description: "Creative projects & machine learning"
 ---
 
 # Brian Cohn Ph.D.
 
-**Principal ML Solutions Architect & Head of Forward Deployed Engineering at phData**
+**Principal ML Solutions Architect at phData**
 
-I'm a research biologist who translates machine learning research into operational systems. I lead phData's Forward Deployed Engineering program, working directly with teams to deploy and operationalize ML solutions in production environments.
+I'm a research biologist who translates machine learning research into operational systems. I'm currently supporting the GTM of phData's Forward Deployed Engineering program, working directly with teams to deploy and operationalize ML solutions in the life sciences.
 
 ## Current Work
 
@@ -26,6 +26,6 @@ Building ML systems for veterinary service dispatch and photo-based horse identi
 
 ## Let's work together
 
-If you're working on a challenging ML or AI problem — whether it's research, deployment, operationalization, or scaling — I'd be happy to help. 
+If you're working on a challenging ML or AI problem — whether it's research, deployment, operationalization, or scaling — I'd be happy to help!
 
-**Contact:** [brian@phdata.io](mailto:brian@phdata.io) | [Schedule a meeting](https://cal.com/bcohn/meet) | [CV](https://raw.githubusercontent.com/bc/resume/main/briancohn.pdf)
+**Contact:** [brian.cohn@kaspect.com](mailto:brian.cohn@kaspect.com) | [Schedule a meeting](https://cal.com/bcohn/meet) | [CV](https://raw.githubusercontent.com/bc/resume/main/briancohn.pdf)
