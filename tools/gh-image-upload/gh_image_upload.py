@@ -31,7 +31,6 @@ console = Console()
 
 # ── GitHub web endpoints ────────────────────────────────────────────
 UPLOAD_POLICIES_URL = "https://github.com/upload/policies/assets"
-UPLOAD_ASSETS_URL = "https://github.com/upload/assets/{asset_id}"
 
 BROWSER_UA = (
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
@@ -150,9 +149,13 @@ def upload_image(
         form_fields = policy["form"]
         asset_id = policy["asset"]["id"]
         asset_upload_token = policy["asset_upload_authenticity_token"]
+        # GitHub returns different confirm endpoints by file type:
+        #   images/videos → /upload/assets/{id}
+        #   other files   → /upload/repository-files/{id}
+        confirm_path = policy["asset_upload_url"]
 
-        console.print(f"  [green]✓[/green] Got S3 upload URL and asset ID [bold]{asset_id}[/bold]")
-        console.print(f"  [dim]S3 bucket: {upload_url}[/dim]")
+        console.print(f"  [green]✓[/green] Got upload URL and asset ID [bold]{asset_id}[/bold]")
+        console.print(f"  [dim]Upload target: {upload_url}[/dim]")
 
         # ── Step 2: Upload file to S3 ──────────────────────────────
         console.print("[cyan]Step 2:[/cyan] Uploading to S3...")
@@ -176,7 +179,7 @@ def upload_image(
         # ── Step 3: Confirm upload ─────────────────────────────────
         console.print("[cyan]Step 3:[/cyan] Confirming upload...")
 
-        confirm_url = UPLOAD_ASSETS_URL.format(asset_id=asset_id)
+        confirm_url = f"https://github.com{confirm_path}"
         confirm_resp = client.put(
             confirm_url,
             files={"authenticity_token": (None, asset_upload_token)},

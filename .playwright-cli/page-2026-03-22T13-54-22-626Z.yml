@@ -1,0 +1,514 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - generic [ref=e8]:
+      - generic [ref=e9]:
+        - text: We use cookies per our
+        - link "Cookie Policy" [ref=e10] [cursor=pointer]:
+          - /url: /legal/cookie-policy/
+        - text: to make your experience better.
+      - generic [ref=e11]:
+        - button "Manage" [ref=e12] [cursor=pointer]
+        - button "Accept" [ref=e13] [cursor=pointer]:
+          - generic [ref=e14]: Accept
+    - generic [ref=e15]:
+      - banner [ref=e16]:
+        - generic [ref=e19]:
+          - generic [ref=e20]:
+            - link "The Noun Project The Noun Project" [ref=e21] [cursor=pointer]:
+              - /url: /
+              - generic [ref=e22]:
+                - img "The Noun Project" [ref=e24]
+                - img "The Noun Project" [ref=e28]
+            - navigation "Products" [ref=e30]:
+              - generic [ref=e32]: Products
+              - list [ref=e33]:
+                - listitem [ref=e34]:
+                  - link "Home" [ref=e35] [cursor=pointer]:
+                    - /url: /
+                - listitem [ref=e36]:
+                  - link "Icons" [ref=e37] [cursor=pointer]:
+                    - /url: /icons/
+                - listitem [ref=e38]:
+                  - link "Photos" [ref=e39] [cursor=pointer]:
+                    - /url: /photos/
+                - listitem [ref=e40]:
+                  - link "API" [ref=e41] [cursor=pointer]:
+                    - /url: /api/
+                - listitem [ref=e42]:
+                  - button "Tools" [ref=e45] [cursor=pointer]
+                - listitem [ref=e46]:
+                  - link "Pricing" [ref=e47] [cursor=pointer]:
+                    - /url: /pricing/
+                - listitem [ref=e48]:
+                  - button "Noun Project" [ref=e51] [cursor=pointer]:
+                    - generic [ref=e52]: Noun Project
+                    - img [ref=e53]
+            - navigation [ref=e56]:
+              - list [ref=e57]:
+                - listitem [ref=e58]:
+                  - button "Log In" [ref=e59]:
+                    - generic [ref=e60]: Log In
+          - generic [ref=e62]:
+            - link "The Noun Project" [disabled] [ref=e64] [cursor=pointer]:
+              - /url: /
+              - img "The Noun Project" [ref=e66]
+            - generic [ref=e73]:
+              - generic [ref=e74]:
+                - button "Search Type" [ref=e77] [cursor=pointer]:
+                  - generic [ref=e78]:
+                    - generic "Icons" [ref=e80]:
+                      - img [ref=e81]
+                      - generic [ref=e83]: Icons
+                    - img [ref=e85]
+                - searchbox "Search term" [ref=e88]
+              - button "Submit search term" [ref=e89] [cursor=pointer]:
+                - generic [ref=e90]: Search
+                - img [ref=e91]
+            - navigation [ref=e96]:
+              - list [ref=e97]:
+                - listitem [ref=e98]:
+                  - button "Log In" [ref=e99]:
+                    - generic [ref=e100]: Log In
+      - generic [ref=e103]:
+        - heading "Free Icons and Stock Photos, Made by Humans" [level=1] [ref=e104]
+        - generic [ref=e106]:
+          - generic [ref=e107]:
+            - button "Search Type" [ref=e110] [cursor=pointer]:
+              - generic [ref=e111]:
+                - generic "Icons" [ref=e113]:
+                  - img [ref=e114]
+                  - generic [ref=e116]: Icons
+                - img [ref=e118]
+            - searchbox "Search term" [ref=e121]
+          - button "Submit search term" [ref=e122] [cursor=pointer]:
+            - img [ref=e123]
+      - generic [ref=e126]:
+        - generic [ref=e128]:
+          - generic [ref=e129]:
+            - img "Freshly Washed Batch Of Cherries Photo"
+            - img "Noun Globe Icon"
+            - img "Male With Red Lip Stick And Earring Looking Away And Smiling Photo"
+            - img "Noun Cursor Icon"
+            - img "Diagonal Line Of Pears Photo"
+            - img "Heart Hug Icon"
+            - img "Cat Laying On Couch Photo"
+            - img "High Five Icon"
+            - img "Grey Haired Woman In Red Leather Jacket With Hand On Hip Photo"
+            - img "Rice Noodles Chop Sticks Icon"
+            - img "Close Up Of Young Woman Holding A Surfboard And Looking At The Sunset With Her Friend Photo"
+            - img "Lama Icon"
+            - img "Back To School Photo"
+            - img "Noun Coming Out Icon"
+            - img "Freshly Washed Batch Of Cherries Photo"
+            - img "Noun Globe Icon"
+            - img "Male With Red Lip Stick And Earring Looking Away And Smiling Photo"
+            - img "Noun Cursor Icon"
+            - img "Diagonal Line Of Pears Photo"
+            - img "Heart Hug Icon"
+            - img "Cat Laying On Couch Photo"
+            - img "High Five Icon"
+            - img "Grey Haired Woman In Red Leather Jacket With Hand On Hip Photo"
+            - img "Rice Noodles Chop Sticks Icon"
+            - img "Close Up Of Young Woman Holding A Surfboard And Looking At The Sunset With Her Friend Photo"
+            - img "Lama Icon"
+            - img "Back To School Photo"
+            - img "Noun Coming Out Icon"
+            - img "Freshly Washed Batch Of Cherries Photo"
+            - img "Noun Globe Icon"
+            - img "Male With Red Lip Stick And Earring Looking Away And Smiling Photo"
+            - img "Noun Cursor Icon"
+            - img "Diagonal Line Of Pears Photo"
+            - img "Heart Hug Icon"
+            - img "Cat Laying On Couch Photo"
+            - img "High Five Icon"
+            - img "Grey Haired Woman In Red Leather Jacket With Hand On Hip Photo"
+            - img "Rice Noodles Chop Sticks Icon"
+            - img "Close Up Of Young Woman Holding A Surfboard And Looking At The Sunset With Her Friend Photo"
+            - img "Lama Icon"
+            - img "Back To School Photo"
+            - img "Noun Coming Out Icon"
+            - img "Freshly Washed Batch Of Cherries Photo"
+            - img "Noun Globe Icon"
+            - img "Male With Red Lip Stick And Earring Looking Away And Smiling Photo"
+            - img "Noun Cursor Icon"
+            - img "Diagonal Line Of Pears Photo"
+            - img "Heart Hug Icon"
+            - img "Cat Laying On Couch Photo"
+            - img "High Five Icon"
+            - img "Grey Haired Woman In Red Leather Jacket With Hand On Hip Photo"
+            - img "Rice Noodles Chop Sticks Icon"
+            - img "Close Up Of Young Woman Holding A Surfboard And Looking At The Sunset With Her Friend Photo"
+            - img "Lama Icon"
+            - img "Back To School Photo"
+            - img "Noun Coming Out Icon"
+          - generic [ref=e130]: Sample Noun Project Icons and Images Animating Row 1
+        - generic [ref=e131]:
+          - generic [ref=e132]:
+            - img "Man Sitting And Smiling With A Microphone Photo"
+            - img "Rooted Flower Icon"
+            - img "Hearty Portals Photo"
+            - img "Digital Brain Icon"
+            - img "Radiant Older Woman On A Yacht At Dusk Photo"
+            - img "Head Banger Icon"
+            - img "Autumn Dry Leaf With Golden Glitter Photo"
+            - img "Noun Tetris Icon"
+            - img "Close Up Of Two Smiling Moms Lying With Cute Infant Photo"
+            - img "Swirls Icon"
+            - img "Purple Petaled Flower Scorpio Photo"
+            - img "Leaf Icon"
+            - img "Portrait Of Happy Black Woman Smiling At A Bouquet Of Daffodils Photo"
+            - img "Dancing Icon"
+            - img "Man Sitting And Smiling With A Microphone Photo"
+            - img "Rooted Flower Icon"
+            - img "Hearty Portals Photo"
+            - img "Digital Brain Icon"
+            - img "Radiant Older Woman On A Yacht At Dusk Photo"
+            - img "Head Banger Icon"
+            - img "Autumn Dry Leaf With Golden Glitter Photo"
+            - img "Noun Tetris Icon"
+            - img "Close Up Of Two Smiling Moms Lying With Cute Infant Photo"
+            - img "Swirls Icon"
+            - img "Purple Petaled Flower Scorpio Photo"
+            - img "Leaf Icon"
+            - img "Portrait Of Happy Black Woman Smiling At A Bouquet Of Daffodils Photo"
+            - img "Dancing Icon"
+            - img "Man Sitting And Smiling With A Microphone Photo"
+            - img "Rooted Flower Icon"
+            - img "Hearty Portals Photo"
+            - img "Digital Brain Icon"
+            - img "Radiant Older Woman On A Yacht At Dusk Photo"
+            - img "Head Banger Icon"
+            - img "Autumn Dry Leaf With Golden Glitter Photo"
+            - img "Noun Tetris Icon"
+            - img "Close Up Of Two Smiling Moms Lying With Cute Infant Photo"
+            - img "Swirls Icon"
+            - img "Purple Petaled Flower Scorpio Photo"
+            - img "Leaf Icon"
+            - img "Portrait Of Happy Black Woman Smiling At A Bouquet Of Daffodils Photo"
+            - img "Dancing Icon"
+            - img "Man Sitting And Smiling With A Microphone Photo"
+            - img "Rooted Flower Icon"
+            - img "Hearty Portals Photo"
+            - img "Digital Brain Icon"
+            - img "Radiant Older Woman On A Yacht At Dusk Photo"
+            - img "Head Banger Icon"
+            - img "Autumn Dry Leaf With Golden Glitter Photo"
+            - img "Noun Tetris Icon"
+            - img "Close Up Of Two Smiling Moms Lying With Cute Infant Photo"
+            - img "Swirls Icon"
+            - img "Purple Petaled Flower Scorpio Photo"
+            - img "Leaf Icon"
+            - img "Portrait Of Happy Black Woman Smiling At A Bouquet Of Daffodils Photo"
+            - img "Dancing Icon"
+          - generic [ref=e133]: Sample Noun Project Icons and Images Animating Row 2
+      - generic [ref=e135]:
+        - heading "The world’s largest and most diverse collection of high-quality vector icons and photos. Crafted and curated by real human Creators." [level=2] [ref=e136]:
+          - text: The world’s largest and most diverse collection of high-quality vector icons and photos.
+          - text: Crafted and curated by real human Creators.
+        - generic [ref=e137]:
+          - link "Free Icon Library Free Icon Library" [ref=e139] [cursor=pointer]:
+            - /url: /icons/
+            - generic [ref=e140]:
+              - heading "Free Icon Library" [level=5] [ref=e143]
+              - generic "Free Icon Library" [ref=e145]:
+                - img "Free Icon Library" [ref=e146]
+          - link "Icons for PowerPoint Icons for PowerPoint" [ref=e148] [cursor=pointer]:
+            - /url: /for-office/
+            - generic [ref=e149]:
+              - heading "Icons for PowerPoint" [level=5] [ref=e152]
+              - generic "Icons for PowerPoint" [ref=e154]:
+                - img "Icons for PowerPoint" [ref=e155]
+          - link "AI Icons & Symbols AI Icons & Symbols" [ref=e157] [cursor=pointer]:
+            - /url: /browse/icons/term/ai/
+            - generic [ref=e158]:
+              - heading "AI Icons & Symbols" [level=5] [ref=e161]
+              - generic "AI Icons & Symbols" [ref=e163]:
+                - img "AI Icons & Symbols" [ref=e164]
+          - link "Technology Photos Technology Photos" [ref=e166] [cursor=pointer]:
+            - /url: /browse/photos/term/technology/
+            - generic [ref=e167]:
+              - heading "Technology Photos" [level=5] [ref=e170]
+              - generic "Technology Photos" [ref=e172]:
+                - img "Technology Photos" [ref=e173]
+          - link "People Icons People Icons" [ref=e175] [cursor=pointer]:
+            - /url: /browse/icons/term/people/
+            - generic [ref=e176]:
+              - heading "People Icons" [level=5] [ref=e179]
+              - generic "People Icons" [ref=e181]:
+                - img "People Icons" [ref=e182]
+          - link "Flat Lay Pictures Flat Lay Pictures" [ref=e184] [cursor=pointer]:
+            - /url: /browse/photos/term/flat-lay/
+            - generic [ref=e185]:
+              - heading "Flat Lay Pictures" [level=5] [ref=e188]
+              - generic "Flat Lay Pictures" [ref=e190]:
+                - img "Flat Lay Pictures" [ref=e191]
+          - 'link "Free Arrows: SVG & PNG Free Arrows: SVG & PNG" [ref=e193] [cursor=pointer]':
+            - /url: /browse/icons/term/arrow/
+            - generic [ref=e194]:
+              - 'heading "Free Arrows: SVG & PNG" [level=5] [ref=e197]'
+              - 'generic "Free Arrows: SVG & PNG" [ref=e199]':
+                - 'img "Free Arrows: SVG & PNG" [ref=e200]'
+          - link "Free Stock Photos Free Stock Photos" [ref=e202] [cursor=pointer]:
+            - /url: /photos/
+            - generic [ref=e203]:
+              - heading "Free Stock Photos" [level=5] [ref=e206]
+              - generic "Free Stock Photos" [ref=e208]:
+                - img "Free Stock Photos" [ref=e209]
+          - link "Our Best Icons Our Best Icons" [ref=e211] [cursor=pointer]:
+            - /url: /browse/icons/recent/?p=1
+            - generic [ref=e212]:
+              - heading "Our Best Icons" [level=5] [ref=e215]
+              - generic "Our Best Icons" [ref=e217]:
+                - img "Our Best Icons" [ref=e218]
+        - generic [ref=e219]:
+          - heading "Explore Trends" [level=6] [ref=e220]
+          - generic [ref=e221]:
+            - link "AI" [ref=e222] [cursor=pointer]:
+              - /url: /browse/icons/term/ai/
+              - generic [ref=e223]:
+                - img [ref=e224]
+                - text: AI
+            - link "Arrow" [ref=e227] [cursor=pointer]:
+              - /url: /browse/icons/term/arrow/
+              - generic [ref=e228]:
+                - img [ref=e229]
+                - text: Arrow
+            - link "Book" [ref=e232] [cursor=pointer]:
+              - /url: /browse/icons/term/book/
+              - generic [ref=e233]:
+                - img [ref=e234]
+                - text: Book
+            - link "Check Mark" [ref=e237] [cursor=pointer]:
+              - /url: /browse/icons/term/check-mark/
+              - generic [ref=e238]:
+                - img [ref=e239]
+                - text: Check Mark
+            - link "Cloud" [ref=e242] [cursor=pointer]:
+              - /url: /browse/icons/term/cloud/
+              - generic [ref=e243]:
+                - img [ref=e244]
+                - text: Cloud
+            - link "Education" [ref=e247] [cursor=pointer]:
+              - /url: /browse/icons/term/education/
+              - generic [ref=e248]:
+                - img [ref=e249]
+                - text: Education
+            - link "Email" [ref=e252] [cursor=pointer]:
+              - /url: /browse/icons/term/email/
+              - generic [ref=e253]:
+                - img [ref=e254]
+                - text: Email
+            - link "Heart" [ref=e257] [cursor=pointer]:
+              - /url: /browse/icons/term/heart/
+              - generic [ref=e258]:
+                - img [ref=e259]
+                - text: Heart
+            - link "Home" [ref=e262] [cursor=pointer]:
+              - /url: /browse/icons/term/home/
+              - generic [ref=e263]:
+                - img [ref=e264]
+                - text: Home
+            - link "Location" [ref=e267] [cursor=pointer]:
+              - /url: /browse/icons/term/location/
+              - generic [ref=e268]:
+                - img [ref=e269]
+                - text: Location
+            - link "Lock" [ref=e272] [cursor=pointer]:
+              - /url: /browse/icons/term/lock/
+              - generic [ref=e273]:
+                - img [ref=e274]
+                - text: Lock
+            - link "Moon" [ref=e277] [cursor=pointer]:
+              - /url: /browse/icons/term/moon/
+              - generic [ref=e278]:
+                - img [ref=e279]
+                - text: Moon
+            - link "Phone" [ref=e282] [cursor=pointer]:
+              - /url: /browse/icons/term/phone/
+              - generic [ref=e283]:
+                - img [ref=e284]
+                - text: Phone
+            - link "Recent" [ref=e287] [cursor=pointer]:
+              - /url: /browse/icons/recent/
+              - generic [ref=e288]:
+                - img [ref=e289]
+                - text: Recent
+            - link "Search" [ref=e292] [cursor=pointer]:
+              - /url: /browse/icons/term/search/
+              - generic [ref=e293]:
+                - img [ref=e294]
+                - text: Search
+            - link "Star" [ref=e297] [cursor=pointer]:
+              - /url: /browse/icons/term/star/
+              - generic [ref=e298]:
+                - img [ref=e299]
+                - text: Star
+      - generic [ref=e303]:
+        - heading "What Makes Noun Project the Best Free Icon and Stock Photo Library" [level=2] [ref=e304]
+        - generic [ref=e305]:
+          - generic [ref=e306]:
+            - heading "Vast, Free Icon Collection" [level=3] [ref=e307]
+            - paragraph [ref=e308]:
+              - text: Since 2010, Noun Project has been the world’s top collection of icons and icon packs for presentations, websites, user interfaces, and more. With nearly 10 million
+              - link "free vector icons" [ref=e309] [cursor=pointer]:
+                - /url: https://thenounproject.com/icons/
+              - text: and
+              - link "high-resolution photos" [ref=e310] [cursor=pointer]:
+                - /url: https://thenounproject.com/photos/
+              - text: ", we’re known for expertly crafted SVGs and PNGs for design, business, education, or any creative need."
+          - generic [ref=e311]:
+            - heading "Visually Reflects Your Audience" [level=3] [ref=e312]
+            - paragraph [ref=e313]:
+              - text: Improve slide presentations by using graphics that authentically represent your audience. Among stock image providers, Noun Project is the leading free photo and icon library with purposeful diversity of
+              - link "people" [ref=e314] [cursor=pointer]:
+                - /url: https://thenounproject.com/browse/collection-icon/redefining-women-95921/
+              - text: ","
+              - link "communities" [ref=e315] [cursor=pointer]:
+                - /url: https://thenounproject.com/browse/collection-icon/accessibility-269535/
+              - text: ", and"
+              - link "ideas" [ref=e316] [cursor=pointer]:
+                - /url: https://thenounproject.com/browse/collection-icon/urban-disaster-preparedness-1584/
+              - text: . Your message isn’t cookie-cutter. Your images shouldn’t be either.
+          - generic [ref=e317]:
+            - heading "Boosts Design Consistency" [level=3] [ref=e318]
+            - paragraph [ref=e319]:
+              - text: Cohesive style is key to great design. Designers turn to Noun Project for matched
+              - link "icon sets" [ref=e320] [cursor=pointer]:
+                - /url: https://thenounproject.com/search/icon-collections/?q=arrow
+              - text: crafted by pros. Plus, Noun Project’s AI-enhanced search features deliver matched icons in thousands of styles. Download PNGs in the size and color you need, or fine-tune SVG format icons in Illustrator or Figma.
+          - generic [ref=e321]:
+            - heading "Powers Graphics for Top Brands" [level=3] [ref=e322]
+            - paragraph [ref=e323]:
+              - text: Brands like Adobe, Canva, Mural, and Squarespace trust Noun Project for premium assets, and have used our
+              - link "icon API" [ref=e324] [cursor=pointer]:
+                - /url: https://thenounproject.com/api/
+              - text: in their apps. With praise from Fast Company and The New York Times, and decades of love on Reddit, design blogs, and G2, our images are preferred by businesses and app developers.
+          - generic [ref=e325]:
+            - heading "Provides Worry-Free Licenses" [level=3] [ref=e326]
+            - paragraph [ref=e327]: Even free stock images for presentations, social media, apps, and logos require legal clearance for use. All Noun Project icons and pictures have easy, clear royalty-free licenses. Download with confidence that Noun Project icons and photos are safe to use for personal and commercial projects.
+          - generic [ref=e328]:
+            - heading "Supports Human Artists" [level=3] [ref=e329]
+            - paragraph [ref=e330]:
+              - text: Noun Project is notable for supporting artists, especially in its ethical use of
+              - link "AI" [ref=e331] [cursor=pointer]:
+                - /url: https://thenounproject.com/browse/icons/term/artificial-intelligence/
+              - text: . Others train AI on artists’ work, then solely profit from generative AI images. Noun Project firmly believes that a person’s original artwork delivers primary value to AI, and that related generated images must compensate the artist.
+      - generic [ref=e333]:
+        - heading "Recent Posts" [level=2] [ref=e334]
+        - generic [ref=e335]:
+          - generic [ref=e337]:
+            - link "Top Designers of 2025" [ref=e338] [cursor=pointer]:
+              - /url: /thelist/designers-2025/?utm_source=homepage&utm_medium=recent+posts&utm_campaign=the+list+2025
+              - img "Top Designers of 2025" [ref=e339]
+            - heading "Top Designers of 2025" [level=6] [ref=e340]:
+              - link "Top Designers of 2025" [ref=e341] [cursor=pointer]:
+                - /url: /thelist/designers-2025/?utm_source=homepage&utm_medium=recent+posts&utm_campaign=the+list+2025
+            - link "Creative Inspiration" [ref=e344] [cursor=pointer]:
+              - /url: /thelist/designers-2025/?utm_source=homepage&utm_medium=recent+posts&utm_campaign=the+list+2025
+          - generic [ref=e346]:
+            - link "Accessibility Iconathon Set" [ref=e347] [cursor=pointer]:
+              - /url: https://blog.thenounproject.com/accessibility-icons/
+              - img "Accessibility Iconathon Set" [ref=e348]
+            - heading "Accessibility Iconathon Set" [level=6] [ref=e349]:
+              - link "Accessibility Iconathon Set" [ref=e350] [cursor=pointer]:
+                - /url: https://blog.thenounproject.com/accessibility-icons/
+            - link "Creative Inspiration" [ref=e353] [cursor=pointer]:
+              - /url: https://blog.thenounproject.com/accessibility-icons/
+          - generic [ref=e355]:
+            - link "Top Photographers of 2025" [ref=e356] [cursor=pointer]:
+              - /url: /thelist/photographers-2025/
+              - img "Top Photographers of 2025" [ref=e357]
+            - heading "Top Photographers of 2025" [level=6] [ref=e358]:
+              - link "Top Photographers of 2025" [ref=e359] [cursor=pointer]:
+                - /url: /thelist/photographers-2025/
+            - link "Creative Inspiration" [ref=e362] [cursor=pointer]:
+              - /url: /thelist/photographers-2025/
+      - generic [ref=e366]:
+        - link "Pricing & Licenses Pricing & Licenses All Standard images available as free downloads. Buy a royalty-free license to support artists and get more options. Learn More" [ref=e368] [cursor=pointer]:
+          - /url: /pricing/
+          - img "Pricing & Licenses" [ref=e370]
+          - paragraph [ref=e372]: Pricing & Licenses
+          - paragraph [ref=e373]: All Standard images available as free downloads. Buy a royalty-free license to support artists and get more options.
+          - paragraph [ref=e375]: Learn More
+        - link "Apps & Plugins Apps & Plugins Drag & drop icons directly into the software you use. Get PNG and SVG icons for PowerPoint, Figma, Illustrator, Mac, Google, & more. Apple logo Adobe logo Microsoft logo Figma logo" [ref=e377] [cursor=pointer]:
+          - /url: /apps/
+          - img "Apps & Plugins" [ref=e379]
+          - paragraph [ref=e381]: Apps & Plugins
+          - paragraph [ref=e382]: Drag & drop icons directly into the software you use. Get PNG and SVG icons for PowerPoint, Figma, Illustrator, Mac, Google, & more.
+          - generic [ref=e383]:
+            - img "Apple logo" [ref=e384]
+            - img "Adobe logo" [ref=e385]
+            - img "Microsoft logo" [ref=e386]
+            - img "Figma logo" [ref=e387]
+        - link "API API Access the entire icon collection via our REST API. Reliably supports growth stage to enterprise clients. Learn More" [ref=e389] [cursor=pointer]:
+          - /url: /api/
+          - img "API" [ref=e391]
+          - paragraph [ref=e393]: API
+          - paragraph [ref=e394]: Access the entire icon collection via our REST API. Reliably supports growth stage to enterprise clients.
+          - paragraph [ref=e396]: Learn More
+    - contentinfo [ref=e397]:
+      - generic [ref=e398]:
+        - generic [ref=e400]:
+          - generic [ref=e401]:
+            - link "Noun Project Logo" [ref=e402] [cursor=pointer]:
+              - /url: /
+              - img "Noun Project Logo" [ref=e403]
+            - list [ref=e405]:
+              - listitem [ref=e406]:
+                - link "Instagram logo" [ref=e407] [cursor=pointer]:
+                  - /url: https://www.instagram.com/nounproject
+                  - img "Instagram logo" [ref=e408]
+              - listitem [ref=e410]:
+                - link "threads" [ref=e411] [cursor=pointer]:
+                  - /url: https://www.threads.com/@nounproject
+                  - img "threads" [ref=e412]
+              - listitem [ref=e414]:
+                - link "Facebook logo" [ref=e415] [cursor=pointer]:
+                  - /url: https://www.facebook.com/thenounproject
+                  - img "Facebook logo" [ref=e416]
+              - listitem [ref=e418]:
+                - link "Linkedin logo" [ref=e419] [cursor=pointer]:
+                  - /url: https://www.linkedin.com/company/noun-project/
+                  - img "Linkedin logo" [ref=e420]
+              - listitem [ref=e422]:
+                - link "spotify" [ref=e423] [cursor=pointer]:
+                  - /url: https://open.spotify.com/show/2czl85XW02Rtie1qUTEdIk?si=eeec8b4ef6b34d70
+                  - img "spotify" [ref=e424]
+              - listitem [ref=e426]:
+                - link "pinterest" [ref=e427] [cursor=pointer]:
+                  - /url: https://www.pinterest.com/thenounproject/
+                  - img "pinterest" [ref=e428]
+          - generic [ref=e432]:
+            - paragraph [ref=e433]: Get free design resources in your inbox
+            - generic [ref=e434]:
+              - textbox "Enter your address" [ref=e436]:
+                - /placeholder: you@example.com
+              - button "Submit" [ref=e438] [cursor=pointer]:
+                - generic [ref=e439]: Submit
+        - list [ref=e440]:
+          - listitem [ref=e441]:
+            - link "About Us" [ref=e442] [cursor=pointer]:
+              - /url: /about/
+          - listitem [ref=e443]:
+            - link "Contact Us" [ref=e444] [cursor=pointer]:
+              - /url: mailto:info@thenounproject.com?subject=Wanted%20to%20get%20in%20contact
+          - listitem [ref=e445]:
+            - link "Support" [ref=e446] [cursor=pointer]:
+              - /url: https://thenounproject.zendesk.com/
+          - listitem [ref=e447]:
+            - link "Apps & Plugins" [ref=e448] [cursor=pointer]:
+              - /url: /apps/
+          - listitem [ref=e449]:
+            - link "Jobs" [ref=e450] [cursor=pointer]:
+              - /url: /jobs/
+          - listitem [ref=e451]:
+            - link "Lingo" [ref=e452] [cursor=pointer]:
+              - /url: https://www.lingoapp.com/
+          - listitem [ref=e453]:
+            - link "Legal" [ref=e454] [cursor=pointer]:
+              - /url: /legal/
+          - listitem [ref=e455]:
+            - link "Sitemap" [ref=e456] [cursor=pointer]:
+              - /url: /sitemap/
+      - generic [ref=e457]: © Noun Project Inc.
+  - alert [ref=e458]
