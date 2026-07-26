@@ -2,30 +2,30 @@
 layout: default
 permalink: /
 title: "Brian Cohn Ph.D."
-description: "Biologist with expertise in turning machine learning into products, across healthcare and more."
+description: "Creative projects & machine learning"
 ---
 
 # Brian Cohn Ph.D.
 
-I'm a research biologist who builds machine learning products. I currently drive Generative AI and advanced research projects at Credera, and focus on transforming life sciences companies.
+**Principal ML Solutions Architect at phData**
 
-## Roles
+I'm a research biologist who translates machine learning research into operational systems. I'm currently supporting the GTM of phData's Forward Deployed Engineering program, working directly with teams to deploy and operationalize ML solutions in the life sciences.
 
-1. Senior Architect, Credera
-2. Chief Scientist at Kaspect
-3. Co-Founder of Adventure Biofeedback
+## Current Work
 
-## Recent Projects
+### Equine veterinary service automation + horse identification ML
 
-- The GenAI ML that drives AstraZeneca's Medical Virtual Assistant (AIMI)
-- [A robot that learns to walk on its own using tendons](https://www.nature.com/articles/s42256-019-0029-0) (Nature Machine Intelligence)
-- Algorithm for neurophysiological analyses from muscle signals
-- VR game mechanic that redesigns targets based on player ability
+Building ML systems for veterinary service dispatch and photo-based horse identification. Turning domain-specific problems into automated workflows.
 
----
+## Selected Past Work
 
-## Get in Touch
+- The GenAI ML powering AstraZeneca's Medical Virtual Assistant (AIMI)
+- [A robot that learns to walk on its own using tendons](https://www.nature.com/articles/s42256-019-0029-0) (*Nature Machine Intelligence*)
+- Neurophysiological signal processing algorithms for muscle analysis
+- VR game mechanics that adapt difficulty based on player ability
 
-If you're working on a challenging problem and need some help, you can contact me via email or set up a free appointment to jump into it. See my press kit for presentation & keynote speaking requests.
+## Let's work together
 
-**Email:** [brian.cohn@kaspect.com](mailto:brian.cohn@kaspect.com)
+If you're working on a challenging ML or AI problem — whether it's research, deployment, operationalization, or scaling — I'd be happy to help!
+
+**Contact:** [brian.cohn@kaspect.com](mailto:brian.cohn@kaspect.com) | [Schedule a meeting](https://cal.com/bcohn/meet) | [CV](https://raw.githubusercontent.com/bc/resume/main/briancohn.pdf)
